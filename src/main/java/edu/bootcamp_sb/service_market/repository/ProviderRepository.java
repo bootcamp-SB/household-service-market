@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProviderRepository extends CrudRepository<ProviderEntity , Integer> {
+
+    Iterable<ProviderEntity> findAllByExpertise(String expertise);
+
 }

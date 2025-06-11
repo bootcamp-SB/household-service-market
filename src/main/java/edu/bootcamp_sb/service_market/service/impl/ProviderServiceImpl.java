@@ -48,4 +48,60 @@ public class ProviderServiceImpl implements ProviderService {
                         (providerEntity,ProviderDto.class)));
         return providersList;
     }
+
+
+
+
+
+    public String deleteById(Integer id) {
+        if(providerRepository.existsById(id)){
+            providerRepository.deleteById(id);
+            return "Provider's data has been Deleted";
+        }
+        return "Failed to deleted data";
+        
+    }
+
+    @Override
+    public String deleteByListOfIds(Iterable<Integer> ids) {
+        providerRepository.deleteAllById(ids);
+        return "Every records has been deleted";
+    }
+
+    @Override
+    public ProviderDto updateById( ProviderDto provider) {
+           return mapper.convertValue(
+                    providerRepository.save
+                            (mapper.convertValue(provider, ProviderEntity.class)
+                            ), ProviderDto.class);
+
+    }
+
+    @Override
+    public List<ProviderDto> getById(Iterable<Integer> listOfId) {
+
+        Iterable<ProviderEntity> providersList = providerRepository.findAllById(listOfId);
+
+        ArrayList<ProviderDto> selectedListOfProviders = new ArrayList<>();
+        providersList.forEach(providerEntity ->
+                selectedListOfProviders.add(mapper.convertValue
+                        (providerEntity,ProviderDto.class)));
+        return selectedListOfProviders;
+
+    }
+
+    @Override
+    public List<ProviderDto> findAllByExpertise(String expertise) {
+        Iterable<ProviderEntity> allByExpertise =
+                providerRepository.findAllByExpertise(expertise);
+
+        ArrayList<ProviderDto> listOfProviders = new ArrayList<>();
+
+        allByExpertise.forEach(providerEntity->listOfProviders.add(mapper.convertValue
+                (providerEntity,ProviderDto.class)));
+        return listOfProviders;
+
+    }
+
+
 }
