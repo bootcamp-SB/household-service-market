@@ -4,6 +4,7 @@ package edu.bootcamp_sb.service_market.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.bootcamp_sb.service_market.dto.ProviderDto;
 import edu.bootcamp_sb.service_market.entity.ProviderEntity;
+import edu.bootcamp_sb.service_market.exception.ProviderExistAlreadyException;
 import edu.bootcamp_sb.service_market.repository.ProviderRepository;
 import edu.bootcamp_sb.service_market.service.ProviderService;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +25,27 @@ public class ProviderServiceImpl implements ProviderService {
 
     @Override
     public ProviderDto persistProviders(ProviderDto provider) {
+        Optional<ProviderEntity> contactNo =
+                providerRepository.findByContactNo(provider.getContactNo());
+        Optional<ProviderEntity> email =
+                providerRepository.findByEmail(provider.getEmail());
+
+        if(email.isPresent() && contactNo.isPresent()){
+            throw new ProviderExistAlreadyException
+                    ("Provider Already Exist with the Both email and contact number"
+                            +" - "+provider.getContactNo()+" - "+provider.getEmail());
+        }
+        if(email.isPresent()){
+            throw new ProviderExistAlreadyException
+                    ("Provider Already Exist with the email"
+                            +" - "+provider.getEmail());
+        }
+        if(contactNo.isPresent()){
+            throw new ProviderExistAlreadyException
+                    ("Provider Already Exist with the contact number"
+                            +" - "+provider.getContactNo());
+        }
+
         ProviderEntity providerEntity = new ProviderEntity();
         providerEntity.setEmail(provider.getEmail());
         providerEntity.setContactNo(provider.getContactNo());
@@ -30,8 +53,8 @@ public class ProviderServiceImpl implements ProviderService {
         providerEntity.setIsVerified(provider.getIsVerified());
         providerEntity.setExpertise(provider.getExpertise());
 
-        ProviderEntity save = providerRepository.save(providerEntity);
-        return mapper.convertValue(save,ProviderDto.class);
+        return mapper.convertValue(providerRepository.save(providerEntity)
+                ,ProviderDto.class);
 
 
 
