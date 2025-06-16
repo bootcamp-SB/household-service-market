@@ -5,13 +5,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.bootcamp_sb.service_market.dto.ProviderDto;
 import edu.bootcamp_sb.service_market.entity.ProviderEntity;
 import edu.bootcamp_sb.service_market.exception.ProviderExistAlreadyException;
+import edu.bootcamp_sb.service_market.exception.ProviderHasBeenNotFoundException;
 import edu.bootcamp_sb.service_market.repository.ProviderRepository;
 import edu.bootcamp_sb.service_market.service.ProviderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -24,7 +28,7 @@ public class ProviderServiceImpl implements ProviderService {
 
 
     @Override
-    public ProviderDto persistProviders(ProviderDto provider) {
+    public ResponseEntity<ProviderDto> persistProviders(ProviderDto provider) {
         Optional<ProviderEntity> contactNo =
                 providerRepository.findByContactNo(provider.getContactNo());
         Optional<ProviderEntity> email =
@@ -53,55 +57,84 @@ public class ProviderServiceImpl implements ProviderService {
         providerEntity.setIsVerified(provider.getIsVerified());
         providerEntity.setExpertise(provider.getExpertise());
 
-        return mapper.convertValue(providerRepository.save(providerEntity)
-                ,ProviderDto.class);
+        return ResponseEntity.ok().body
+                (
+                        mapper.convertValue(
+                        providerRepository.save(providerEntity)
+                ,ProviderDto.class)
+                );
 
 
 
     }
 
     @Override
-    public List<ProviderDto> getAllProviders() {
+    public ResponseEntity<List<ProviderDto>> getAllProviders() {
 
         Iterable<ProviderEntity> providers = providerRepository.findAll();
 
         ArrayList<ProviderDto> providersList = new ArrayList<>();
+
         providers.forEach(providerEntity ->
                 providersList.add(mapper.convertValue
                         (providerEntity,ProviderDto.class)));
-        return providersList;
+
+        return ResponseEntity.ok().body(providersList);
     }
 
 
 
 
-
-    public String deleteById(Integer id) {
+    public ResponseEntity<Map<String, String>> deleteById(Integer id) {
         if(providerRepository.existsById(id)){
             providerRepository.deleteById(id);
-            return "Provider's data has been Deleted";
+            return ResponseEntity.ok().body(
+                    Map.of("Deletion status message",
+                            "Provider's data has been Deleted"));
         }
-        return "Failed to deleted data";
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                Map.of("Not found message","Provider's data has been Deleted"));
         
     }
 
+
+
     @Override
-    public String deleteByListOfIds(Iterable<Integer> ids) {
+    public ResponseEntity<Map<String, String>> deleteByListOfIds(Iterable<Integer> ids) {
+
+        /* make exception for this */
+
         providerRepository.deleteAllById(ids);
-        return "Every records has been deleted";
+
+        return ResponseEntity.ok().body(Map.of("List of deletion status message",
+                "Every records has been deleted"));
     }
 
     @Override
-    public ProviderDto updateById( ProviderDto provider) {
-           return mapper.convertValue(
+    public ResponseEntity<ProviderDto> updateById(ProviderDto provider) {
+        if(!providerRepository.existsById(provider.getId())){
+            throw new ProviderHasBeenNotFoundException("Incorrect provider id");
+        }
+
+
+        return ResponseEntity.ok().body(mapper.convertValue(
                     providerRepository.save
                             (mapper.convertValue(provider, ProviderEntity.class)
-                            ), ProviderDto.class);
+                            ), ProviderDto.class));
 
     }
 
     @Override
-    public List<ProviderDto> getById(Iterable<Integer> listOfId) {
+    public ResponseEntity<Optional<ProviderEntity>> getById(Integer id) {
+        if(!providerRepository.existsById(id)){
+            throw new ProviderHasBeenNotFoundException("Incorrect provider id");
+        }
+        return ResponseEntity.ok().body(providerRepository.findById(id));
+
+    }
+
+    @Override
+    public ResponseEntity<List<ProviderDto>> getByListOfId(Iterable<Integer> listOfId) {
 
         Iterable<ProviderEntity> providersList = providerRepository.findAllById(listOfId);
 
@@ -109,12 +142,12 @@ public class ProviderServiceImpl implements ProviderService {
         providersList.forEach(providerEntity ->
                 selectedListOfProviders.add(mapper.convertValue
                         (providerEntity,ProviderDto.class)));
-        return selectedListOfProviders;
+        return ResponseEntity.ok().body(selectedListOfProviders);
 
     }
 
     @Override
-    public List<ProviderDto> findAllByExpertise(String expertise) {
+    public ResponseEntity<List<ProviderDto>> findAllByExpertise(String expertise) {
         Iterable<ProviderEntity> allByExpertise =
                 providerRepository.findAllByExpertise(expertise);
 
@@ -122,7 +155,7 @@ public class ProviderServiceImpl implements ProviderService {
 
         allByExpertise.forEach(providerEntity->listOfProviders.add(mapper.convertValue
                 (providerEntity,ProviderDto.class)));
-        return listOfProviders;
+        return ResponseEntity.ok().body(listOfProviders);
 
     }
 
