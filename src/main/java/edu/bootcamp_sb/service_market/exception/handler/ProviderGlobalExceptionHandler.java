@@ -2,10 +2,9 @@ package edu.bootcamp_sb.service_market.exception.handler;
 
 
 import edu.bootcamp_sb.service_market.dto.reponse.ErrorResponse;
-import edu.bootcamp_sb.service_market.exception.ProviderExistAlreadyException;
-import edu.bootcamp_sb.service_market.exception.ProviderHasBeenNotFoundException;
+import edu.bootcamp_sb.service_market.exception.providerException.ProviderExistAlreadyException;
+import edu.bootcamp_sb.service_market.exception.providerException.ProviderHasBeenNotFoundException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,7 +13,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 
 @ControllerAdvice
-public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+public class ProviderGlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ProviderExistAlreadyException.class)
     public ResponseEntity<ErrorResponse> handleProviderAlreadyExist

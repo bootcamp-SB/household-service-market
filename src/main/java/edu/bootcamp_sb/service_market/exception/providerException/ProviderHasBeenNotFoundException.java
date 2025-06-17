@@ -1,4 +1,4 @@
-package edu.bootcamp_sb.service_market.exception;
+package edu.bootcamp_sb.service_market.exception.providerException;
 
 public class ProviderHasBeenNotFoundException extends RuntimeException
 {

@@ -7,14 +7,12 @@ import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class ErrorResponse {
+public class ClientErrorResponse {
 
-    private String status;
+    private HttpStatus status;
 
     private String message;
-
-
 }
