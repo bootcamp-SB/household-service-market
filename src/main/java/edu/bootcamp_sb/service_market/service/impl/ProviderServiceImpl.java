@@ -112,15 +112,35 @@ public class ProviderServiceImpl implements ProviderService {
 
     @Override
     public ResponseEntity<ProviderDto> updateById(ProviderDto provider) {
-        if(!providerRepository.existsById(provider.getId())){
+
+        Optional<ProviderEntity> existingEntity =
+                providerRepository.findById(provider.getId());
+
+
+        if(existingEntity.isEmpty()){
             throw new ProviderHasBeenNotFoundException("Incorrect provider id");
         }
+        ProviderEntity updatingEntity = existingEntity.get();
 
+        if(provider.getEmail() != null){
+            updatingEntity.setEmail(provider.getEmail());
+        }
+        if(provider.getContactNo() != null){
+            updatingEntity.setContactNo(provider.getContactNo());
+        }
+        if(provider.getIsVerified() != null){
+            updatingEntity.setIsVerified(provider.getIsVerified());
+        }
+        if(provider.getExpertise() != null){
+            updatingEntity.setExpertise(provider.getExpertise());
+        }
+        if(provider.getHourlyRate() != null){
+            updatingEntity.setHourlyRate(provider.getHourlyRate());
+        }
 
-        return ResponseEntity.ok().body(mapper.convertValue(
-                    providerRepository.save
-                            (mapper.convertValue(provider, ProviderEntity.class)
-                            ), ProviderDto.class));
+        return ResponseEntity.ok().body(mapper.convertValue
+                (providerRepository.save(updatingEntity),
+                ProviderDto.class));
 
     }
 
@@ -155,7 +175,11 @@ public class ProviderServiceImpl implements ProviderService {
 
         allByExpertise.forEach(providerEntity->listOfProviders.add(mapper.convertValue
                 (providerEntity,ProviderDto.class)));
+        if(listOfProviders.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(listOfProviders);
+        }
         return ResponseEntity.ok().body(listOfProviders);
+
 
     }
 

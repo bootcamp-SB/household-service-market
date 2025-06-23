@@ -16,4 +16,5 @@ public interface ProviderRepository extends CrudRepository<ProviderEntity , Inte
     Optional<ProviderEntity> findByContactNo(String contactNo);
 
 
+
 }
