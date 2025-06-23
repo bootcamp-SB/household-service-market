@@ -10,7 +10,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PayementDto {
+public class PaymentDto {
 
     private UUID id;
 
