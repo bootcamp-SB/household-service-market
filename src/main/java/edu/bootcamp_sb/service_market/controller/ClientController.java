@@ -1,6 +1,7 @@
 package edu.bootcamp_sb.service_market.controller;
 
 import edu.bootcamp_sb.service_market.dto.ClientDto;
+import edu.bootcamp_sb.service_market.dto.reponse.ClientResponseDto;
 import edu.bootcamp_sb.service_market.service.ClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +18,12 @@ public class ClientController {
     private final ClientService clientService;
 
     @PostMapping
-    public ResponseEntity<ClientDto>persist(@RequestBody ClientDto clientDto){
+    public ResponseEntity<ClientResponseDto> persist(@RequestBody ClientDto clientDto){
         return clientService.persist(clientDto);
     }
 
     @GetMapping
-    public ResponseEntity<List<ClientDto>>getAll(){
+    public ResponseEntity<List<ClientResponseDto>> getAll(){
         return clientService.getAll();
     }
 

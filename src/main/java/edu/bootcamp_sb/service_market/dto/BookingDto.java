@@ -4,22 +4,21 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PaymentDto {
+public class BookingDto {
 
-    private UUID id;
-
-    private Double amount;
+    private Integer id;
 
     private String status;
 
-    private Time timeStamp;
+    private Time timestamp;
 
-    private Integer bookingId;
+    private Date date;
 
 }

@@ -1,8 +1,8 @@
 package edu.bootcamp_sb.service_market.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,5 +27,9 @@ public class PaymentEntity {
 
     private Time timeStamp;
 
+    @OneToOne
+    @JoinColumn(name = "bookingId")
+    @JsonManagedReference
+    private BookingEntity booking;
 
 }

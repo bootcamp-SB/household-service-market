@@ -17,4 +17,6 @@ public class ClientDto {
 
     private  String paymentMethod;
 
+    private Integer profileId;
+
 }

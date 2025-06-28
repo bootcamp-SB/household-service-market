@@ -1,5 +1,6 @@
 package edu.bootcamp_sb.service_market.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,4 +21,8 @@ public class ClientEntity {
     private String email;
 
     private  String paymentMethod;
+
+    @OneToOne
+    @JoinColumn(name = "profile_id")
+    private ClientProfileEntity profile;
 }

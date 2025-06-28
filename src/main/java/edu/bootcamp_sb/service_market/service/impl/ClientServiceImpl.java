@@ -2,8 +2,11 @@ package edu.bootcamp_sb.service_market.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.bootcamp_sb.service_market.dto.ClientDto;
+import edu.bootcamp_sb.service_market.dto.reponse.ClientResponseDto;
 import edu.bootcamp_sb.service_market.entity.ClientEntity;
+import edu.bootcamp_sb.service_market.entity.ClientProfileEntity;
 import edu.bootcamp_sb.service_market.exception.clientExceptions.ClientHasBeenNotFoundException;
+import edu.bootcamp_sb.service_market.repository.ClientProfileRepository;
 import edu.bootcamp_sb.service_market.repository.ClientRepository;
 import edu.bootcamp_sb.service_market.service.ClientService;
 import lombok.RequiredArgsConstructor;
@@ -23,15 +26,17 @@ public class ClientServiceImpl implements ClientService {
 
     private final ObjectMapper mapper;
 
+    private final ClientProfileRepository profileRepository;
+
     @Override
-    public ResponseEntity<List<ClientDto>> getAll() {
+    public ResponseEntity<List<ClientResponseDto>> getAll() {
 
         Iterable<ClientEntity> allClients = clientRepository.findAll();
 
-        ArrayList<ClientDto> allClientList = new ArrayList<>();
+        ArrayList<ClientResponseDto> allClientList = new ArrayList<>();
 
         allClients.forEach(entity-> allClientList.add
-                (mapper.convertValue(entity, ClientDto.class)));
+                (mapper.convertValue(entity, ClientResponseDto.class)));
 
         return ResponseEntity.ok().body(allClientList);
 
@@ -50,16 +55,25 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ResponseEntity<ClientDto> persist(ClientDto clientDto) {
+    public ResponseEntity<ClientResponseDto> persist(ClientDto clientDto) {
 
         ClientEntity clientEntity = new ClientEntity();
         clientEntity.setEmail(clientDto.getEmail());
         clientEntity.setAddress(clientDto.getAddress());
         clientEntity.setPaymentMethod(clientDto.getPaymentMethod());
 
+        ClientProfileEntity profileEntity = profileRepository.findById
+                (clientDto.getProfileId()).orElseThrow(
+                        ()->new RuntimeException("Not found")
+        );
+
+        clientEntity.setProfile(profileEntity);
+
+
         return ResponseEntity.ok().body(
                 mapper.convertValue(
-                        clientRepository.save(clientEntity),ClientDto.class
+                        clientRepository.save(clientEntity),
+                        ClientResponseDto.class
                 )
         );
     }

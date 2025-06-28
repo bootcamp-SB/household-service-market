@@ -2,7 +2,10 @@ package edu.bootcamp_sb.service_market.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.bootcamp_sb.service_market.dto.PaymentDto;
+import edu.bootcamp_sb.service_market.dto.reponse.PaymentResponseDto;
+import edu.bootcamp_sb.service_market.entity.BookingEntity;
 import edu.bootcamp_sb.service_market.entity.PaymentEntity;
+import edu.bootcamp_sb.service_market.repository.BookingRepository;
 import edu.bootcamp_sb.service_market.repository.PaymentRepository;
 import edu.bootcamp_sb.service_market.service.PaymentService;
 import lombok.RequiredArgsConstructor;
@@ -12,39 +15,65 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
 
     private final PaymentRepository paymentRepository;
 
+    private final BookingRepository bookingRepository;
+
     private final ObjectMapper mapper;
 
 
     @Override
-    public ResponseEntity<PaymentDto> make(PaymentDto paymentDto) {
+    public ResponseEntity<PaymentResponseDto> make(PaymentDto paymentDto) {
 
         PaymentEntity paymentEntity = new PaymentEntity();
         paymentEntity.setAmount(paymentDto.getAmount());
         paymentEntity.setStatus(paymentDto.getStatus());
         paymentEntity.setTimeStamp(paymentDto.getTimeStamp());
 
-        return ResponseEntity.ok(
-                mapper.convertValue
-                        (paymentRepository.save(paymentEntity),
-                                PaymentDto.class));
+        BookingEntity bookingEntity = bookingRepository.findById(
+                paymentDto.getBookingId()).orElseThrow(
+                () -> new RuntimeException("not Found"));
+
+        paymentEntity.setBooking(bookingEntity);
+
+        return ResponseEntity.ok(mapper.convertValue
+                (paymentRepository.save(paymentEntity),
+                        PaymentResponseDto.class));
     }
 
     @Override
-    public ResponseEntity<List<PaymentDto>> show() {
+    public ResponseEntity<List<PaymentResponseDto>> show() {
         Iterable<PaymentEntity> all = paymentRepository.findAll();
-        ArrayList<PaymentDto> paymentDtos = new ArrayList<>();
+        ArrayList<PaymentResponseDto> paymentDtos = new ArrayList<>();
 
         all.forEach(entity->
                 paymentDtos.add
-                        (mapper.convertValue(entity, PaymentDto.class))
+                        (mapper.convertValue(entity, PaymentResponseDto.class))
         );
 
         return ResponseEntity.ok(paymentDtos);
     }
+
+    @Override
+    public ResponseEntity<PaymentResponseDto> byId(UUID id) {
+        PaymentEntity byId
+                = paymentRepository.findById(id).orElseThrow(
+                        ()->new RuntimeException("ID not found"));
+
+        return ResponseEntity.ok(
+                PaymentResponseDto.builder()
+                        .amount(byId.getAmount())
+                        .booking(byId.getBooking())
+                        .status(byId.getStatus())
+                        .id(id).build()
+        );
+    }
+
+
 }
