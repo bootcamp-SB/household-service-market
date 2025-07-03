@@ -2,7 +2,6 @@ package edu.bootcamp_sb.service_market.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.bootcamp_sb.service_market.dto.BookingDto;
-import edu.bootcamp_sb.service_market.dto.reponse.BookingResponseDto;
 import edu.bootcamp_sb.service_market.entity.BookingEntity;
 import edu.bootcamp_sb.service_market.entity.PaymentEntity;
 import edu.bootcamp_sb.service_market.repository.BookingRepository;
@@ -12,6 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,25 +28,42 @@ public class BookingServiceImpl implements BookingService {
 
 
     @Override
-    public ResponseEntity<BookingResponseDto> persist(BookingDto bookingDto) {
+    public ResponseEntity<BookingDto> persist(BookingDto bookingDto) {
 
         BookingEntity bookingEntity = new BookingEntity();
-        bookingEntity.setDate(bookingDto.getDate());
+        bookingEntity.setDate(LocalDate.parse(bookingDto.getDate()));
         bookingEntity.setStatus(bookingDto.getStatus());
-        bookingEntity.setTimestamp(bookingDto.getTimestamp());
-        bookingEntity.setDate(bookingDto.getDate());
+        bookingEntity.setStartingTime(LocalTime.parse(bookingDto.getStartingTime()));
+        bookingEntity.setEndingTime(LocalTime.parse(bookingDto.getEndingTime()));
 
+
+        PaymentEntity paymentEntity = new PaymentEntity();
+        paymentEntity.setTimeStamp(LocalTime.now());
+        paymentEntity.setAmount(bookingDto.getPayment().getAmount());
+        paymentEntity.setDate(LocalDate.now());
+        paymentEntity.setStatus(bookingEntity.getStatus());
+
+        bookingEntity.setPayment(paymentRepository.save(paymentEntity));
 
         return ResponseEntity.ok(
                 mapper.convertValue(
-                bookingRepository.save(bookingEntity),
-                BookingResponseDto.class
+                        bookingRepository.save(bookingEntity),
+                BookingDto.class
         ));
     }
 
     @Override
     public ResponseEntity<List<BookingDto>> show() {
+        Iterable<BookingEntity> bookingEntities = bookingRepository.findAll();
+        ArrayList<BookingDto> bookingDtos = new ArrayList<>();
 
-        return null;
+        
+        bookingEntities.forEach(bookingEntity ->
+                    bookingDtos.add(
+                            mapper.convertValue(
+                                    bookingEntity, BookingDto.class
+                            )));
+
+        return ResponseEntity.ok(bookingDtos);
     }
 }

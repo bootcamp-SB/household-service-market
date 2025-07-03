@@ -6,13 +6,14 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public interface ClientService {
 
     ResponseEntity<List<ClientResponseDto>> getAll();
 
 
-    ResponseEntity<Map<String, String>> deleteById(Integer id);
+    ResponseEntity<Map<String, String>> deleteById(UUID id);
 
     ResponseEntity<ClientResponseDto> persist(ClientDto clientDto);
 

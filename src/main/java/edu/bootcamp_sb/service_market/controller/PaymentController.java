@@ -1,8 +1,6 @@
 package edu.bootcamp_sb.service_market.controller;
 
 import edu.bootcamp_sb.service_market.dto.PaymentDto;
-import edu.bootcamp_sb.service_market.dto.reponse.PaymentResponseDto;
-import edu.bootcamp_sb.service_market.entity.PaymentEntity;
 import edu.bootcamp_sb.service_market.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,18 +17,18 @@ public class PaymentController {
     private final PaymentService paymentService;
 
     @PostMapping
-    public ResponseEntity<PaymentResponseDto>make(@RequestBody PaymentDto payment){
+    public ResponseEntity<PaymentDto>make(@RequestBody PaymentDto payment){
         return paymentService.make(payment);
 
     }
 
     @GetMapping
-    public ResponseEntity<List<PaymentResponseDto>> getAll(){
+    public ResponseEntity<List<PaymentDto>> getAll(){
         return paymentService.show();
 
     }
-    @GetMapping("by-id")
-    public ResponseEntity<PaymentResponseDto> getById(@RequestParam UUID id){
+    @GetMapping("/id")
+    public ResponseEntity<PaymentDto>getById(@RequestParam UUID id){
         return paymentService.byId(id);
 
     }

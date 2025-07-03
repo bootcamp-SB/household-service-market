@@ -4,11 +4,13 @@ import edu.bootcamp_sb.service_market.entity.ClientProfileEntity;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 @Builder
 public class ClientResponseDto {
 
-    private Integer id;
+    private UUID id;
 
     private String address;
 

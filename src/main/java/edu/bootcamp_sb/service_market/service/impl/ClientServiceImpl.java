@@ -11,12 +11,10 @@ import edu.bootcamp_sb.service_market.repository.ClientRepository;
 import edu.bootcamp_sb.service_market.service.ClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +25,8 @@ public class ClientServiceImpl implements ClientService {
     private final ObjectMapper mapper;
 
     private final ClientProfileRepository profileRepository;
+
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public ResponseEntity<List<ClientResponseDto>> getAll() {
@@ -44,7 +44,7 @@ public class ClientServiceImpl implements ClientService {
 
 
     @Override
-    public ResponseEntity<Map<String, String>> deleteById(Integer id) {
+    public ResponseEntity<Map<String, String>> deleteById(UUID id) {
         if(!clientRepository.existsById(id)){
             throw new ClientHasBeenNotFoundException("Incorrect client id");
         }
@@ -61,18 +61,24 @@ public class ClientServiceImpl implements ClientService {
         clientEntity.setEmail(clientDto.getEmail());
         clientEntity.setAddress(clientDto.getAddress());
         clientEntity.setPaymentMethod(clientDto.getPaymentMethod());
+        clientEntity.setRole(clientDto.getRole());
+        clientEntity.setPassword(passwordEncoder.encode(clientDto.getPassword()));
 
-        ClientProfileEntity profileEntity = profileRepository.findById
-                (clientDto.getProfileId()).orElseThrow(
-                        ()->new RuntimeException("Not found")
-        );
 
+        ClientProfileEntity profileEntity = new ClientProfileEntity();
+        profileEntity.setProfilePicUrl(clientDto.getProfile().getProfilePicUrl());
+        profileEntity.setClient(clientEntity);
         clientEntity.setProfile(profileEntity);
 
+        ClientEntity save = clientRepository.save(clientEntity);
+
+        profileEntity.setClient(save);
+
+        profileRepository.save(profileEntity);
 
         return ResponseEntity.ok().body(
                 mapper.convertValue(
-                        clientRepository.save(clientEntity),
+                                clientRepository.save(clientEntity),
                         ClientResponseDto.class
                 )
         );

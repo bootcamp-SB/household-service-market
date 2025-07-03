@@ -2,15 +2,21 @@ package edu.bootcamp_sb.service_market.entity;
 
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+
+
+
+
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UuidGenerator;
 
-import java.sql.Date;
-import java.sql.Time;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "booking")
@@ -20,17 +26,19 @@ import java.sql.Time;
 public class BookingEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @UuidGenerator(style = UuidGenerator.Style.RANDOM)
+    private UUID id;
 
     private String status;
 
-    private Time timestamp;
+    private LocalTime startingTime;
 
-    private Date date;
+    private LocalTime endingTime;
 
-    @OneToOne(mappedBy = "booking")
-    @JsonBackReference
+    private LocalDate date;
+
+    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinColumn(name = "payment_Id")
     private PaymentEntity payment;
 
 }

@@ -4,6 +4,16 @@ import edu.bootcamp_sb.service_market.entity.ClientEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+import java.util.UUID;
+
 @Repository
-public interface ClientRepository extends CrudRepository<ClientEntity , Integer> {
+public interface ClientRepository extends CrudRepository<ClientEntity , UUID> {
+
+    Optional<ClientEntity>findByEmail(String email);
+
+    @Override
+    Optional<ClientEntity> findById(UUID uuid);
+
+
 }

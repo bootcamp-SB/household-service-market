@@ -18,8 +18,6 @@ public class PaymentDto {
 
     private String status;
 
-    private Time timeStamp;
 
-    private Integer bookingId;
 
 }

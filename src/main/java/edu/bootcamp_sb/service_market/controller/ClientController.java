@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,7 +29,7 @@ public class ClientController {
     }
 
     @DeleteMapping("/by-id")
-    public ResponseEntity<Map<String,String>>deleteById(@RequestParam Integer id){
+    public ResponseEntity<Map<String,String>>deleteById(@RequestParam UUID id){
         return clientService.deleteById(id);
     }
 

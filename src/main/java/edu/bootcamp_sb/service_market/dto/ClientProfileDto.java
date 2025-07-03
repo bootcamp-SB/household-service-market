@@ -9,13 +9,17 @@ import lombok.NoArgsConstructor;
 import org.hibernate.Interceptor;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.util.UUID;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClientProfileDto {
 
 
-    private Integer id;
+    private UUID id;
 
     private String profilePicUrl;
+
+    private UUID clientId;
 }
