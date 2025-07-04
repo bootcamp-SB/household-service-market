@@ -22,7 +22,9 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(requests ->
-                        requests.requestMatchers("/api/**").permitAll()
+                        requests.requestMatchers("/api/v1/client").permitAll()
+                                .requestMatchers("/api/v1/**").authenticated()
+
 
         );
         http.formLogin(withDefaults());
@@ -40,7 +42,5 @@ public class SecurityConfig {
     public CompromisedPasswordChecker compromisedPasswordChecker(){
         return new HaveIBeenPwnedRestApiPasswordChecker();
     }
-
-
 
 }

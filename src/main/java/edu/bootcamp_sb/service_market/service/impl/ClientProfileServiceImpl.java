@@ -29,8 +29,9 @@ public class ClientProfileServiceImpl implements ClientProfileService {
     public ResponseEntity<ClientProfileDto> create(ClientProfileDto profile) {
         ClientProfileEntity profileEntity = new ClientProfileEntity();
         profileEntity.setProfilePicUrl(profile.getProfilePicUrl());
-        ClientEntity client = clientRepository.findById(profile.getClientId()).orElseThrow(() ->
-                new ClientHasBeenNotFoundException("not exsist in database"));
+        ClientEntity client =
+                clientRepository.findById(profile.getClientId()).orElseThrow(() ->
+                new ClientHasBeenNotFoundException("not exist in database"));
         profileEntity.setClient(client);
 
         return ResponseEntity.ok(

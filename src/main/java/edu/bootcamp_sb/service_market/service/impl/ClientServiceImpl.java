@@ -5,6 +5,7 @@ import edu.bootcamp_sb.service_market.dto.ClientDto;
 import edu.bootcamp_sb.service_market.dto.reponse.ClientResponseDto;
 import edu.bootcamp_sb.service_market.entity.ClientEntity;
 import edu.bootcamp_sb.service_market.entity.ClientProfileEntity;
+import edu.bootcamp_sb.service_market.exception.clientExceptions.ClientAlreadyRegisteredException;
 import edu.bootcamp_sb.service_market.exception.clientExceptions.ClientHasBeenNotFoundException;
 import edu.bootcamp_sb.service_market.repository.ClientProfileRepository;
 import edu.bootcamp_sb.service_market.repository.ClientRepository;
@@ -57,6 +58,12 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public ResponseEntity<ClientResponseDto> persist(ClientDto clientDto) {
 
+        Optional<ClientEntity> byEmail =
+                clientRepository.findByEmail(clientDto.getEmail());
+
+        if(byEmail.isPresent()) throw new ClientAlreadyRegisteredException
+                ("Email has been registered before");
+
         ClientEntity clientEntity = new ClientEntity();
         clientEntity.setEmail(clientDto.getEmail());
         clientEntity.setAddress(clientDto.getAddress());
@@ -71,6 +78,8 @@ public class ClientServiceImpl implements ClientService {
         clientEntity.setProfile(profileEntity);
 
         ClientEntity save = clientRepository.save(clientEntity);
+
+        passwordEncoder.matches(clientDto.getPassword(),save.getPassword());
 
         profileEntity.setClient(save);
 

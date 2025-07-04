@@ -23,8 +23,6 @@ public class PaymentServiceImpl implements PaymentService {
 
     private final PaymentRepository paymentRepository;
 
-    private final BookingRepository bookingRepository;
-
     private final ObjectMapper mapper;
 
 

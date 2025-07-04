@@ -12,8 +12,6 @@ public interface ClientRepository extends CrudRepository<ClientEntity , UUID> {
 
     Optional<ClientEntity>findByEmail(String email);
 
-    @Override
-    Optional<ClientEntity> findById(UUID uuid);
 
 
 }
