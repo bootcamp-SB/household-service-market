@@ -1,6 +1,7 @@
 package edu.bootcamp_sb.service_market.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,8 +26,7 @@ public class ClientProfileEntity {
     private String profilePicUrl;
 
 
-    @OneToOne
-    @JoinColumn(name = "client_Id")
+    @OneToOne(mappedBy = "profile")
     @JsonBackReference
     private ClientEntity client;
 }

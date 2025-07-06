@@ -51,7 +51,6 @@ public class PaymentServiceImpl implements PaymentService {
                 paymentDtos.add
                         (mapper.convertValue(entity, PaymentDto.class))
         );
-
         return ResponseEntity.ok(paymentDtos);
     }
 

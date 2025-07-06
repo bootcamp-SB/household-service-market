@@ -25,8 +25,6 @@ public class ClientServiceImpl implements ClientService {
 
     private final ObjectMapper mapper;
 
-    private final ClientProfileRepository profileRepository;
-
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -36,8 +34,10 @@ public class ClientServiceImpl implements ClientService {
 
         ArrayList<ClientResponseDto> allClientList = new ArrayList<>();
 
-        allClients.forEach(entity-> allClientList.add
-                (mapper.convertValue(entity, ClientResponseDto.class)));
+        allClients.forEach(entity-> allClientList.add(
+                mapper.convertValue(
+                        entity
+                        ,ClientResponseDto.class)));
 
         return ResponseEntity.ok().body(allClientList);
 
@@ -75,15 +75,11 @@ public class ClientServiceImpl implements ClientService {
         ClientProfileEntity profileEntity = new ClientProfileEntity();
         profileEntity.setProfilePicUrl(clientDto.getProfile().getProfilePicUrl());
         profileEntity.setClient(clientEntity);
+
+        profileEntity.setClient(clientEntity);
+
         clientEntity.setProfile(profileEntity);
 
-        ClientEntity save = clientRepository.save(clientEntity);
-
-        passwordEncoder.matches(clientDto.getPassword(),save.getPassword());
-
-        profileEntity.setClient(save);
-
-        profileRepository.save(profileEntity);
 
         return ResponseEntity.ok().body(
                 mapper.convertValue(

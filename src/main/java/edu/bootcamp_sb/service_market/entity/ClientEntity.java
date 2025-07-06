@@ -32,7 +32,8 @@ public class ClientEntity {
 
     private String role;
 
-    @OneToOne(mappedBy = "client", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "profile_Id")
     @JsonManagedReference
     private ClientProfileEntity profile;
 }

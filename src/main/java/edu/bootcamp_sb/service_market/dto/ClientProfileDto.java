@@ -1,5 +1,6 @@
 package edu.bootcamp_sb.service_market.dto;
 
+import edu.bootcamp_sb.service_market.entity.ClientEntity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,5 +22,5 @@ public class ClientProfileDto {
 
     private String profilePicUrl;
 
-    private UUID clientId;
+    private ClientEntity client;
 }
