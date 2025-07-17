@@ -2,6 +2,7 @@ package edu.bootcamp_sb.service_market.service;
 
 import edu.bootcamp_sb.service_market.dto.ClientDto;
 import edu.bootcamp_sb.service_market.dto.reponse.ClientResponseDto;
+import edu.bootcamp_sb.service_market.dto.request.ClientRequestDto;
 import edu.bootcamp_sb.service_market.entity.ClientEntity;
 import org.springframework.http.ResponseEntity;
 
@@ -16,7 +17,7 @@ public interface ClientService {
 
     ResponseEntity<Map<String, String>> deleteById(UUID id);
 
-    ResponseEntity<ClientResponseDto> persist(ClientDto clientDto);
+    ResponseEntity<ClientResponseDto> persist(ClientRequestDto clientDto);
 
     ResponseEntity<ClientDto> updateByID(ClientDto clientDto);
 

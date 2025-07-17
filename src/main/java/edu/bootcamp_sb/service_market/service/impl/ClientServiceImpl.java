@@ -3,6 +3,7 @@ package edu.bootcamp_sb.service_market.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.bootcamp_sb.service_market.dto.ClientDto;
 import edu.bootcamp_sb.service_market.dto.reponse.ClientResponseDto;
+import edu.bootcamp_sb.service_market.dto.request.ClientRequestDto;
 import edu.bootcamp_sb.service_market.entity.ClientEntity;
 import edu.bootcamp_sb.service_market.entity.ClientProfileEntity;
 import edu.bootcamp_sb.service_market.exception.clientExceptions.ClientAlreadyRegisteredException;
@@ -56,7 +57,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ResponseEntity<ClientResponseDto> persist(ClientDto clientDto) {
+    public ResponseEntity<ClientResponseDto> persist(ClientRequestDto clientDto) {
 
         Optional<ClientEntity> byEmail =
                 clientRepository.findByEmail(clientDto.getEmail());

@@ -1,12 +1,11 @@
 package edu.bootcamp_sb.service_market.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.bootcamp_sb.service_market.dto.ClientDto;
 import edu.bootcamp_sb.service_market.dto.ClientProfileDto;
-import edu.bootcamp_sb.service_market.entity.ClientEntity;
 import edu.bootcamp_sb.service_market.entity.ClientProfileEntity;
-import edu.bootcamp_sb.service_market.exception.clientExceptions.ClientHasBeenNotFoundException;
 import edu.bootcamp_sb.service_market.repository.ClientProfileRepository;
-import edu.bootcamp_sb.service_market.repository.ClientRepository;
+
 import edu.bootcamp_sb.service_market.service.ClientProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +22,7 @@ public class ClientProfileServiceImpl implements ClientProfileService {
 
     private final ObjectMapper mapper;
 
-    private final ClientRepository clientRepository;
+
 
     @Override
     public ResponseEntity<ClientProfileDto> create(ClientProfileDto profile) {
@@ -42,8 +41,14 @@ public class ClientProfileServiceImpl implements ClientProfileService {
         ArrayList<ClientProfileDto> profileList = new ArrayList<>();
 
         profileEntities.forEach(profileEntity->profileList.add(
-                mapper.convertValue(profileEntity,
-                        ClientProfileDto.class)
+                ClientProfileDto.builder()
+                        .client(
+                                mapper.convertValue(profileEntity.getClient(),
+                                        ClientDto.class)
+                                )
+                        .id(profileEntity.getId())
+                        .profilePicUrl(profileEntity.getProfilePicUrl())
+                        .build()
         )
         );
         return ResponseEntity.ok(profileList);
