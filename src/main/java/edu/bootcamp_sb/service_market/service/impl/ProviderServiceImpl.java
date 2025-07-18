@@ -2,10 +2,16 @@ package edu.bootcamp_sb.service_market.service.impl;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.bootcamp_sb.service_market.dto.JobDto;
 import edu.bootcamp_sb.service_market.dto.ProviderDto;
+import edu.bootcamp_sb.service_market.dto.reponse.ProviderJobResponseDto;
+import edu.bootcamp_sb.service_market.dto.request.ProviderJobRequestDto;
+import edu.bootcamp_sb.service_market.entity.JobEntity;
 import edu.bootcamp_sb.service_market.entity.ProviderEntity;
+import edu.bootcamp_sb.service_market.exception.clientExceptions.ClientHasBeenNotFoundException;
 import edu.bootcamp_sb.service_market.exception.providerException.ProviderExistAlreadyException;
 import edu.bootcamp_sb.service_market.exception.providerException.ProviderHasBeenNotFoundException;
+import edu.bootcamp_sb.service_market.repository.JobRepository;
 import edu.bootcamp_sb.service_market.repository.ProviderRepository;
 import edu.bootcamp_sb.service_market.service.ProviderService;
 import lombok.RequiredArgsConstructor;
@@ -24,49 +30,99 @@ public class ProviderServiceImpl implements ProviderService {
 
     private final ProviderRepository providerRepository;
 
+    private final JobRepository jobRepository;
+
     private final ObjectMapper mapper;
 
 
+    private static ProviderJobResponseDto convertProviderEntityToProviderJobResponseDto
+            (ProviderEntity providerEntity) {
+
+        ArrayList<JobEntity> jobEntities = new ArrayList<>(providerEntity.getJobs());
+
+        ArrayList<JobDto> jobDtos = new ArrayList<>();
+
+        for(JobEntity entity :jobEntities){
+            JobDto jobDto = new JobDto();
+            jobDto.setId(entity.getId());
+            jobDto.setPrice(entity.getPrice());
+            jobDto.setType(entity.getType());
+            jobDto.setName(entity.getName());
+            jobDtos.add(jobDto);
+        }
+        return ProviderJobResponseDto.builder()
+                .id(providerEntity.getId())
+                .contactNo(providerEntity.getContactNo())
+                .hourlyRate(providerEntity.getHourlyRate())
+                .email(providerEntity.getEmail())
+                .expertise(providerEntity.getExpertise())
+                .isVerified(providerEntity.getIsVerified())
+                .job(jobDtos)
+                .build();
+    }
+
+
     @Override
-    public ResponseEntity<ProviderDto> persistProviders(ProviderDto provider) {
+    public ResponseEntity<ProviderJobResponseDto>
+    persistProviders(ProviderJobRequestDto provider) {
+
         Optional<ProviderEntity> contactNo =
-                providerRepository.findByContactNo(provider.getContactNo());
+                providerRepository.findByContactNo(
+                        provider.getProvider().getContactNo()
+                );
+
         Optional<ProviderEntity> email =
-                providerRepository.findByEmail(provider.getEmail());
+                providerRepository.findByEmail(provider.getProvider().getEmail());
 
         if(email.isPresent() && contactNo.isPresent()){
             throw new ProviderExistAlreadyException
                     ("Provider Already Exist with the Both email and contact number"
-                            +" - "+provider.getContactNo()+" - "+provider.getEmail());
+                            +" - "+provider.getProvider().getContactNo()+" - "
+                            +provider.getProvider().getEmail());
         }
         if(email.isPresent()){
             throw new ProviderExistAlreadyException
                     ("Provider Already Exist with the email"
-                            +" - "+provider.getEmail());
+                            +" - "+provider.getProvider().getEmail());
         }
         if(contactNo.isPresent()){
             throw new ProviderExistAlreadyException
                     ("Provider Already Exist with the contact number"
-                            +" - "+provider.getContactNo());
+                            +" - "+provider.getProvider().getContactNo());
         }
 
         ProviderEntity providerEntity = new ProviderEntity();
-        providerEntity.setEmail(provider.getEmail());
-        providerEntity.setContactNo(provider.getContactNo());
-        providerEntity.setHourlyRate(provider.getHourlyRate());
-        providerEntity.setIsVerified(provider.getIsVerified());
-        providerEntity.setExpertise(provider.getExpertise());
+        providerEntity.setEmail(provider.getProvider().getEmail());
+        providerEntity.setContactNo(provider.getProvider().getContactNo());
+        providerEntity.setHourlyRate(provider.getProvider().getHourlyRate());
+        providerEntity.setIsVerified(provider.getProvider().getIsVerified());
+        providerEntity.setExpertise(provider.getProvider().getExpertise());
+
+        ArrayList<JobDto> jobEntityList = new ArrayList<>(provider.getJobs());
+
+        ArrayList<JobEntity> jobEntitiesSaveList = new ArrayList<>();
+
+        for (JobDto entity : jobEntityList) {
+            JobEntity jobEntity = new JobEntity();
+            jobEntity.setPrice(entity.getPrice());
+            jobEntity.setType(entity.getType());
+            jobEntity.setName(entity.getName());
+            jobEntity.setProvider(providerEntity);
+
+            jobEntitiesSaveList.add(jobEntity);
+        }
+
+        providerEntity.setJobs(jobEntitiesSaveList);
+
+        providerRepository.save(providerEntity);
 
         return ResponseEntity.ok().body
-                (
-                        mapper.convertValue(
-                        providerRepository.save(providerEntity)
-                ,ProviderDto.class)
-                );
-
-
+                (convertProviderEntityToProviderJobResponseDto(providerEntity));
 
     }
+
+
+
 
     @Override
     public ResponseEntity<List<ProviderDto>> getAllProviders() {
@@ -145,13 +201,22 @@ public class ProviderServiceImpl implements ProviderService {
     }
 
     @Override
-    public ResponseEntity<Optional<ProviderEntity>> getById(Integer id) {
+    public ResponseEntity<ProviderJobResponseDto> getById(Integer id) {
         if(!providerRepository.existsById(id)){
             throw new ProviderHasBeenNotFoundException("Incorrect provider id");
         }
-        return ResponseEntity.ok().body(providerRepository.findById(id));
+        ProviderEntity providerEntity = providerRepository.findById(id).orElseThrow(
+                ()-> new ProviderHasBeenNotFoundException("provider not found"));
+
+
+        return ResponseEntity.ok().body(
+                convertProviderEntityToProviderJobResponseDto(providerEntity)
+        );
+
 
     }
+
+
 
     @Override
     public ResponseEntity<List<ProviderDto>> getByListOfId(Iterable<Integer> listOfId) {

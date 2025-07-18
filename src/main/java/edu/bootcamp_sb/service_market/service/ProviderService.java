@@ -1,6 +1,8 @@
 package edu.bootcamp_sb.service_market.service;
 
 import edu.bootcamp_sb.service_market.dto.ProviderDto;
+import edu.bootcamp_sb.service_market.dto.reponse.ProviderJobResponseDto;
+import edu.bootcamp_sb.service_market.dto.request.ProviderJobRequestDto;
 import edu.bootcamp_sb.service_market.entity.ProviderEntity;
 import org.springframework.http.ResponseEntity;
 
@@ -11,7 +13,7 @@ import java.util.Optional;
 
 public interface ProviderService {
 
-    ResponseEntity<ProviderDto> persistProviders(ProviderDto provider);
+    ResponseEntity<ProviderJobResponseDto> persistProviders(ProviderJobRequestDto provider);
 
     ResponseEntity<List<ProviderDto>> getAllProviders();
 
@@ -21,7 +23,7 @@ public interface ProviderService {
 
     ResponseEntity<ProviderDto> updateById(ProviderDto provider);
 
-    ResponseEntity<Optional<ProviderEntity>> getById(Integer id);
+    ResponseEntity<ProviderJobResponseDto> getById(Integer id);
 
     ResponseEntity<List<ProviderDto>> getByListOfId(Iterable<Integer> id);
 

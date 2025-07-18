@@ -1,9 +1,12 @@
 package edu.bootcamp_sb.service_market.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Table(name = "service_providers")
@@ -24,5 +27,9 @@ public class ProviderEntity {
     private String expertise;
 
     private Boolean isVerified;
+
+    @OneToMany(mappedBy = "provider",cascade = CascadeType.PERSIST)
+    @JsonBackReference
+    private List<JobEntity> jobs;
 
 }

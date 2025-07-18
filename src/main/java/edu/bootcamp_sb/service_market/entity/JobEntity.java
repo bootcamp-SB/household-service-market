@@ -1,8 +1,8 @@
 package edu.bootcamp_sb.service_market.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,4 +27,9 @@ public class JobEntity {
         private String type;
 
         private Long price;
+
+        @ManyToOne
+        @JoinColumn(name = "provider_id")
+        @JsonManagedReference
+        private ProviderEntity provider;
 }

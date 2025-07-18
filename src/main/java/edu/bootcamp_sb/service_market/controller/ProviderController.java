@@ -1,6 +1,8 @@
 package edu.bootcamp_sb.service_market.controller;
 
 import edu.bootcamp_sb.service_market.dto.ProviderDto;
+import edu.bootcamp_sb.service_market.dto.reponse.ProviderJobResponseDto;
+import edu.bootcamp_sb.service_market.dto.request.ProviderJobRequestDto;
 import edu.bootcamp_sb.service_market.entity.ProviderEntity;
 import edu.bootcamp_sb.service_market.service.ProviderService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +22,9 @@ public class ProviderController {
 
 
     @PostMapping
-    public ResponseEntity<ProviderDto> persistProviders(@RequestBody ProviderDto provider){
+    public ResponseEntity<ProviderJobResponseDto>
+    persistProviders(@RequestBody ProviderJobRequestDto provider)
+    {
         return providerService.persistProviders(provider);
     }
 
@@ -29,7 +33,7 @@ public class ProviderController {
         return providerService.getAllProviders();
     }
     @GetMapping("/by-id")
-    public ResponseEntity<Optional<ProviderEntity>> getByID(@RequestParam Integer id){
+    public ResponseEntity<ProviderJobResponseDto>getByID(@RequestParam Integer id){
         return providerService.getById(id);
     }
 

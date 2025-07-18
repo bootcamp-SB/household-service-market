@@ -8,7 +8,7 @@ import edu.bootcamp_sb.service_market.entity.ClientEntity;
 import edu.bootcamp_sb.service_market.entity.ClientProfileEntity;
 import edu.bootcamp_sb.service_market.exception.clientExceptions.ClientAlreadyRegisteredException;
 import edu.bootcamp_sb.service_market.exception.clientExceptions.ClientHasBeenNotFoundException;
-import edu.bootcamp_sb.service_market.repository.ClientProfileRepository;
+
 import edu.bootcamp_sb.service_market.repository.ClientRepository;
 import edu.bootcamp_sb.service_market.service.ClientService;
 import lombok.RequiredArgsConstructor;
