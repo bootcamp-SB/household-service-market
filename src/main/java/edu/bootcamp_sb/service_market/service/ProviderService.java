@@ -3,13 +3,13 @@ package edu.bootcamp_sb.service_market.service;
 import edu.bootcamp_sb.service_market.dto.ProviderDto;
 import edu.bootcamp_sb.service_market.dto.reponse.ProviderJobResponseDto;
 import edu.bootcamp_sb.service_market.dto.request.ProviderJobRequestDto;
-import edu.bootcamp_sb.service_market.entity.ProviderEntity;
+
 import org.springframework.http.ResponseEntity;
 
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+
 
 public interface ProviderService {
 

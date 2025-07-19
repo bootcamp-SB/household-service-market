@@ -3,7 +3,7 @@ package edu.bootcamp_sb.service_market.controller;
 import edu.bootcamp_sb.service_market.dto.ProviderDto;
 import edu.bootcamp_sb.service_market.dto.reponse.ProviderJobResponseDto;
 import edu.bootcamp_sb.service_market.dto.request.ProviderJobRequestDto;
-import edu.bootcamp_sb.service_market.entity.ProviderEntity;
+
 import edu.bootcamp_sb.service_market.service.ProviderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -38,7 +38,9 @@ public class ProviderController {
     }
 
     @GetMapping("/by-list-id")
-    public ResponseEntity<List<ProviderDto>> getByListOfID(@RequestBody Iterable<Integer> listOfId){
+    public ResponseEntity<List<ProviderDto>> getByListOfID
+            (@RequestBody Iterable<Integer> listOfId)
+    {
         return providerService.getByListOfId(listOfId);
     }
 
@@ -58,7 +60,9 @@ public class ProviderController {
     }
 
     @DeleteMapping("/by-multiple-id")
-    public ResponseEntity<Map<String, String>> deleteByRecordsByListOfIds(@RequestBody List<Integer> ids){
+    public ResponseEntity<Map<String, String>> deleteByRecordsByListOfIds(@RequestBody
+                                                   List<Integer> ids)
+    {
         return providerService.deleteByListOfIds(ids);
 
     }

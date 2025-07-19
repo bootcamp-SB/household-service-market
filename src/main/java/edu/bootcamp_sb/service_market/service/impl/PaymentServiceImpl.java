@@ -3,7 +3,6 @@ package edu.bootcamp_sb.service_market.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.bootcamp_sb.service_market.dto.PaymentDto;
 import edu.bootcamp_sb.service_market.entity.PaymentEntity;
-import edu.bootcamp_sb.service_market.repository.BookingRepository;
 import edu.bootcamp_sb.service_market.repository.PaymentRepository;
 import edu.bootcamp_sb.service_market.service.PaymentService;
 import lombok.RequiredArgsConstructor;
@@ -45,13 +44,13 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public ResponseEntity<List<PaymentDto>> show() {
         Iterable<PaymentEntity> all = paymentRepository.findAll();
-        ArrayList<PaymentDto> paymentDtos = new ArrayList<>();
+        ArrayList<PaymentDto> paymentDtoList = new ArrayList<>();
 
         all.forEach(entity->
-                paymentDtos.add
+                paymentDtoList.add
                         (mapper.convertValue(entity, PaymentDto.class))
         );
-        return ResponseEntity.ok(paymentDtos);
+        return ResponseEntity.ok(paymentDtoList);
     }
 
     @Override

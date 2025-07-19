@@ -8,10 +8,10 @@ import edu.bootcamp_sb.service_market.dto.reponse.ProviderJobResponseDto;
 import edu.bootcamp_sb.service_market.dto.request.ProviderJobRequestDto;
 import edu.bootcamp_sb.service_market.entity.JobEntity;
 import edu.bootcamp_sb.service_market.entity.ProviderEntity;
-import edu.bootcamp_sb.service_market.exception.clientExceptions.ClientHasBeenNotFoundException;
+
 import edu.bootcamp_sb.service_market.exception.providerException.ProviderExistAlreadyException;
 import edu.bootcamp_sb.service_market.exception.providerException.ProviderHasBeenNotFoundException;
-import edu.bootcamp_sb.service_market.repository.JobRepository;
+
 import edu.bootcamp_sb.service_market.repository.ProviderRepository;
 import edu.bootcamp_sb.service_market.service.ProviderService;
 import lombok.RequiredArgsConstructor;
@@ -30,9 +30,18 @@ public class ProviderServiceImpl implements ProviderService {
 
     private final ProviderRepository providerRepository;
 
-    private final JobRepository jobRepository;
-
     private final ObjectMapper mapper;
+
+    private static ProviderDto convertProviderEntityToProviderDto(ProviderEntity preConvertDto){
+        return ProviderDto.builder()
+                .id(preConvertDto.getId())
+                .email(preConvertDto.getEmail())
+                .isVerified(preConvertDto.getIsVerified())
+                .hourlyRate(preConvertDto.getHourlyRate())
+                .expertise(preConvertDto.getExpertise())
+                .contactNo(preConvertDto.getContactNo())
+                .build();
+    }
 
 
     private static ProviderJobResponseDto convertProviderEntityToProviderJobResponseDto
@@ -40,7 +49,7 @@ public class ProviderServiceImpl implements ProviderService {
 
         ArrayList<JobEntity> jobEntities = new ArrayList<>(providerEntity.getJobs());
 
-        ArrayList<JobDto> jobDtos = new ArrayList<>();
+        ArrayList<JobDto> jobDtoList = new ArrayList<>();
 
         for(JobEntity entity :jobEntities){
             JobDto jobDto = new JobDto();
@@ -48,16 +57,11 @@ public class ProviderServiceImpl implements ProviderService {
             jobDto.setPrice(entity.getPrice());
             jobDto.setType(entity.getType());
             jobDto.setName(entity.getName());
-            jobDtos.add(jobDto);
+            jobDtoList.add(jobDto);
         }
         return ProviderJobResponseDto.builder()
-                .id(providerEntity.getId())
-                .contactNo(providerEntity.getContactNo())
-                .hourlyRate(providerEntity.getHourlyRate())
-                .email(providerEntity.getEmail())
-                .expertise(providerEntity.getExpertise())
-                .isVerified(providerEntity.getIsVerified())
-                .job(jobDtos)
+                .providerDto(convertProviderEntityToProviderDto(providerEntity))
+                .job(jobDtoList)
                 .build();
     }
 
@@ -98,11 +102,10 @@ public class ProviderServiceImpl implements ProviderService {
         providerEntity.setIsVerified(provider.getProvider().getIsVerified());
         providerEntity.setExpertise(provider.getProvider().getExpertise());
 
-        ArrayList<JobDto> jobEntityList = new ArrayList<>(provider.getJobs());
 
         ArrayList<JobEntity> jobEntitiesSaveList = new ArrayList<>();
 
-        for (JobDto entity : jobEntityList) {
+        for (JobDto entity : provider.getJobs()) {
             JobEntity jobEntity = new JobEntity();
             jobEntity.setPrice(entity.getPrice());
             jobEntity.setType(entity.getType());

@@ -2,6 +2,7 @@ package edu.bootcamp_sb.service_market.dto.reponse;
 
 
 import edu.bootcamp_sb.service_market.dto.JobDto;
+import edu.bootcamp_sb.service_market.dto.ProviderDto;
 import lombok.Builder;
 import lombok.Data;
 
@@ -14,17 +15,7 @@ import java.util.List;
 @Builder
 public class ProviderJobResponseDto {
 
-    private Integer id;
-
-    private String email;
-
-    private String contactNo;
-
-    private Double hourlyRate;
-
-    private String expertise;
-
-    private Boolean isVerified;
+    private ProviderDto providerDto;
 
     private List<JobDto> job;
 }

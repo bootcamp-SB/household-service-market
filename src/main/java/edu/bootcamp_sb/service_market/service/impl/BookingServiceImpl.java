@@ -55,15 +55,15 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public ResponseEntity<List<BookingDto>> show() {
         Iterable<BookingEntity> bookingEntities = bookingRepository.findAll();
-        ArrayList<BookingDto> bookingDtos = new ArrayList<>();
+        ArrayList<BookingDto> bookingDtoList = new ArrayList<>();
 
         
         bookingEntities.forEach(bookingEntity ->
-                    bookingDtos.add(
+                    bookingDtoList.add(
                             mapper.convertValue(
                                     bookingEntity, BookingDto.class
                             )));
 
-        return ResponseEntity.ok(bookingDtos);
+        return ResponseEntity.ok(bookingDtoList);
     }
 }

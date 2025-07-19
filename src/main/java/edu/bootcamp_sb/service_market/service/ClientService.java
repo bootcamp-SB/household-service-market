@@ -3,7 +3,7 @@ package edu.bootcamp_sb.service_market.service;
 import edu.bootcamp_sb.service_market.dto.ClientDto;
 import edu.bootcamp_sb.service_market.dto.reponse.ClientResponseDto;
 import edu.bootcamp_sb.service_market.dto.request.ClientRequestDto;
-import edu.bootcamp_sb.service_market.entity.ClientEntity;
+
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
