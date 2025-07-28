@@ -16,6 +16,16 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 public class SecurityConfig {
 
+    private final String[] freeSwaggerUrls ={
+            "/swagger-ui.html",
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/swagger-resources/**",
+            "/webjars/**",
+            "/api-docs/**",
+            "/api-docs"
+    };
+
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -23,6 +33,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(requests ->
                         requests.requestMatchers("/api/v1/client").permitAll()
+                                .requestMatchers(freeSwaggerUrls).permitAll()
                                 .requestMatchers("/api/v1/**").authenticated()
 
 
