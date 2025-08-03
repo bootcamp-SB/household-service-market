@@ -65,11 +65,14 @@ public class ClientServiceImpl implements ClientService {
         if(byEmail.isPresent()) throw new ClientAlreadyRegisteredException
                 ("Email has been registered before");
 
+        String role = clientDto.getRole().startsWith("ROLE_") ? clientDto.getRole() :
+                ("ROLE_" + clientDto.getRole());
+
         ClientEntity clientEntity = new ClientEntity();
         clientEntity.setEmail(clientDto.getEmail());
         clientEntity.setAddress(clientDto.getAddress());
         clientEntity.setPaymentMethod(clientDto.getPaymentMethod());
-        clientEntity.setRole(clientDto.getRole());
+        clientEntity.setRole(role);
         clientEntity.setPassword(passwordEncoder.encode(clientDto.getPassword()));
 
 

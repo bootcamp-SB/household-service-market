@@ -9,7 +9,3 @@ spring:
     show-sql: true
   flyway:
     enable: true
-
-springdoc:
-  api-docs:
-    path: /api-docs

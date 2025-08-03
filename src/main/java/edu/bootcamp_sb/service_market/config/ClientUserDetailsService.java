@@ -28,6 +28,7 @@ public class ClientUserDetailsService implements UserDetailsService {
         ClientEntity client = clientRepository.findByEmail(username).orElseThrow(() ->
                 new UsernameNotFoundException("not found"));
 
+
         List<SimpleGrantedAuthority> simpleGrantedAuthorities =
                 List.of(new SimpleGrantedAuthority(client.getRole()));
 
