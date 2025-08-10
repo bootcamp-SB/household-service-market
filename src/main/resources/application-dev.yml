@@ -13,3 +13,7 @@ spring:
 springdoc:
   api-docs:
     path: /api-docs
+
+super-admin:
+  email: ${SUPER_ADMIN_EMAIL}
+  password: ${SUPER_ADMIN_PWD}

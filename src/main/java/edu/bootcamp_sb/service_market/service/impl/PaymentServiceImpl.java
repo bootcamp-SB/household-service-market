@@ -7,6 +7,7 @@ import edu.bootcamp_sb.service_market.repository.PaymentRepository;
 import edu.bootcamp_sb.service_market.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -42,6 +43,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
     public ResponseEntity<List<PaymentDto>> show() {
         Iterable<PaymentEntity> all = paymentRepository.findAll();
         ArrayList<PaymentDto> paymentDtoList = new ArrayList<>();

@@ -5,6 +5,7 @@ import edu.bootcamp_sb.service_market.exception.CustomAccessDeniedHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.password.CompromisedPasswordChecker;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -18,6 +19,7 @@ import java.util.Collections;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
+@EnableMethodSecurity
 public class SecurityConfig {
 
     private final String[] freeSwaggerUrls ={
@@ -49,7 +51,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(requests ->
                         requests.requestMatchers("/api/v1/client").permitAll()
                                 .requestMatchers(freeSwaggerUrls).permitAll()
-                                .requestMatchers("/api/v1/**").hasRole("ADMIN")
+                                .requestMatchers("/api/v1/**").authenticated()
 
 
         );
