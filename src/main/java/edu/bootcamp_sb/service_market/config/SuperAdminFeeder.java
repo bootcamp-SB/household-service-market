@@ -1,6 +1,7 @@
 package edu.bootcamp_sb.service_market.config;
 
 import edu.bootcamp_sb.service_market.entity.AdminEntity;
+import edu.bootcamp_sb.service_market.entity.AuthoritiesEntity;
 import edu.bootcamp_sb.service_market.repository.AdminRepository;
 import edu.bootcamp_sb.service_market.service.AdminService;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.util.Collections;
 
 @Component
 @RequiredArgsConstructor
@@ -32,7 +35,8 @@ public class SuperAdminFeeder implements CommandLineRunner {
             adminEntity.setEmail(email);
             String encodedPassword = passwordEncoder.encode(password);
             adminEntity.setPassword(encodedPassword);
-            adminEntity.setRole("ROLE_SUPER_ADMIN");
+            adminEntity.setAuthorities(Collections.singleton(
+                    new AuthoritiesEntity("ROLE_USER", adminEntity)));
             AdminEntity save = adminRepository.save(adminEntity);
             log.info(save.getEmail());
         }

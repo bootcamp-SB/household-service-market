@@ -12,7 +12,6 @@ CREATE TABLE `client` (
   `email` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `payment_method` varchar(255) DEFAULT NULL,
-  `role` varchar(255) DEFAULT NULL,
   `profile_id` binary(16) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UKlkd3e78xqx99cu3djqyua2561` (`profile_id`),

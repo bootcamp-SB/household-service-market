@@ -72,7 +72,6 @@ public class ClientServiceImpl implements ClientService {
         clientEntity.setEmail(clientDto.getEmail());
         clientEntity.setAddress(clientDto.getAddress());
         clientEntity.setPaymentMethod(clientDto.getPaymentMethod());
-        clientEntity.setRole(role);
         clientEntity.setPassword(passwordEncoder.encode(clientDto.getPassword()));
 
 
