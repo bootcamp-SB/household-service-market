@@ -2,16 +2,21 @@ package edu.bootcamp_sb.service_market.config;
 
 
 import edu.bootcamp_sb.service_market.exception.CustomAccessDeniedHandler;
+import edu.bootcamp_sb.service_market.filter.JwtTokenValidatorFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.password.CompromisedPasswordChecker;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.password.HaveIBeenPwnedRestApiPasswordChecker;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
 import java.util.Collections;
@@ -22,14 +27,15 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final String[] freeSwaggerUrls ={
+    private final String[] publicUrls ={
             "/swagger-ui.html",
             "/swagger-ui/**",
             "/v3/api-docs/**",
             "/swagger-resources/**",
             "/webjars/**",
             "/api-docs/**",
-            "/api-docs"
+            "/api-docs",
+            "/admin/login"
     };
 
 
@@ -48,9 +54,9 @@ public class SecurityConfig {
                     return corsConfiguration;
 
                 }))
+                .addFilterBefore(new JwtTokenValidatorFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(requests ->
-                        requests.requestMatchers("/api/v1/client").permitAll()
-                                .requestMatchers(freeSwaggerUrls).permitAll()
+                        requests.requestMatchers(publicUrls).permitAll()
                                 .requestMatchers("/api/v1/**").authenticated()
 
 
@@ -71,6 +77,16 @@ public class SecurityConfig {
     @Bean
     public CompromisedPasswordChecker compromisedPasswordChecker(){
         return new HaveIBeenPwnedRestApiPasswordChecker();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(
+            UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+        AdminUsernamePasswordAuthenticationProvider authenticationProvider =
+                new AdminUsernamePasswordAuthenticationProvider(userDetailsService ,
+                        passwordEncoder);
+
+        return new ProviderManager(authenticationProvider);
     }
 
 }

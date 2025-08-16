@@ -36,7 +36,7 @@ public class SuperAdminFeeder implements CommandLineRunner {
             String encodedPassword = passwordEncoder.encode(password);
             adminEntity.setPassword(encodedPassword);
             adminEntity.setAuthorities(Collections.singleton(
-                    new AuthoritiesEntity("ROLE_USER", adminEntity)));
+                    new AuthoritiesEntity("ROLE_SUPER_ADMIN", adminEntity)));
             AdminEntity save = adminRepository.save(adminEntity);
             log.info(save.getEmail());
         }
