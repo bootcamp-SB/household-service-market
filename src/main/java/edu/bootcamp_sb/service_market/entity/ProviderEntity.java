@@ -26,7 +26,11 @@ public class ProviderEntity {
 
     private String expertise;
 
+    private String address;
+
     private Boolean isVerified;
+
+    private String experience;
 
     @OneToMany(mappedBy = "provider",cascade = CascadeType.PERSIST)
     @JsonBackReference

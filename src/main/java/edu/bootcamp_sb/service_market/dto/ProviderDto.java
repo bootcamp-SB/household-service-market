@@ -23,4 +23,8 @@ public class ProviderDto {
 
     private Boolean isVerified;
 
+    private String address;
+
+    private String experience;
+
 }

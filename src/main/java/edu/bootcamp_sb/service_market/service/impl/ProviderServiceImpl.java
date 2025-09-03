@@ -40,6 +40,7 @@ public class ProviderServiceImpl implements ProviderService {
                 .hourlyRate(preConvertDto.getHourlyRate())
                 .expertise(preConvertDto.getExpertise())
                 .contactNo(preConvertDto.getContactNo())
+                .address(preConvertDto.getAddress())
                 .build();
     }
 
@@ -101,6 +102,12 @@ public class ProviderServiceImpl implements ProviderService {
         providerEntity.setHourlyRate(provider.getProvider().getHourlyRate());
         providerEntity.setIsVerified(provider.getProvider().getIsVerified());
         providerEntity.setExpertise(provider.getProvider().getExpertise());
+        providerEntity.setAddress(provider.getProvider().getAddress());
+        if(provider.getProvider().getExperience() == null){
+            providerEntity.setExperience("0 years");
+        } else{
+            providerEntity.setExperience(provider.getProvider().getExperience());
+        }
 
 
         ArrayList<JobEntity> jobEntitiesSaveList = new ArrayList<>();

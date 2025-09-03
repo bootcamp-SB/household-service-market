@@ -19,6 +19,7 @@ import org.springframework.security.web.authentication.password.HaveIBeenPwnedRe
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -48,7 +49,7 @@ public class SecurityConfig {
                     corsConfiguration.setAllowedOrigins(
                             Collections.singletonList("http://localhost:3000")
                         );
-                    corsConfiguration.setAllowedMethods(Collections.singletonList("**")); //pre-flight req
+                    corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); //pre-flight req
                     corsConfiguration.setMaxAge(10L);
                     corsConfiguration.setAllowedHeaders(Collections.singletonList("*"));
                     return corsConfiguration;
@@ -56,8 +57,8 @@ public class SecurityConfig {
                 }))
                 .addFilterBefore(new JwtTokenValidatorFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(requests ->
-                        requests.requestMatchers(publicUrls).permitAll()
-                                .requestMatchers("/api/v1/**").authenticated()
+                        requests.requestMatchers("/api/v1/**").authenticated()
+                                .requestMatchers(publicUrls).permitAll()
 
 
         );
