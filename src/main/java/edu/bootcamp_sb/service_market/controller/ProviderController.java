@@ -4,6 +4,7 @@ import edu.bootcamp_sb.service_market.dto.ProviderDto;
 import edu.bootcamp_sb.service_market.dto.reponse.ProviderJobResponseDto;
 import edu.bootcamp_sb.service_market.dto.request.ProviderJobRequestDto;
 
+import edu.bootcamp_sb.service_market.entity.ProviderEntity;
 import edu.bootcamp_sb.service_market.service.ProviderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -65,6 +66,11 @@ public class ProviderController {
     {
         return providerService.deleteByListOfIds(ids);
 
+    }
+
+    @GetMapping("/top5")
+    public ResponseEntity<List<ProviderJobResponseDto>> getTop5(){
+        return providerService.top5Providers();
     }
 
 

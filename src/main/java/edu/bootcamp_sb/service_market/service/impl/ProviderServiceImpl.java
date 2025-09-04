@@ -15,6 +15,8 @@ import edu.bootcamp_sb.service_market.exception.providerException.ProviderHasBee
 import edu.bootcamp_sb.service_market.repository.ProviderRepository;
 import edu.bootcamp_sb.service_market.service.ProviderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -41,6 +43,8 @@ public class ProviderServiceImpl implements ProviderService {
                 .expertise(preConvertDto.getExpertise())
                 .contactNo(preConvertDto.getContactNo())
                 .address(preConvertDto.getAddress())
+                .experience(preConvertDto.getExperience())
+                .jobCount(preConvertDto.getJobCount())
                 .build();
     }
 
@@ -107,6 +111,9 @@ public class ProviderServiceImpl implements ProviderService {
             providerEntity.setExperience("0 years");
         } else{
             providerEntity.setExperience(provider.getProvider().getExperience());
+        }
+        if(provider.getProvider().getJobCount() != null ){
+           providerEntity.setJobCount(provider.getProvider().getJobCount());
         }
 
 
@@ -256,6 +263,24 @@ public class ProviderServiceImpl implements ProviderService {
         return ResponseEntity.ok().body(listOfProviders);
 
 
+    }
+
+    @Override
+    public ResponseEntity<List<ProviderJobResponseDto>> top5Providers() {
+        List<ProviderEntity> top5ByOrderByJobCountDesc =
+                providerRepository.findTop5ByOrderByJobCountDesc(
+                        PageRequest.of(0, 5, Sort.by(
+                                Sort.Direction.DESC, "jobCount")));
+
+        ArrayList<ProviderJobResponseDto> responseDtoArrayList = new ArrayList<>();
+
+        top5ByOrderByJobCountDesc.forEach(top5Entity->{
+            ProviderJobResponseDto providerJobResponseDto
+                    = convertProviderEntityToProviderJobResponseDto(top5Entity);
+            responseDtoArrayList.add(providerJobResponseDto);
+        });
+
+        return ResponseEntity.ok(responseDtoArrayList);
     }
 
 

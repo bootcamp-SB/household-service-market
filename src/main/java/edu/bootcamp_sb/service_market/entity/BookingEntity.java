@@ -7,6 +7,7 @@ package edu.bootcamp_sb.service_market.entity;
 
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -40,5 +41,10 @@ public class BookingEntity {
     @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "payment_Id")
     private PaymentEntity payment;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "provider_id")
+    @JsonBackReference
+    private ProviderEntity serviceProvider;
 
 }

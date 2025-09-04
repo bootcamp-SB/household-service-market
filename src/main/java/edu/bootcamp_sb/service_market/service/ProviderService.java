@@ -27,7 +27,8 @@ public interface ProviderService {
 
     ResponseEntity<List<ProviderDto>> getByListOfId(Iterable<Integer> id);
 
-
     ResponseEntity<List<ProviderDto>> findAllByExpertise(String expertise);
+
+    ResponseEntity<List<ProviderJobResponseDto>> top5Providers();
 
 }

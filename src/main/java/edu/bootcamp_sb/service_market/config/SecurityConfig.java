@@ -36,7 +36,8 @@ public class SecurityConfig {
             "/webjars/**",
             "/api-docs/**",
             "/api-docs",
-            "/admin/login"
+            "/admin/login",
+            "/api/v1/providers/top5"
     };
 
 
@@ -49,7 +50,9 @@ public class SecurityConfig {
                     corsConfiguration.setAllowedOrigins(
                             Collections.singletonList("http://localhost:3000")
                         );
-                    corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); //pre-flight req
+                    corsConfiguration.setAllowedMethods(Arrays.asList(
+                            "GET", "POST", "PUT", "DELETE", "OPTIONS")
+                    ); //pre-flight req
                     corsConfiguration.setMaxAge(10L);
                     corsConfiguration.setAllowedHeaders(Collections.singletonList("*"));
                     return corsConfiguration;
@@ -57,8 +60,9 @@ public class SecurityConfig {
                 }))
                 .addFilterBefore(new JwtTokenValidatorFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(requests ->
-                        requests.requestMatchers("/api/v1/**").authenticated()
-                                .requestMatchers(publicUrls).permitAll()
+                        requests.requestMatchers(publicUrls).permitAll()
+                                .requestMatchers("/api/v1/**").authenticated()
+
 
 
         );

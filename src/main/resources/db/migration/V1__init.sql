@@ -65,7 +65,10 @@ CREATE TABLE `booking` (
   `starting_time` time(6) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
   `payment_id` binary(16) DEFAULT NULL,
+  `provider_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UKxcv4bjb631pysj91ybp40vpo` (`payment_id`),
-  CONSTRAINT `FK70t92vvx289ayx2hq2v4hdcjl` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`id`)
+  KEY `FKm3old6hf6ne6nvebhaxdny1bw` (`provider_id`),
+  CONSTRAINT `FK70t92vvx289ayx2hq2v4hdcjl` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`id`),
+  CONSTRAINT `FKm3old6hf6ne6nvebhaxdny1bw` FOREIGN KEY (`provider_id`) REFERENCES `service_providers` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

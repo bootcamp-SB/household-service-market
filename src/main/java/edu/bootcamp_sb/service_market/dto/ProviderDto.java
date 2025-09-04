@@ -27,4 +27,6 @@ public class ProviderDto {
 
     private String experience;
 
+    private Integer jobCount;
+
 }
