@@ -1,6 +1,6 @@
 package edu.bootcamp_sb.service_market.dto;
 
-import edu.bootcamp_sb.service_market.entity.ClientProfileEntity;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

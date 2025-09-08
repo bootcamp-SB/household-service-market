@@ -3,7 +3,7 @@ package edu.bootcamp_sb.service_market.config;
 import edu.bootcamp_sb.service_market.entity.AdminEntity;
 import edu.bootcamp_sb.service_market.entity.AuthoritiesEntity;
 import edu.bootcamp_sb.service_market.repository.AdminRepository;
-import edu.bootcamp_sb.service_market.service.AdminService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

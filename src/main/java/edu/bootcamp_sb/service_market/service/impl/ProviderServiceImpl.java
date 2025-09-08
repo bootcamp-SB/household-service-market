@@ -37,6 +37,9 @@ public class ProviderServiceImpl implements ProviderService {
     private static ProviderDto convertProviderEntityToProviderDto(ProviderEntity preConvertDto){
         return ProviderDto.builder()
                 .id(preConvertDto.getId())
+                .firstName(preConvertDto.getFirstName())
+                .lastName(preConvertDto.getLastName())
+                .userName(preConvertDto.getUserName())
                 .email(preConvertDto.getEmail())
                 .isVerified(preConvertDto.getIsVerified())
                 .hourlyRate(preConvertDto.getHourlyRate())
@@ -102,6 +105,9 @@ public class ProviderServiceImpl implements ProviderService {
 
         ProviderEntity providerEntity = new ProviderEntity();
         providerEntity.setEmail(provider.getProvider().getEmail());
+        providerEntity.setFirstName(provider.getProvider().getFirstName());
+        providerEntity.setLastName(provider.getProvider().getLastName());
+        providerEntity.setUserName(provider.getProvider().getUserName());
         providerEntity.setContactNo(provider.getProvider().getContactNo());
         providerEntity.setHourlyRate(provider.getProvider().getHourlyRate());
         providerEntity.setIsVerified(provider.getProvider().getIsVerified());
@@ -195,6 +201,15 @@ public class ProviderServiceImpl implements ProviderService {
         }
         ProviderEntity updatingEntity = existingEntity.get();
 
+        if(provider.getFirstName()!=null){
+            updatingEntity.setFirstName(provider.getFirstName());
+        }
+        if(provider.getLastName()!=null){
+            updatingEntity.setLastName(provider.getLastName());
+        }
+        if(provider.getUserName()!=null){
+            updatingEntity.setUserName(provider.getUserName());
+        }
         if(provider.getEmail() != null){
             updatingEntity.setEmail(provider.getEmail());
         }
@@ -208,6 +223,9 @@ public class ProviderServiceImpl implements ProviderService {
             updatingEntity.setExpertise(provider.getExpertise());
         }
         if(provider.getHourlyRate() != null){
+            updatingEntity.setHourlyRate(provider.getHourlyRate());
+        }
+        if(provider.getJobCount()!=null){
             updatingEntity.setHourlyRate(provider.getHourlyRate());
         }
 

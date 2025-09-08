@@ -1,12 +1,5 @@
 package edu.bootcamp_sb.service_market.entity;
 
-
-
-
-
-
-
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

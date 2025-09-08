@@ -20,6 +20,12 @@ public class ProviderEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private String firstName;
+
+    private String lastName;
+
+    private String userName;
+
     private String email;
 
     private String contactNo;

@@ -1,9 +1,9 @@
 package edu.bootcamp_sb.service_market.config;
 
 import edu.bootcamp_sb.service_market.entity.AdminEntity;
-import edu.bootcamp_sb.service_market.entity.ClientEntity;
+
 import edu.bootcamp_sb.service_market.repository.AdminRepository;
-import edu.bootcamp_sb.service_market.repository.ClientRepository;
+
 
 import lombok.RequiredArgsConstructor;
 

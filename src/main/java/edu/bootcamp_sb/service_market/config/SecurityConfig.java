@@ -37,7 +37,8 @@ public class SecurityConfig {
             "/api-docs/**",
             "/api-docs",
             "/admin/login",
-            "/api/v1/providers/top5"
+            "/api/v1/providers/top5",
+            "/api/v1/providers/all"
     };
 
 
