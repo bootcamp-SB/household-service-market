@@ -49,7 +49,7 @@ public class SecurityConfig {
                 .cors(corsConfig->corsConfig.configurationSource(request -> {
                     CorsConfiguration corsConfiguration = new CorsConfiguration();
                     corsConfiguration.setAllowedOrigins(
-                            Collections.singletonList("http://localhost:3000")
+                            Collections.singletonList("*")
                         );
                     corsConfiguration.setAllowedMethods(Arrays.asList(
                             "GET", "POST", "PUT", "DELETE", "OPTIONS")
