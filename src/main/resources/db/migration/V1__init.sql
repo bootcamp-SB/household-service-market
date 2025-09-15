@@ -10,7 +10,6 @@ CREATE TABLE `client` (
   `id` binary(16) NOT NULL,
   `address` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
   `payment_method` varchar(255) DEFAULT NULL,
   `profile_id` binary(16) DEFAULT NULL,
   PRIMARY KEY (`id`),

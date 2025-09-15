@@ -19,6 +19,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@EnableMethodSecurity
 public class ProviderServiceImpl implements ProviderService {
 
     private final ProviderRepository providerRepository;
@@ -75,6 +78,7 @@ public class ProviderServiceImpl implements ProviderService {
 
 
     @Override
+    @PreAuthorize("hasAnyRole('admin','provider')")
     public ResponseEntity<ProviderJobResponseDto>
     persistProviders(ProviderJobRequestDto provider) {
 

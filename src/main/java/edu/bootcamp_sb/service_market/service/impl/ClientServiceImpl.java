@@ -26,7 +26,7 @@ public class ClientServiceImpl implements ClientService {
 
     private final ObjectMapper mapper;
 
-    private final PasswordEncoder passwordEncoder;
+
 
     @Override
     public ResponseEntity<List<ClientResponseDto>> getAll() {
@@ -65,14 +65,11 @@ public class ClientServiceImpl implements ClientService {
         if(byEmail.isPresent()) throw new ClientAlreadyRegisteredException
                 ("Email has been registered before");
 
-        String role = clientDto.getRole().startsWith("ROLE_") ? clientDto.getRole() :
-                ("ROLE_" + clientDto.getRole());
 
         ClientEntity clientEntity = new ClientEntity();
         clientEntity.setEmail(clientDto.getEmail());
         clientEntity.setAddress(clientDto.getAddress());
         clientEntity.setPaymentMethod(clientDto.getPaymentMethod());
-        clientEntity.setPassword(passwordEncoder.encode(clientDto.getPassword()));
 
 
         ClientProfileEntity profileEntity = new ClientProfileEntity();
