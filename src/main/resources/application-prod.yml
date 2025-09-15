@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://${DATABASE_HOST}:${DATABASE_PROD_PORT}/${DATABASE_PROD_DB_NAME}
+    url: jdbc:mysql://${DATABASE_HOST}:${DATABASE_PROD_PORT}/${DATABASE_NAME}
     username: ${DATABASE_USERNAME}
     password: ${DATABASE_PASSWORD}
   jpa:
@@ -9,6 +9,17 @@ spring:
     show-sql: true
   flyway:
     enable: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 springdoc:
     api-docs:
@@ -21,3 +32,4 @@ super-admin:
 jwt:
   secret: ${JWT_SECRET_KEY:aP98WZQtnYvH4vFiw3kM5th7XoFVF5DkNvAfNhtrPTM=}
   expiration: ${JWT_EXPIRATION_TIME:604800000}
+
