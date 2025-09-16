@@ -13,6 +13,7 @@ import edu.bootcamp_sb.service_market.repository.ProviderRepository;
 import edu.bootcamp_sb.service_market.service.JobService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 
@@ -52,6 +53,7 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('admin','provider')")
     public ResponseEntity<JobResponseDto> register(JobRequestDto job) {
 
        ProviderEntity provider =

@@ -9,6 +9,7 @@ import edu.bootcamp_sb.service_market.repository.PaymentRepository;
 import edu.bootcamp_sb.service_market.service.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -28,6 +29,7 @@ public class BookingServiceImpl implements BookingService {
 
 
     @Override
+    @PreAuthorize("hasAnyRole('admin','user')")
     public ResponseEntity<BookingDto> persist(BookingDto bookingDto) {
 
         BookingEntity bookingEntity = new BookingEntity();
@@ -53,6 +55,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('admin')")
     public ResponseEntity<List<BookingDto>> show() {
         Iterable<BookingEntity> bookingEntities = bookingRepository.findAll();
         ArrayList<BookingDto> bookingDtoList = new ArrayList<>();

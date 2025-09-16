@@ -20,7 +20,6 @@ public class ClientDto {
 
     private  String paymentMethod;
 
-    private String password;
 
 
 }

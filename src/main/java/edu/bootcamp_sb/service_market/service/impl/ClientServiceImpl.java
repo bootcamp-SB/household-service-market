@@ -13,7 +13,8 @@ import edu.bootcamp_sb.service_market.repository.ClientRepository;
 import edu.bootcamp_sb.service_market.service.ClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -29,6 +30,7 @@ public class ClientServiceImpl implements ClientService {
 
 
     @Override
+    @PreAuthorize("hasAnyRole('admin')")
     public ResponseEntity<List<ClientResponseDto>> getAll() {
 
         Iterable<ClientEntity> allClients = clientRepository.findAll();
@@ -46,6 +48,7 @@ public class ClientServiceImpl implements ClientService {
 
 
     @Override
+    @PreAuthorize("hasAnyRole('admin','user')")
     public ResponseEntity<Map<String, String>> deleteById(UUID id) {
         if(!clientRepository.existsById(id)){
             throw new ClientHasBeenNotFoundException("Incorrect client id");
@@ -57,6 +60,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('admin','user')")
     public ResponseEntity<ClientResponseDto> persist(ClientRequestDto clientDto) {
 
         Optional<ClientEntity> byEmail =
@@ -90,6 +94,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('admin','user')")
     public ResponseEntity<ClientDto> updateByID(ClientDto clientDto) {
 
         Optional<ClientEntity> optionalEntity = clientRepository.findById(clientDto.getId());

@@ -9,6 +9,7 @@ import edu.bootcamp_sb.service_market.repository.ClientProfileRepository;
 import edu.bootcamp_sb.service_market.service.ClientProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class ClientProfileServiceImpl implements ClientProfileService {
 
 
     @Override
+    @PreAuthorize("hasAnyRole('admin','user')")
     public ResponseEntity<ClientProfileDto> create(ClientProfileDto profile) {
         ClientProfileEntity profileEntity = new ClientProfileEntity();
         profileEntity.setProfilePicUrl(profile.getProfilePicUrl());
@@ -36,6 +38,7 @@ public class ClientProfileServiceImpl implements ClientProfileService {
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('admin','user')")
     public ResponseEntity<List<ClientProfileDto>> getAll() {
         Iterable<ClientProfileEntity> profileEntities = profileRepository.findAll();
         ArrayList<ClientProfileDto> profileList = new ArrayList<>();

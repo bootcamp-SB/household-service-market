@@ -27,6 +27,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 
     @Override
+    @PreAuthorize("hasAnyRole('admin','user')")
     public ResponseEntity<PaymentDto> make(PaymentDto paymentDto) {
 
         PaymentEntity paymentEntity = new PaymentEntity();
@@ -43,7 +44,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
+    @PreAuthorize("hasAnyRole('admin')")
     public ResponseEntity<List<PaymentDto>> show() {
         Iterable<PaymentEntity> all = paymentRepository.findAll();
         ArrayList<PaymentDto> paymentDtoList = new ArrayList<>();
@@ -56,6 +57,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('admin,user')")
     public ResponseEntity<PaymentDto> byId(UUID id) {
         PaymentEntity byId
                 = paymentRepository.findById(id).orElseThrow(

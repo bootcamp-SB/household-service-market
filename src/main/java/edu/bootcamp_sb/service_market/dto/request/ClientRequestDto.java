@@ -1,11 +1,15 @@
 package edu.bootcamp_sb.service_market.dto.request;
 
 import edu.bootcamp_sb.service_market.entity.ClientProfileEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ClientRequestDto {
 
     private UUID id;
@@ -15,10 +19,6 @@ public class ClientRequestDto {
     private String email;
 
     private  String paymentMethod;
-
-    private String password;
-
-    private String role;
 
     private ClientProfileEntity profile;
 }

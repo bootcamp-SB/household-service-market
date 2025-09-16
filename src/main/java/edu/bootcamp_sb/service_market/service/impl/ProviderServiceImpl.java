@@ -167,7 +167,8 @@ public class ProviderServiceImpl implements ProviderService {
 
 
 
-
+    @Override
+    @PreAuthorize("hasAnyRole('admin','provider')")
     public ResponseEntity<Map<String, String>> deleteById(Integer id) {
         if(providerRepository.existsById(id)){
             providerRepository.deleteById(id);
@@ -183,6 +184,7 @@ public class ProviderServiceImpl implements ProviderService {
 
 
     @Override
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<Map<String, String>> deleteByListOfIds(Iterable<Integer> ids) {
 
         /* make exception for this */
@@ -194,6 +196,7 @@ public class ProviderServiceImpl implements ProviderService {
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('admin','provider')")
     public ResponseEntity<ProviderDto> updateById(ProviderDto provider) {
 
         Optional<ProviderEntity> existingEntity =
@@ -240,6 +243,7 @@ public class ProviderServiceImpl implements ProviderService {
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('admin,provider')")
     public ResponseEntity<ProviderJobResponseDto> getById(Integer id) {
         if(!providerRepository.existsById(id)){
             throw new ProviderHasBeenNotFoundException("Incorrect provider id");
@@ -304,6 +308,8 @@ public class ProviderServiceImpl implements ProviderService {
 
         return ResponseEntity.ok(responseDtoArrayList);
     }
+
+
 
 
 }
