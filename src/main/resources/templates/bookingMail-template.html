@@ -1,0 +1,19 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<h2>Order Confirmation</h2>
+<p>Order ID: <span th:text="${booking.bookingId}">ABC-001</span></p>
+<table>
+    <tr><th>Service</th><th>Time</th><th>Price</th></tr>
+    <tr th:each="line : ${booking.job}">
+        <td th:text="${job.jobs}">Product</td>
+        <td th:text="${job.time}">1</td>
+        <td th:text="${job.price}">$0.00</td>
+    </tr>
+    <tr>
+        <td colspan="2">Total</td>
+        <td th:text="${booking.total}">$0.00</td>
+    </tr>
+</table>
+</body>
+</html>

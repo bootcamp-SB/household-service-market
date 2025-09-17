@@ -30,7 +30,8 @@ public class SecurityConfig {
             "/admin/login",
             "/api/v1/providers/top5",
             "/api/v1/providers/all",
-            "/api/v1/providers/by-expertises"
+            "/api/v1/providers/by-expertises",
+            "/admin/realms/market-realm/users/"
     };
 
     @Bean
