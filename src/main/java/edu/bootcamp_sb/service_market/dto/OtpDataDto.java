@@ -6,21 +6,13 @@ import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OtpDto {
-
-    private Integer id;
-
-    private String to;
+public class OtpDataDto {
 
     private String otpCode;
-
-    private Integer validMinutes = 5;
-
     private Instant expireTime;
-
+    private String keycloakUserId;
 
 }
