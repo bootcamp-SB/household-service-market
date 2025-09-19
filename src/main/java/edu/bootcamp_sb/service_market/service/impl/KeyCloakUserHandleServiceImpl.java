@@ -12,13 +12,15 @@ import edu.bootcamp_sb.service_market.service.ProviderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.security.SecureRandom;
+
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
 
 @Service
 @RequiredArgsConstructor
@@ -26,14 +28,14 @@ public class KeyCloakUserHandleServiceImpl implements KeyCloakUserHandleService 
 
     private final ClientService clientService;
     private final ProviderService providerService;
-    private final SecureRandom secureRandom;
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     HashMap<String,OtpDataDto> codes = new HashMap<>();
 
     private OtpDto generateOtp(UserDto userDto){
         OtpDto otpDto = new OtpDto();
-        int otpValue = 10000 + secureRandom.nextInt(900000);
+        Random random = new Random();
+        int otpValue = 100000 + random.nextInt(999999);
         Instant expireTime = Instant.now().plus(otpDto.getValidMinutes(), ChronoUnit.MINUTES);
         String otpVCode = String.valueOf(otpValue);
         otpDto.setOtpCode(otpVCode);
