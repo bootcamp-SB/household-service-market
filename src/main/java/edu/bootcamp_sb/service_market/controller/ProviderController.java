@@ -8,6 +8,7 @@ import edu.bootcamp_sb.service_market.dto.request.ProviderJobRequestDto;
 import edu.bootcamp_sb.service_market.service.ProviderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,6 +34,7 @@ public class ProviderController {
     public ResponseEntity<List<ProviderDto>> getAllProviders(){
         return providerService.getAllProviders();
     }
+
     @GetMapping("/by-id")
     public ResponseEntity<ProviderJobResponseDto>getByID(@RequestParam Integer id){
         return providerService.getById(id);

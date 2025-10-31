@@ -4,6 +4,8 @@ import edu.bootcamp_sb.service_market.dto.BookingDto;
 import edu.bootcamp_sb.service_market.service.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,12 +18,14 @@ public class BookingController {
     private final BookingService bookingService;
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('admin','user','provider')")
     public ResponseEntity<BookingDto>create(@RequestBody BookingDto booking){
 
         return bookingService.persist(booking);
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<List<BookingDto>>getAll(){
         return bookingService.show();
     }

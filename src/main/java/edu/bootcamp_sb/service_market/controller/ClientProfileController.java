@@ -4,6 +4,7 @@ import edu.bootcamp_sb.service_market.dto.ClientProfileDto;
 import edu.bootcamp_sb.service_market.service.ClientProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class ClientProfileController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('admin','user')")
     public ResponseEntity<List<ClientProfileDto>>getAll(){
         return profileService.getAll();
     }

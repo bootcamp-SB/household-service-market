@@ -6,6 +6,7 @@ import edu.bootcamp_sb.service_market.dto.request.ClientRequestDto;
 import edu.bootcamp_sb.service_market.service.ClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,16 +26,19 @@ public class ClientController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<List<ClientResponseDto>> getAll(){
         return clientService.getAll();
     }
 
     @DeleteMapping("/by-id")
+    @PreAuthorize("hasAnyRole('admin','user')")
     public ResponseEntity<Map<String,String>>deleteById(@RequestParam UUID id){
         return clientService.deleteById(id);
     }
 
     @PatchMapping("/by-id")
+    @PreAuthorize("hasAnyRole('admin','user')")
     public ResponseEntity<ClientDto> updateById(@RequestBody ClientDto clientDto){
         return clientService.updateByID(clientDto);
     }

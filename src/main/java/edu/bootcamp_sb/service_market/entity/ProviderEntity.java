@@ -52,4 +52,7 @@ public class ProviderEntity {
     @JsonManagedReference
     private Set<BookingEntity> booking;
 
+    @OneToMany(mappedBy = "posterProvider")
+    private List<ProviderGigPoster> posterList;
+
 }

@@ -4,6 +4,7 @@ import edu.bootcamp_sb.service_market.dto.PaymentDto;
 import edu.bootcamp_sb.service_market.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,17 +18,20 @@ public class PaymentController {
     private final PaymentService paymentService;
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('user','admin','provider')")
     public ResponseEntity<PaymentDto>make(@RequestBody PaymentDto payment){
         return paymentService.make(payment);
 
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<List<PaymentDto>> getAll(){
         return paymentService.show();
 
     }
     @GetMapping("/id")
+    @PreAuthorize("hasAnyRole('admin','user')")
     public ResponseEntity<PaymentDto>getById(@RequestParam UUID id){
         return paymentService.byId(id);
 

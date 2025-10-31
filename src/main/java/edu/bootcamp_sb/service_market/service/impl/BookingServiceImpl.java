@@ -29,7 +29,7 @@ public class BookingServiceImpl implements BookingService {
 
 
     @Override
-    @PreAuthorize("hasAnyRole('admin','user')")
+    @PreAuthorize("hasAnyRole('admin','user','provider')")
     public ResponseEntity<BookingDto> persist(BookingDto bookingDto) {
 
         BookingEntity bookingEntity = new BookingEntity();
