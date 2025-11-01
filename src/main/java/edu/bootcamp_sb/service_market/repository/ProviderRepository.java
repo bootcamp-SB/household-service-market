@@ -8,9 +8,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface ProviderRepository extends JpaRepository<ProviderEntity , Integer> {
+public interface ProviderRepository extends JpaRepository<ProviderEntity , UUID> {
 
     Iterable<ProviderEntity> findAllByExpertise(String expertise);
 

@@ -15,5 +15,5 @@ public class JobRequestDto {
 
     private Long price;
 
-    private Integer providerId;
+    private UUID providerId;
 }

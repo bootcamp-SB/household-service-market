@@ -21,7 +21,7 @@ CREATE TABLE `client` (
 -- domestic_service_market.service_providers definition
 
 CREATE TABLE `service_providers` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` binary(16) NOT NULL,
   `contact_no` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `expertise` varchar(255) DEFAULT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE `service` (
   `name` varchar(255) DEFAULT NULL,
   `price` bigint DEFAULT NULL,
   `type` varchar(255) DEFAULT NULL,
-  `provider_id` int DEFAULT NULL,
+  `provider_id` binary(16) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FKndvit4lpw4u2gnii4pxdlr5nj` (`provider_id`),
   CONSTRAINT `FKndvit4lpw4u2gnii4pxdlr5nj` FOREIGN KEY (`provider_id`) REFERENCES `service_providers` (`id`)
@@ -64,7 +64,7 @@ CREATE TABLE `booking` (
   `starting_time` time(6) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
   `payment_id` binary(16) DEFAULT NULL,
-  `provider_id` int DEFAULT NULL,
+  `provider_id` binary(16) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UKxcv4bjb631pysj91ybp40vpo` (`payment_id`),
   KEY `FKm3old6hf6ne6nvebhaxdny1bw` (`provider_id`),

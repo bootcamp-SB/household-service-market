@@ -23,10 +23,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -169,7 +166,7 @@ public class ProviderServiceImpl implements ProviderService {
 
     @Override
     @PreAuthorize("hasAnyRole('admin','provider')")
-    public ResponseEntity<Map<String, String>> deleteById(Integer id) {
+    public ResponseEntity<Map<String, String>> deleteById(UUID id) {
         if(providerRepository.existsById(id)){
             providerRepository.deleteById(id);
             return ResponseEntity.ok().body(
@@ -185,7 +182,7 @@ public class ProviderServiceImpl implements ProviderService {
 
     @Override
     @PreAuthorize("hasRole('admin')")
-    public ResponseEntity<Map<String, String>> deleteByListOfIds(Iterable<Integer> ids) {
+    public ResponseEntity<Map<String, String>> deleteByListOfIds(Iterable<UUID> ids) {
 
         /* make exception for this */
 
@@ -244,7 +241,7 @@ public class ProviderServiceImpl implements ProviderService {
 
     @Override
     @PreAuthorize("hasAnyRole('admin,provider')")
-    public ResponseEntity<ProviderJobResponseDto> getById(Integer id) {
+    public ResponseEntity<ProviderJobResponseDto> getById(UUID id) {
         if(!providerRepository.existsById(id)){
             throw new ProviderHasBeenNotFoundException("Incorrect provider id");
         }
@@ -262,7 +259,7 @@ public class ProviderServiceImpl implements ProviderService {
 
 
     @Override
-    public ResponseEntity<List<ProviderDto>> getByListOfId(Iterable<Integer> listOfId) {
+    public ResponseEntity<List<ProviderDto>> getByListOfId(Iterable<UUID> listOfId) {
 
         Iterable<ProviderEntity> providersList = providerRepository.findAllById(listOfId);
 

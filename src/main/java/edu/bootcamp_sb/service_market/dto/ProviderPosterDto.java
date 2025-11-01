@@ -5,6 +5,7 @@ package edu.bootcamp_sb.service_market.dto;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.UUID;
 
 
 @Data
@@ -18,5 +19,5 @@ public class ProviderPosterDto {
 
     private Double hourlyRate;
 
-    private Integer posterProviderId;
+    private UUID posterProviderId;
 }

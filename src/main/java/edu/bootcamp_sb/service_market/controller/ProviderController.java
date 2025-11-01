@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 
 @RestController
@@ -36,14 +37,12 @@ public class ProviderController {
     }
 
     @GetMapping("/by-id")
-    public ResponseEntity<ProviderJobResponseDto>getByID(@RequestParam Integer id){
+    public ResponseEntity<ProviderJobResponseDto>getByID(@RequestParam UUID id){
         return providerService.getById(id);
     }
 
     @GetMapping("/by-list-id")
-    public ResponseEntity<List<ProviderDto>> getByListOfID
-            (@RequestBody Iterable<Integer> listOfId)
-    {
+    public ResponseEntity<List<ProviderDto>> getByListOfID(@RequestBody Iterable<UUID> listOfId){
         return providerService.getByListOfId(listOfId);
     }
 
@@ -53,7 +52,7 @@ public class ProviderController {
     }
 
     @DeleteMapping("/by-id")
-    public ResponseEntity<Map<String, String>> deleteById(@RequestParam Integer id){
+    public ResponseEntity<Map<String, String>> deleteById(@RequestParam UUID id){
         return providerService.deleteById(id);
     }
 
@@ -64,7 +63,7 @@ public class ProviderController {
 
     @DeleteMapping("/by-multiple-id")
     public ResponseEntity<Map<String, String>> deleteByRecordsByListOfIds(@RequestBody
-                                                   List<Integer> ids)
+                                                   List<UUID> ids)
     {
         return providerService.deleteByListOfIds(ids);
 

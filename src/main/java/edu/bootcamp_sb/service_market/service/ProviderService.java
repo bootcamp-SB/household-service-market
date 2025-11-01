@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 
 public interface ProviderService {
@@ -17,15 +18,15 @@ public interface ProviderService {
 
     ResponseEntity<List<ProviderDto>> getAllProviders();
 
-    ResponseEntity<Map<String,String>> deleteById(Integer id);
+    ResponseEntity<Map<String,String>> deleteById(UUID id);
 
-    ResponseEntity<Map<String, String>> deleteByListOfIds(Iterable<Integer>ids);
+    ResponseEntity<Map<String, String>> deleteByListOfIds(Iterable<UUID>ids);
 
     ResponseEntity<ProviderDto> updateById(ProviderDto provider);
 
-    ResponseEntity<ProviderJobResponseDto> getById(Integer id);
+    ResponseEntity<ProviderJobResponseDto> getById(UUID id);
 
-    ResponseEntity<List<ProviderDto>> getByListOfId(Iterable<Integer> id);
+    ResponseEntity<List<ProviderDto>> getByListOfId(Iterable<UUID> id);
 
     ResponseEntity<List<ProviderDto>> findAllByExpertise(String expertise);
 
