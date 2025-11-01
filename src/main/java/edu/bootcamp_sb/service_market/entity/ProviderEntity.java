@@ -53,6 +53,6 @@ public class ProviderEntity {
     private Set<BookingEntity> booking;
 
     @OneToMany(mappedBy = "posterProvider")
-    private List<ProviderGigPoster> posterList;
+    private List<ProviderGigPosterEntity> posterList;
 
 }

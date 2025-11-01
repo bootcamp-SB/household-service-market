@@ -14,7 +14,7 @@ import java.util.UUID;
 @Setter @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProviderGigPoster {
+public class ProviderGigPosterEntity {
     @Id
     @UuidGenerator(style = UuidGenerator.Style.RANDOM)
     @Column(name = "poster_id")
