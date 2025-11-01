@@ -2,11 +2,7 @@ package edu.bootcamp_sb.service_market.service.impl;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.bootcamp_sb.service_market.dto.JobDto;
 import edu.bootcamp_sb.service_market.dto.ProviderDto;
-import edu.bootcamp_sb.service_market.dto.reponse.ProviderJobResponseDto;
-import edu.bootcamp_sb.service_market.dto.request.ProviderJobRequestDto;
-import edu.bootcamp_sb.service_market.entity.JobEntity;
 import edu.bootcamp_sb.service_market.entity.ProviderEntity;
 
 import edu.bootcamp_sb.service_market.exception.providerException.ProviderExistAlreadyException;
@@ -42,7 +38,6 @@ public class ProviderServiceImpl implements ProviderService {
                 .userName(preConvertDto.getUserName())
                 .email(preConvertDto.getEmail())
                 .isVerified(preConvertDto.getIsVerified())
-                .hourlyRate(preConvertDto.getHourlyRate())
                 .expertise(preConvertDto.getExpertise())
                 .contactNo(preConvertDto.getContactNo())
                 .address(preConvertDto.getAddress())
@@ -52,96 +47,58 @@ public class ProviderServiceImpl implements ProviderService {
     }
 
 
-    private static ProviderJobResponseDto convertProviderEntityToProviderJobResponseDto
-            (ProviderEntity providerEntity) {
-
-        ArrayList<JobEntity> jobEntities = new ArrayList<>(providerEntity.getJobs());
-
-        ArrayList<JobDto> jobDtoList = new ArrayList<>();
-
-        for(JobEntity entity :jobEntities){
-            JobDto jobDto = new JobDto();
-            jobDto.setId(entity.getId());
-            jobDto.setPrice(entity.getPrice());
-            jobDto.setType(entity.getType());
-            jobDto.setName(entity.getName());
-            jobDtoList.add(jobDto);
-        }
-        return ProviderJobResponseDto.builder()
-                .providerDto(convertProviderEntityToProviderDto(providerEntity))
-                .job(jobDtoList)
-                .build();
-    }
 
 
     @Override
     @PreAuthorize("hasAnyRole('admin','provider')")
-    public ResponseEntity<ProviderJobResponseDto>
-    persistProviders(ProviderJobRequestDto provider) {
+    public ResponseEntity<ProviderDto> persistProviders(ProviderDto provider) {
 
         Optional<ProviderEntity> contactNo =
                 providerRepository.findByContactNo(
-                        provider.getProvider().getContactNo()
+                        provider.getContactNo()
                 );
 
         Optional<ProviderEntity> email =
-                providerRepository.findByEmail(provider.getProvider().getEmail());
+                providerRepository.findByEmail(provider.getEmail());
 
         if(email.isPresent() && contactNo.isPresent()){
             throw new ProviderExistAlreadyException
                     ("Provider Already Exist with the Both email and contact number"
-                            +" - "+provider.getProvider().getContactNo()+" - "
-                            +provider.getProvider().getEmail());
+                            +" - "+provider.getContactNo()+" - "
+                            +provider.getEmail());
         }
         if(email.isPresent()){
             throw new ProviderExistAlreadyException
                     ("Provider Already Exist with the email"
-                            +" - "+provider.getProvider().getEmail());
+                            +" - "+provider.getEmail());
         }
         if(contactNo.isPresent()){
             throw new ProviderExistAlreadyException
                     ("Provider Already Exist with the contact number"
-                            +" - "+provider.getProvider().getContactNo());
+                            +" - "+provider.getContactNo());
         }
 
         ProviderEntity providerEntity = new ProviderEntity();
-        providerEntity.setEmail(provider.getProvider().getEmail());
-        providerEntity.setFirstName(provider.getProvider().getFirstName());
-        providerEntity.setLastName(provider.getProvider().getLastName());
-        providerEntity.setUserName(provider.getProvider().getUserName());
-        providerEntity.setContactNo(provider.getProvider().getContactNo());
-        providerEntity.setHourlyRate(provider.getProvider().getHourlyRate());
-        providerEntity.setIsVerified(provider.getProvider().getIsVerified());
-        providerEntity.setExpertise(provider.getProvider().getExpertise());
-        providerEntity.setAddress(provider.getProvider().getAddress());
-        if(provider.getProvider().getExperience() == null){
+        providerEntity.setEmail(provider.getEmail());
+        providerEntity.setFirstName(provider.getFirstName());
+        providerEntity.setLastName(provider.getLastName());
+        providerEntity.setUserName(provider.getUserName());
+        providerEntity.setContactNo(provider.getContactNo());
+        providerEntity.setIsVerified(provider.getIsVerified());
+        providerEntity.setExpertise(provider.getExpertise());
+        providerEntity.setAddress(provider.getAddress());
+        if(provider.getExperience() == null){
             providerEntity.setExperience("0 years");
         } else{
-            providerEntity.setExperience(provider.getProvider().getExperience());
+            providerEntity.setExperience(provider.getExperience());
         }
-        if(provider.getProvider().getJobCount() != null ){
-           providerEntity.setJobCount(provider.getProvider().getJobCount());
-        }
-
-
-        ArrayList<JobEntity> jobEntitiesSaveList = new ArrayList<>();
-
-        for (JobDto entity : provider.getJobs()) {
-            JobEntity jobEntity = new JobEntity();
-            jobEntity.setPrice(entity.getPrice());
-            jobEntity.setType(entity.getType());
-            jobEntity.setName(entity.getName());
-            jobEntity.setProvider(providerEntity);
-
-            jobEntitiesSaveList.add(jobEntity);
+        if(provider.getJobCount() != null ){
+           providerEntity.setJobCount(provider.getJobCount());
         }
 
-        providerEntity.setJobs(jobEntitiesSaveList);
+        ProviderEntity save = providerRepository.save(providerEntity);
 
-        providerRepository.save(providerEntity);
-
-        return ResponseEntity.ok().body
-                (convertProviderEntityToProviderJobResponseDto(providerEntity));
+        return ResponseEntity.ok().body(convertProviderEntityToProviderDto(save));
 
     }
 
@@ -226,12 +183,7 @@ public class ProviderServiceImpl implements ProviderService {
         if(provider.getExpertise() != null){
             updatingEntity.setExpertise(provider.getExpertise());
         }
-        if(provider.getHourlyRate() != null){
-            updatingEntity.setHourlyRate(provider.getHourlyRate());
-        }
-        if(provider.getJobCount()!=null){
-            updatingEntity.setHourlyRate(provider.getHourlyRate());
-        }
+
 
         return ResponseEntity.ok().body(mapper.convertValue
                 (providerRepository.save(updatingEntity),
@@ -241,7 +193,7 @@ public class ProviderServiceImpl implements ProviderService {
 
     @Override
     @PreAuthorize("hasAnyRole('admin,provider')")
-    public ResponseEntity<ProviderJobResponseDto> getById(UUID id) {
+    public ResponseEntity<ProviderDto> getById(UUID id) {
         if(!providerRepository.existsById(id)){
             throw new ProviderHasBeenNotFoundException("Incorrect provider id");
         }
@@ -250,7 +202,7 @@ public class ProviderServiceImpl implements ProviderService {
 
 
         return ResponseEntity.ok().body(
-                convertProviderEntityToProviderJobResponseDto(providerEntity)
+                convertProviderEntityToProviderDto(providerEntity)
         );
 
 
@@ -289,18 +241,18 @@ public class ProviderServiceImpl implements ProviderService {
     }
 
     @Override
-    public ResponseEntity<List<ProviderJobResponseDto>> top5Providers() {
+    public ResponseEntity<List<ProviderDto>> top5Providers() {
         List<ProviderEntity> top5ByOrderByJobCountDesc =
                 providerRepository.findTop5ByOrderByJobCountDesc(
                         PageRequest.of(0, 5, Sort.by(
                                 Sort.Direction.DESC, "jobCount")));
 
-        ArrayList<ProviderJobResponseDto> responseDtoArrayList = new ArrayList<>();
+        ArrayList<ProviderDto> responseDtoArrayList = new ArrayList<>();
 
         top5ByOrderByJobCountDesc.forEach(top5Entity->{
-            ProviderJobResponseDto providerJobResponseDto
-                    = convertProviderEntityToProviderJobResponseDto(top5Entity);
-            responseDtoArrayList.add(providerJobResponseDto);
+            ProviderDto providerResponseDto
+                    = convertProviderEntityToProviderDto(top5Entity);
+            responseDtoArrayList.add(providerResponseDto);
         });
 
         return ResponseEntity.ok(responseDtoArrayList);

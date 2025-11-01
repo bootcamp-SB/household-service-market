@@ -16,17 +16,5 @@ public class KeycloakUserController {
 
     private final KeyCloakUserHandleService keyCloakUserHandleService;
 
-    @PostMapping
-    public void register(@RequestBody UserDto userDto){
-        userDto.getRealmRoles().forEach(role-> {
-            if(Objects.equals(role, "user")){
-                keyCloakUserHandleService.clientUser(userDto);
-            }
-            if (Objects.equals(role,"provider")){
-                keyCloakUserHandleService.providerUser(userDto);
-            }
-        });
+
     }
-
-
-}

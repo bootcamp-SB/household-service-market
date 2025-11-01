@@ -32,8 +32,6 @@ public class ProviderEntity {
 
     private String contactNo;
 
-    private Double hourlyRate;
-
     private String expertise;
 
     private String address;
@@ -43,10 +41,6 @@ public class ProviderEntity {
     private String experience;
 
     private Integer jobCount = 0;
-
-    @OneToMany(mappedBy = "provider",cascade = CascadeType.PERSIST)
-    @JsonBackReference
-    private List<JobEntity> jobs;
 
     @OneToMany(mappedBy = "serviceProvider",
             cascade = CascadeType.PERSIST ,

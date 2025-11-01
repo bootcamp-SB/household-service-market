@@ -1,14 +1,13 @@
 package edu.bootcamp_sb.service_market.controller;
 
 import edu.bootcamp_sb.service_market.dto.ProviderDto;
-import edu.bootcamp_sb.service_market.dto.reponse.ProviderJobResponseDto;
-import edu.bootcamp_sb.service_market.dto.request.ProviderJobRequestDto;
+
+
 
 
 import edu.bootcamp_sb.service_market.service.ProviderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,8 +24,7 @@ public class ProviderController {
 
 
     @PostMapping
-    public ResponseEntity<ProviderJobResponseDto>
-    persistProviders(@RequestBody ProviderJobRequestDto provider)
+    public ResponseEntity<ProviderDto>persistProviders(@RequestBody ProviderDto provider)
     {
         return providerService.persistProviders(provider);
     }
@@ -37,7 +35,7 @@ public class ProviderController {
     }
 
     @GetMapping("/by-id")
-    public ResponseEntity<ProviderJobResponseDto>getByID(@RequestParam UUID id){
+    public ResponseEntity<ProviderDto>getByID(@RequestParam UUID id){
         return providerService.getById(id);
     }
 
@@ -70,7 +68,7 @@ public class ProviderController {
     }
 
     @GetMapping("/top5")
-    public ResponseEntity<List<ProviderJobResponseDto>> getTop5(){
+    public ResponseEntity<List<ProviderDto>> getTop5(){
         return providerService.top5Providers();
     }
 

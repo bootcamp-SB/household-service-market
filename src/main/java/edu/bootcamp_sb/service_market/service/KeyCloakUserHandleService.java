@@ -6,6 +6,6 @@ public interface KeyCloakUserHandleService {
 
     void clientUser(UserDto userDto);
 
-    void providerUser(UserDto userDto);
+
 
 }

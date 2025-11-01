@@ -4,7 +4,7 @@ import edu.bootcamp_sb.service_market.dto.OtpDataDto;
 import edu.bootcamp_sb.service_market.dto.OtpDto;
 import edu.bootcamp_sb.service_market.dto.request.ClientRequestDto;
 
-import edu.bootcamp_sb.service_market.dto.request.ProviderJobRequestDto;
+
 import edu.bootcamp_sb.service_market.dto.request.UserDto;
 import edu.bootcamp_sb.service_market.service.ClientService;
 import edu.bootcamp_sb.service_market.service.KeyCloakUserHandleService;
@@ -74,18 +74,5 @@ public class KeyCloakUserHandleServiceImpl implements KeyCloakUserHandleService 
 
     }
 
-    @Override
-    public void providerUser(UserDto userDto) {
 
-        ProviderJobRequestDto providerDto = new ProviderJobRequestDto();
-        providerDto.getProvider().setUserName(userDto.getUsername());
-        providerDto.getProvider().setFirstName(userDto.getFirstName());
-        providerDto.getProvider().setEmail(userDto.getEmail());
-        providerDto.getProvider().setLastName(userDto.getLastName());
-        providerDto.getProvider().setAddress(userDto.getAddress());
-
-        providerService.persistProviders(providerDto);
-
-
-    }
 }

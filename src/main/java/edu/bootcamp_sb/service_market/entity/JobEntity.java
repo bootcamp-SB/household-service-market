@@ -28,8 +28,4 @@ public class JobEntity {
 
         private Long price;
 
-        @ManyToOne
-        @JoinColumn(name = "provider_id")
-        @JsonManagedReference
-        private ProviderEntity provider;
 }

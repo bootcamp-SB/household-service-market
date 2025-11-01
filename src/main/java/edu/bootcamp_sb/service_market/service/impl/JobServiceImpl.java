@@ -26,20 +26,6 @@ public class JobServiceImpl implements JobService {
 
     private final JobRepository jobRepository;
 
-    private final ProviderRepository providerRepository;
-
-
-    private static ProviderDto convertProviderEntityToProviderDto(ProviderEntity preConvertDto){
-        return ProviderDto.builder()
-                .id(preConvertDto.getId())
-                .email(preConvertDto.getEmail())
-                .isVerified(preConvertDto.getIsVerified())
-                .hourlyRate(preConvertDto.getHourlyRate())
-                .expertise(preConvertDto.getExpertise())
-                .contactNo(preConvertDto.getContactNo())
-                .build();
-    }
-
 
     private static JobResponseDto convertJobRequestDtoToJobResponse(JobEntity preConvertDto){
 
@@ -48,7 +34,6 @@ public class JobServiceImpl implements JobService {
                 .name(preConvertDto.getName())
                 .type(preConvertDto.getType())
                 .price(preConvertDto.getPrice())
-                .provider(convertProviderEntityToProviderDto(preConvertDto.getProvider()))
                 .build();
     }
 
@@ -56,16 +41,10 @@ public class JobServiceImpl implements JobService {
     @PreAuthorize("hasAnyRole('admin','provider')")
     public ResponseEntity<JobResponseDto> register(JobRequestDto job) {
 
-       ProviderEntity provider =
-                providerRepository.findById(job.getProviderId()).orElseThrow(
-                        ()-> new ProviderHasBeenNotFoundException
-                                ("provider Id is not valid"));
-
         JobEntity jobEntity = new JobEntity();
         jobEntity.setName(job.getName());
         jobEntity.setPrice(job.getPrice());
         jobEntity.setType(job.getType());
-        jobEntity.setProvider(provider);
 
         JobEntity save = jobRepository.save(jobEntity);
 

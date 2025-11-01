@@ -37,10 +37,7 @@ CREATE TABLE `service` (
   `name` varchar(255) DEFAULT NULL,
   `price` bigint DEFAULT NULL,
   `type` varchar(255) DEFAULT NULL,
-  `provider_id` binary(16) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FKndvit4lpw4u2gnii4pxdlr5nj` (`provider_id`),
-  CONSTRAINT `FKndvit4lpw4u2gnii4pxdlr5nj` FOREIGN KEY (`provider_id`) REFERENCES `service_providers` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 

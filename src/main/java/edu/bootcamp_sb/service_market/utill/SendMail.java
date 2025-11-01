@@ -13,8 +13,6 @@ public class SendMail {
 
     public void sendOtpMail(OtpDto otpDto){
 
-        
-
 
     }
 

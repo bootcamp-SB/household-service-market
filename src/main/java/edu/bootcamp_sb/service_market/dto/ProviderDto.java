@@ -25,8 +25,6 @@ public class ProviderDto {
 
     private String contactNo;
 
-    private Double hourlyRate;
-
     private String expertise;
 
     private Boolean isVerified;

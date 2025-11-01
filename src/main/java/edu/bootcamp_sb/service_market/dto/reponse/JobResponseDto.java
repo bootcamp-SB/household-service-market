@@ -17,5 +17,4 @@ public class JobResponseDto {
 
     private Long price;
 
-    private ProviderDto provider;
 }
