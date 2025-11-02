@@ -1,6 +1,6 @@
 package edu.bootcamp_sb.service_market.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
 
-import java.util.List;
+
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -48,7 +49,13 @@ public class ProviderEntity {
     @JsonManagedReference
     private Set<BookingEntity> booking;
 
-    @OneToMany(mappedBy = "posterProvider")
-    private List<ProviderGigPosterEntity> posterList;
+   @ManyToMany()
+   @JoinTable(
+           name = "provider_category",
+           joinColumns = @JoinColumn(name = "provider_id"),
+           inverseJoinColumns = @JoinColumn(name = "category_id")
+   )
+   @JsonManagedReference
+    private Set<CategoryEntity> categories = new HashSet<>();
 
 }

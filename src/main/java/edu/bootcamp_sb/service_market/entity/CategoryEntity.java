@@ -1,7 +1,7 @@
 package edu.bootcamp_sb.service_market.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,14 +9,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "service")
+@Table(name = "category")
 @Setter @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class JobEntity {
+public class CategoryEntity {
 
         @Id
         @UuidGenerator(style = UuidGenerator.Style.TIME)
@@ -24,8 +26,9 @@ public class JobEntity {
 
         private String name;
 
-        private String type;
+        @ManyToMany(mappedBy = "categories")
+        @JsonBackReference
+        private Set<ProviderEntity> providers = new HashSet<>();
 
-        private Long price;
 
 }

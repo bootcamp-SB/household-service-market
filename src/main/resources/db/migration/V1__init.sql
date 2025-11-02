@@ -29,13 +29,11 @@ CREATE TABLE `service_providers` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- domestic_service_market.service definition
+-- domestic_service_market.category definition
 
-CREATE TABLE `service` (
+CREATE TABLE `category` (
   `id` binary(16) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
-  `price` bigint DEFAULT NULL,
-  `type` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 

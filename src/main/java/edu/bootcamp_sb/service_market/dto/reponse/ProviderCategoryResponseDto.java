@@ -1,7 +1,7 @@
 package edu.bootcamp_sb.service_market.dto.reponse;
 
 
-import edu.bootcamp_sb.service_market.dto.JobDto;
+import edu.bootcamp_sb.service_market.dto.CategoryDto;
 import edu.bootcamp_sb.service_market.dto.ProviderDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,15 +10,16 @@ import lombok.NoArgsConstructor;
 
 
 import java.util.List;
+import java.util.Set;
 
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProviderJobResponseDto {
+public class ProviderCategoryResponseDto {
 
     private ProviderDto providerDto;
 
-    private List<JobDto> job;
+    private Set<CategoryDto> categoriesSet;
 }

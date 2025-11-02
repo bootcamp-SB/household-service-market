@@ -5,14 +5,11 @@ import lombok.Data;
 import java.util.UUID;
 
 @Data
-public class JobRequestDto {
+public class CategoryRequestDto {
 
     private UUID id;
 
     private String name;
 
-    private String type;
-
-    private Long price;
 
 }

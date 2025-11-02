@@ -1,7 +1,6 @@
 package edu.bootcamp_sb.service_market.service;
 
 import edu.bootcamp_sb.service_market.dto.ProviderDto;
-import edu.bootcamp_sb.service_market.dto.reponse.ProviderJobResponseDto;
 
 
 import org.springframework.http.ResponseEntity;
