@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -37,4 +38,9 @@ public class ClientEntity {
     @JoinColumn(name = "profile_Id")
     @JsonManagedReference
     private ClientProfileEntity profile;
+
+    @OneToMany(mappedBy = "client")
+    @JsonManagedReference
+    private Set<BookingEntity> bookings;
+
 }

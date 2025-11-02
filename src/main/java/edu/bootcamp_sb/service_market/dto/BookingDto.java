@@ -25,6 +25,8 @@ public class BookingDto {
 
     private String date;
 
-    private PaymentEntity payment;
+    private PaymentDto payment;
+
+    private UUID clientId;
 
 }

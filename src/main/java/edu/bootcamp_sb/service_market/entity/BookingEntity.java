@@ -40,4 +40,9 @@ public class BookingEntity {
     @JsonBackReference
     private ProviderEntity serviceProvider;
 
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    @JsonBackReference
+    private ClientEntity client;
+
 }

@@ -2,9 +2,15 @@ package edu.bootcamp_sb.service_market.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.bootcamp_sb.service_market.dto.BookingDto;
+import edu.bootcamp_sb.service_market.dto.ClientDto;
+import edu.bootcamp_sb.service_market.dto.PaymentDto;
+import edu.bootcamp_sb.service_market.dto.reponse.BookingResponseDto;
 import edu.bootcamp_sb.service_market.entity.BookingEntity;
+import edu.bootcamp_sb.service_market.entity.ClientEntity;
 import edu.bootcamp_sb.service_market.entity.PaymentEntity;
+import edu.bootcamp_sb.service_market.exception.clientExceptions.ClientHasBeenNotFoundException;
 import edu.bootcamp_sb.service_market.repository.BookingRepository;
+import edu.bootcamp_sb.service_market.repository.ClientRepository;
 import edu.bootcamp_sb.service_market.repository.PaymentRepository;
 import edu.bootcamp_sb.service_market.service.BookingService;
 import lombok.RequiredArgsConstructor;
@@ -25,12 +31,33 @@ public class BookingServiceImpl implements BookingService {
 
     private final PaymentRepository paymentRepository;
 
+    private final ClientRepository clientRepository;
+
     private final ObjectMapper mapper;
+
+    public static ClientDto entityToClientDto(ClientEntity preEntity){
+        ClientDto clientDto = new ClientDto();
+        clientDto.setId(preEntity.getId());
+        clientDto.setAddress(preEntity.getAddress());
+        clientDto.setEmail(preEntity.getEmail());
+        clientDto.setPaymentMethod(preEntity.getPaymentMethod());
+
+        return clientDto;
+
+    }
+
+    public  static PaymentDto paymentEntityToPaymentDto(PaymentEntity preEntity){
+        PaymentDto paymentDto = new PaymentDto();
+        paymentDto.setId(preEntity.getId());
+        paymentDto.setStatus(preEntity.getStatus());
+        paymentDto.setAmount(preEntity.getAmount());
+        return paymentDto;
+    }
 
 
     @Override
     @PreAuthorize("hasAnyRole('admin','user','provider')")
-    public ResponseEntity<BookingDto> persist(BookingDto bookingDto) {
+    public ResponseEntity<BookingResponseDto> persist(BookingDto bookingDto) {
 
         BookingEntity bookingEntity = new BookingEntity();
         bookingEntity.setDate(LocalDate.parse(bookingDto.getDate()));
@@ -45,13 +72,31 @@ public class BookingServiceImpl implements BookingService {
         paymentEntity.setDate(LocalDate.now());
         paymentEntity.setStatus(bookingEntity.getStatus());
 
+        ClientEntity clientEntity = clientRepository.findById(bookingDto.getClientId()).orElseThrow(
+                () -> new ClientHasBeenNotFoundException("NOT found")
+        );
+
+        bookingEntity.setClient(clientEntity);
+
+
         bookingEntity.setPayment(paymentRepository.save(paymentEntity));
 
+        BookingEntity saved = bookingRepository.save(bookingEntity);
+
+        ClientDto clientDto = entityToClientDto(saved.getClient());
+        PaymentDto paymentDto = paymentEntityToPaymentDto(saved.getPayment());
+
         return ResponseEntity.ok(
-                mapper.convertValue(
-                        bookingRepository.save(bookingEntity),
-                BookingDto.class
-        ));
+                BookingResponseDto.builder()
+                        .id(saved.getId())
+                        .date(saved.getDate())
+                        .status(saved.getStatus())
+                        .endingTime(saved.getEndingTime())
+                        .startingTime(saved.getStartingTime())
+                        .payment(paymentDto)
+                        .client(clientDto)
+                        .build()
+        );
     }
 
     @Override
