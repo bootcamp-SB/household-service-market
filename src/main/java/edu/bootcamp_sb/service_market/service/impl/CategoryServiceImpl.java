@@ -23,7 +23,7 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
 
 
-    private static CategoryResponseDto convertJobRequestDtoToJobResponse(CategoryEntity preConvertDto){
+    public static CategoryResponseDto convertCategoryEntityToCategoryResponseDto(CategoryEntity preConvertDto){
 
         return CategoryResponseDto.builder()
                 .id(preConvertDto.getId())
@@ -39,6 +39,6 @@ public class CategoryServiceImpl implements CategoryService {
         categoryEntity.setName(categoryRequestDto.getName());
         CategoryEntity save = categoryRepository.save(categoryEntity);
 
-        return ResponseEntity.ok(convertJobRequestDtoToJobResponse(save));
+        return ResponseEntity.ok(convertCategoryEntityToCategoryResponseDto(save));
     }
 }

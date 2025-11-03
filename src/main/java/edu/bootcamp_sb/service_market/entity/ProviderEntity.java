@@ -1,6 +1,7 @@
 package edu.bootcamp_sb.service_market.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,7 @@ import org.hibernate.annotations.UuidGenerator;
 
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -57,5 +59,9 @@ public class ProviderEntity {
    )
    @JsonManagedReference
     private Set<CategoryEntity> categories = new HashSet<>();
+
+   @OneToMany(mappedBy = "serviceGigProvider")
+   @JsonBackReference
+   private List<ServiceGigEntity> gigs;
 
 }

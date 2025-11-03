@@ -30,7 +30,7 @@ public class ProviderServiceImpl implements ProviderService {
 
     private final ObjectMapper mapper;
 
-    private static ProviderDto convertProviderEntityToProviderDto(ProviderEntity preConvertDto){
+    public static ProviderDto convertProviderEntityToProviderDto(ProviderEntity preConvertDto){
         return ProviderDto.builder()
                 .id(preConvertDto.getId())
                 .firstName(preConvertDto.getFirstName())

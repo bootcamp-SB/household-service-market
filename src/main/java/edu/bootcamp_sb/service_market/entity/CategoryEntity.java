@@ -10,6 +10,7 @@ import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -29,6 +30,10 @@ public class CategoryEntity {
         @ManyToMany(mappedBy = "categories")
         @JsonBackReference
         private Set<ProviderEntity> providers = new HashSet<>();
+
+        @OneToMany(mappedBy = "category")
+        @JsonBackReference
+        private List<ServiceGigEntity> serviceGigList;
 
 
 }
