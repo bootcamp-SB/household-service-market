@@ -5,6 +5,7 @@ import edu.bootcamp_sb.service_market.dto.BookingDto;
 import edu.bootcamp_sb.service_market.dto.ClientDto;
 import edu.bootcamp_sb.service_market.dto.PaymentDto;
 import edu.bootcamp_sb.service_market.dto.reponse.BookingResponseDto;
+import edu.bootcamp_sb.service_market.dto.reponse.BookingWithPaymentNClientResponseDto;
 import edu.bootcamp_sb.service_market.entity.BookingEntity;
 import edu.bootcamp_sb.service_market.entity.ClientEntity;
 import edu.bootcamp_sb.service_market.entity.PaymentEntity;
@@ -47,7 +48,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     @PreAuthorize("hasAnyRole('admin','user','provider')")
-    public ResponseEntity<BookingResponseDto> persist(BookingDto bookingDto) {
+    public ResponseEntity<BookingWithPaymentNClientResponseDto> persist(BookingDto bookingDto) {
 
         BookingEntity bookingEntity = new BookingEntity();
         bookingEntity.setDate(LocalDate.parse(bookingDto.getDate()));
@@ -77,7 +78,7 @@ public class BookingServiceImpl implements BookingService {
         PaymentDto paymentDto = paymentEntityToPaymentDto(saved.getPayment());
 
         return ResponseEntity.ok(
-                BookingResponseDto.builder()
+                BookingWithPaymentNClientResponseDto.builder()
                         .id(saved.getId())
                         .date(saved.getDate())
                         .status(saved.getStatus())

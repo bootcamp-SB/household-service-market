@@ -1,6 +1,5 @@
 package edu.bootcamp_sb.service_market.dto.reponse;
 
-
 import edu.bootcamp_sb.service_market.dto.ClientDto;
 import edu.bootcamp_sb.service_market.dto.PaymentDto;
 import lombok.AllArgsConstructor;
@@ -11,11 +10,12 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.UUID;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookingResponseDto {
+public class BookingWithPaymentNClientResponseDto {
 
     private UUID id;
 
@@ -27,6 +27,8 @@ public class BookingResponseDto {
 
     private LocalDate date;
 
+    private PaymentDto payment;
 
+    private ClientDto client;
 
 }

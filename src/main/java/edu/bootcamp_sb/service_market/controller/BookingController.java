@@ -2,6 +2,7 @@ package edu.bootcamp_sb.service_market.controller;
 
 import edu.bootcamp_sb.service_market.dto.BookingDto;
 import edu.bootcamp_sb.service_market.dto.reponse.BookingResponseDto;
+import edu.bootcamp_sb.service_market.dto.reponse.BookingWithPaymentNClientResponseDto;
 import edu.bootcamp_sb.service_market.service.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class BookingController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('admin','user','provider')")
-    public ResponseEntity<BookingResponseDto>create(@RequestBody BookingDto booking){
+    public ResponseEntity<BookingWithPaymentNClientResponseDto>create(@RequestBody BookingDto booking){
 
         return bookingService.persist(booking);
     }
