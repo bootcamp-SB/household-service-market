@@ -17,6 +17,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+import static edu.bootcamp_sb.service_market.service.impl.ClientServiceImpl.entityToClientDto;
+import static edu.bootcamp_sb.service_market.service.impl.ProviderServiceImpl.convertProviderEntityToProviderDto;
+
 @Service
 @RequiredArgsConstructor
 public class ReviewServiceImpl implements ReviewService {
@@ -29,11 +32,8 @@ public class ReviewServiceImpl implements ReviewService {
 
     private final BookingRepository bookingRepository;
 
-
-
     @Override
     public ResponseEntity<ReviewResponseDto> giveAReview(ReviewsDto review) {
-
         return null;
     }
 }

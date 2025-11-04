@@ -23,6 +23,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static edu.bootcamp_sb.service_market.service.impl.ClientServiceImpl.entityToClientDto;
 import static edu.bootcamp_sb.service_market.service.impl.PaymentServiceImpl.paymentEntityToPaymentDto;
@@ -41,6 +42,17 @@ public class BookingServiceImpl implements BookingService {
     private final ObjectMapper mapper;
 
 
+    public static BookingResponseDto bookingEntityToBookingResponseDto(
+            BookingEntity bookingEntity)
+    {
+        return BookingResponseDto.builder()
+                .id(bookingEntity.getId())
+                .status(bookingEntity.getStatus())
+                .date(bookingEntity.getDate())
+                .startingTime(bookingEntity.getStartingTime())
+                .endingTime(bookingEntity.getEndingTime())
+                .build();
+    }
 
 
 
