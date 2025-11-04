@@ -27,7 +27,16 @@ public class ClientServiceImpl implements ClientService {
 
     private final ObjectMapper mapper;
 
+    public static ClientDto entityToClientDto(ClientEntity preEntity){
+        ClientDto clientDto = new ClientDto();
+        clientDto.setId(preEntity.getId());
+        clientDto.setAddress(preEntity.getAddress());
+        clientDto.setEmail(preEntity.getEmail());
+        clientDto.setPaymentMethod(preEntity.getPaymentMethod());
 
+        return clientDto;
+
+    }
 
     @Override
     @PreAuthorize("hasAnyRole('admin')")

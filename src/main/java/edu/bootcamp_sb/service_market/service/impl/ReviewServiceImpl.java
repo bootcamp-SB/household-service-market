@@ -33,7 +33,6 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public ResponseEntity<ReviewResponseDto> giveAReview(ReviewsDto review) {
-        `
 
         return null;
     }

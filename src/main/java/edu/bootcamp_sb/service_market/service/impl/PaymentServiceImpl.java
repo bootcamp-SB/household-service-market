@@ -25,7 +25,13 @@ public class PaymentServiceImpl implements PaymentService {
 
     private final ObjectMapper mapper;
 
-
+    public  static PaymentDto paymentEntityToPaymentDto(PaymentEntity preEntity){
+        PaymentDto paymentDto = new PaymentDto();
+        paymentDto.setId(preEntity.getId());
+        paymentDto.setStatus(preEntity.getStatus());
+        paymentDto.setAmount(preEntity.getAmount());
+        return paymentDto;
+    }
 
 
     @Override
