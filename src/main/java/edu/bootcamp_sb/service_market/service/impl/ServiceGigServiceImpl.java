@@ -7,8 +7,8 @@ import edu.bootcamp_sb.service_market.dto.reponse.ServiceGigResponseDto;
 import edu.bootcamp_sb.service_market.entity.CategoryEntity;
 import edu.bootcamp_sb.service_market.entity.ProviderEntity;
 import edu.bootcamp_sb.service_market.entity.ServiceGigEntity;
-import edu.bootcamp_sb.service_market.exception.catogaryException.CatogaryHasBeenNotFoundException;
-import edu.bootcamp_sb.service_market.exception.providerException.ProviderHasBeenNotFoundException;
+import edu.bootcamp_sb.service_market.exception.category_exception.CategaryHasBeenNotFoundException;
+import edu.bootcamp_sb.service_market.exception.provider_exception.ProviderHasBeenNotFoundException;
 import edu.bootcamp_sb.service_market.repository.CategoryRepository;
 import edu.bootcamp_sb.service_market.repository.ProviderRepository;
 import edu.bootcamp_sb.service_market.repository.ServiceGigRepository;
@@ -18,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 import static edu.bootcamp_sb.service_market.service.impl.CategoryServiceImpl.*;
 import static edu.bootcamp_sb.service_market.service.impl.ProviderServiceImpl.convertProviderEntityToProviderDto;
@@ -56,7 +55,7 @@ public class ServiceGigServiceImpl implements ServiceGigService {
         serviceGigEntity.setServiceGigProvider(providerEntity);
 
         CategoryEntity categoryEntity = categoryRepository.findById(gig.getCategoryId()).orElseThrow(
-                () -> new CatogaryHasBeenNotFoundException("category not exsists"));
+                () -> new CategaryHasBeenNotFoundException("category not exsists"));
 
         serviceGigEntity.setCategory(categoryEntity);
 

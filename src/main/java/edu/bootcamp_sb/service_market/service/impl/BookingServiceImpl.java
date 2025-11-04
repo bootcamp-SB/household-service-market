@@ -8,7 +8,7 @@ import edu.bootcamp_sb.service_market.dto.reponse.BookingResponseDto;
 import edu.bootcamp_sb.service_market.entity.BookingEntity;
 import edu.bootcamp_sb.service_market.entity.ClientEntity;
 import edu.bootcamp_sb.service_market.entity.PaymentEntity;
-import edu.bootcamp_sb.service_market.exception.clientExceptions.ClientHasBeenNotFoundException;
+import edu.bootcamp_sb.service_market.exception.client_exceptions.ClientHasBeenNotFoundException;
 import edu.bootcamp_sb.service_market.repository.BookingRepository;
 import edu.bootcamp_sb.service_market.repository.ClientRepository;
 import edu.bootcamp_sb.service_market.repository.PaymentRepository;
@@ -23,6 +23,9 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
+
 @Service
 @RequiredArgsConstructor
 public class BookingServiceImpl implements BookingService {
@@ -35,6 +38,14 @@ public class BookingServiceImpl implements BookingService {
 
     private final ObjectMapper mapper;
 
+    public  static PaymentDto paymentEntityToPaymentDto(PaymentEntity preEntity){
+        PaymentDto paymentDto = new PaymentDto();
+        paymentDto.setId(preEntity.getId());
+        paymentDto.setStatus(preEntity.getStatus());
+        paymentDto.setAmount(preEntity.getAmount());
+        return paymentDto;
+    }
+
     public static ClientDto entityToClientDto(ClientEntity preEntity){
         ClientDto clientDto = new ClientDto();
         clientDto.setId(preEntity.getId());
@@ -46,13 +57,6 @@ public class BookingServiceImpl implements BookingService {
 
     }
 
-    public  static PaymentDto paymentEntityToPaymentDto(PaymentEntity preEntity){
-        PaymentDto paymentDto = new PaymentDto();
-        paymentDto.setId(preEntity.getId());
-        paymentDto.setStatus(preEntity.getStatus());
-        paymentDto.setAmount(preEntity.getAmount());
-        return paymentDto;
-    }
 
 
     @Override

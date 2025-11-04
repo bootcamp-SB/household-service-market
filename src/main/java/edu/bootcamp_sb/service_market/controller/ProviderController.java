@@ -3,8 +3,7 @@ package edu.bootcamp_sb.service_market.controller;
 import edu.bootcamp_sb.service_market.dto.ProviderDto;
 
 
-
-
+import edu.bootcamp_sb.service_market.entity.ProviderEntity;
 import edu.bootcamp_sb.service_market.service.ProviderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

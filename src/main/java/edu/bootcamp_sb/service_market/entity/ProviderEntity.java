@@ -1,7 +1,6 @@
 package edu.bootcamp_sb.service_market.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -61,7 +60,11 @@ public class ProviderEntity {
     private Set<CategoryEntity> categories = new HashSet<>();
 
    @OneToMany(mappedBy = "serviceGigProvider")
-   @JsonBackReference
+   @JsonManagedReference
    private List<ServiceGigEntity> gigs;
+
+   @OneToMany(mappedBy = "reviewsProvider")
+   @JsonManagedReference
+   private List<ReviewsEntity> reviews;
 
 }

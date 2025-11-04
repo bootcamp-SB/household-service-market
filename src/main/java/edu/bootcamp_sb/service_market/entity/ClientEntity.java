@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -31,8 +32,6 @@ public class ClientEntity {
 
     private String paymentMethod;
 
-    private String password;
-
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "profile_Id")
@@ -42,5 +41,8 @@ public class ClientEntity {
     @OneToMany(mappedBy = "client")
     @JsonManagedReference
     private Set<BookingEntity> bookings;
+
+    @OneToMany(mappedBy = "reviewsClient")
+    private List<ReviewsEntity> reviews;
 
 }

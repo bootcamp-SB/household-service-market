@@ -1,4 +1,4 @@
-package edu.bootcamp_sb.service_market.exception.providerException;
+package edu.bootcamp_sb.service_market.exception.provider_exception;
 
 public class ProviderExistAlreadyException extends RuntimeException{
 

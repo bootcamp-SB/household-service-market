@@ -2,8 +2,8 @@ package edu.bootcamp_sb.service_market.exception.handler;
 
 import edu.bootcamp_sb.service_market.dto.reponse.ClientErrorResponse;
 
-import edu.bootcamp_sb.service_market.exception.clientExceptions.ClientAlreadyRegisteredException;
-import edu.bootcamp_sb.service_market.exception.clientExceptions.ClientHasBeenNotFoundException;
+import edu.bootcamp_sb.service_market.exception.client_exceptions.ClientAlreadyRegisteredException;
+import edu.bootcamp_sb.service_market.exception.client_exceptions.ClientHasBeenNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

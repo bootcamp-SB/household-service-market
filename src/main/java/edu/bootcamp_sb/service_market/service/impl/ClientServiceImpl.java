@@ -6,8 +6,8 @@ import edu.bootcamp_sb.service_market.dto.reponse.ClientResponseDto;
 import edu.bootcamp_sb.service_market.dto.request.ClientRequestDto;
 import edu.bootcamp_sb.service_market.entity.ClientEntity;
 import edu.bootcamp_sb.service_market.entity.ClientProfileEntity;
-import edu.bootcamp_sb.service_market.exception.clientExceptions.ClientAlreadyRegisteredException;
-import edu.bootcamp_sb.service_market.exception.clientExceptions.ClientHasBeenNotFoundException;
+import edu.bootcamp_sb.service_market.exception.client_exceptions.ClientAlreadyRegisteredException;
+import edu.bootcamp_sb.service_market.exception.client_exceptions.ClientHasBeenNotFoundException;
 
 import edu.bootcamp_sb.service_market.repository.ClientRepository;
 import edu.bootcamp_sb.service_market.service.ClientService;

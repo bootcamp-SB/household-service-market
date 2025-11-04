@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.bootcamp_sb.service_market.dto.ProviderDto;
 import edu.bootcamp_sb.service_market.entity.ProviderEntity;
 
-import edu.bootcamp_sb.service_market.exception.providerException.ProviderExistAlreadyException;
-import edu.bootcamp_sb.service_market.exception.providerException.ProviderHasBeenNotFoundException;
+import edu.bootcamp_sb.service_market.exception.provider_exception.ProviderExistAlreadyException;
+import edu.bootcamp_sb.service_market.exception.provider_exception.ProviderHasBeenNotFoundException;
 
 import edu.bootcamp_sb.service_market.repository.ProviderRepository;
 import edu.bootcamp_sb.service_market.service.ProviderService;
@@ -192,7 +192,7 @@ public class ProviderServiceImpl implements ProviderService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('admin,provider')")
+    @PreAuthorize("hasAnyRole('admin','provider')")
     public ResponseEntity<ProviderDto> getById(UUID id) {
         if(!providerRepository.existsById(id)){
             throw new ProviderHasBeenNotFoundException("Incorrect provider id");
@@ -207,7 +207,6 @@ public class ProviderServiceImpl implements ProviderService {
 
 
     }
-
 
 
     @Override

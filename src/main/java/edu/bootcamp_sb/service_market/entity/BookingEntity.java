@@ -10,6 +10,7 @@ import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -44,5 +45,9 @@ public class BookingEntity {
     @JoinColumn(name = "client_id")
     @JsonBackReference
     private ClientEntity client;
+
+    @OneToMany(mappedBy = "booking")
+    @JsonBackReference
+    private List<ReviewsEntity> reviews;
 
 }

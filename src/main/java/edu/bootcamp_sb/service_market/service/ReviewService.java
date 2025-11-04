@@ -1,0 +1,11 @@
+package edu.bootcamp_sb.service_market.service;
+
+import edu.bootcamp_sb.service_market.dto.ReviewsDto;
+import edu.bootcamp_sb.service_market.dto.reponse.ReviewResponseDto;
+import org.springframework.http.ResponseEntity;
+
+public interface ReviewService {
+
+    ResponseEntity<ReviewResponseDto> giveAReview(ReviewsDto review);
+
+}

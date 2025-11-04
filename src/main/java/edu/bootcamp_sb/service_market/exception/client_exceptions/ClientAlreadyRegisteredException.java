@@ -1,4 +1,4 @@
-package edu.bootcamp_sb.service_market.exception.clientExceptions;
+package edu.bootcamp_sb.service_market.exception.client_exceptions;
 
 public class ClientAlreadyRegisteredException extends RuntimeException{
 
