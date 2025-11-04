@@ -35,11 +35,11 @@ public class ClientEntity {
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "profile_Id")
-    @JsonManagedReference
+    @JsonManagedReference(value = "client-profile")
     private ClientProfileEntity profile;
 
     @OneToMany(mappedBy = "client")
-    @JsonManagedReference
+    @JsonManagedReference(value = "client-booking")
     private Set<BookingEntity> bookings;
 
     @OneToMany(mappedBy = "reviewsClient")

@@ -29,4 +29,6 @@ public class BookingDto {
 
     private UUID clientId;
 
+    private UUID providerId;
+
 }

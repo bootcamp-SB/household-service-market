@@ -5,6 +5,7 @@ import edu.bootcamp_sb.service_market.dto.reponse.ClientResponseDto;
 import edu.bootcamp_sb.service_market.dto.request.ClientRequestDto;
 import edu.bootcamp_sb.service_market.service.ClientService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +17,12 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/client")
+@Profile("prod")
 public class ClientController {
 
     private final ClientService clientService;
 
-    @PostMapping
+    @PostMapping("/persist")
     public ResponseEntity<ClientResponseDto> persist(@RequestBody ClientRequestDto clientDto){
         return clientService.persist(clientDto);
     }

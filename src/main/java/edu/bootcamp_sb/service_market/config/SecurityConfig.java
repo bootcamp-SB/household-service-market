@@ -32,7 +32,8 @@ public class SecurityConfig {
             "/api/v1/providers/all",
             "/api/v1/providers/by-expertises",
             "/admin/realms/market-realm/users/",
-            "/api/v1/providers"
+            "/api/v1/providers",
+            "/api/v1/client/persist"
     };
 
     @Bean

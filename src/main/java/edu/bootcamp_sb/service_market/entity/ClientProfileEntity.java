@@ -28,6 +28,6 @@ public class ClientProfileEntity {
 
 
     @OneToOne(mappedBy = "profile")
-    @JsonBackReference
+    @JsonBackReference(value = "client-profile")
     private ClientEntity client;
 }

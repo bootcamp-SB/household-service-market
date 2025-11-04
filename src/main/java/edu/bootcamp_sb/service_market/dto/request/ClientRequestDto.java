@@ -1,6 +1,7 @@
 package edu.bootcamp_sb.service_market.dto.request;
 
-import edu.bootcamp_sb.service_market.entity.ClientProfileEntity;
+
+import edu.bootcamp_sb.service_market.dto.ClientProfileDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,5 +21,5 @@ public class ClientRequestDto {
 
     private  String paymentMethod;
 
-    private ClientProfileEntity profile;
+    private ClientProfileRequestDto profile;
 }

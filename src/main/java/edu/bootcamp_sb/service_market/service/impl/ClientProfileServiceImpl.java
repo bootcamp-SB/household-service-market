@@ -23,10 +23,16 @@ public class ClientProfileServiceImpl implements ClientProfileService {
 
     private final ObjectMapper mapper;
 
+    public static ClientProfileDto profileEntityTOClientProfileDto(ClientProfileEntity entity){
+        return ClientProfileDto.builder()
+                .id(entity.getId())
+                .profilePicUrl(entity.getProfilePicUrl())
+                .build();
+    }
+
 
 
     @Override
-    @PreAuthorize("hasAnyRole('admin','user')")
     public ResponseEntity<ClientProfileDto> create(ClientProfileDto profile) {
         ClientProfileEntity profileEntity = new ClientProfileEntity();
         profileEntity.setProfilePicUrl(profile.getProfilePicUrl());

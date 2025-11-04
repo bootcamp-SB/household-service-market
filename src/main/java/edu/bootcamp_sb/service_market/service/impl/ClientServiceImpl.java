@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+import static edu.bootcamp_sb.service_market.service.impl.ClientProfileServiceImpl.profileEntityTOClientProfileDto;
+
 @Service
 @RequiredArgsConstructor
 public class ClientServiceImpl implements ClientService {
@@ -37,6 +39,8 @@ public class ClientServiceImpl implements ClientService {
         return clientDto;
 
     }
+
+
 
     @Override
     @PreAuthorize("hasAnyRole('admin')")
@@ -69,7 +73,6 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('admin','user')")
     public ResponseEntity<ClientResponseDto> persist(ClientRequestDto clientDto) {
 
         Optional<ClientEntity> byEmail =
@@ -89,16 +92,19 @@ public class ClientServiceImpl implements ClientService {
         profileEntity.setProfilePicUrl(clientDto.getProfile().getProfilePicUrl());
         profileEntity.setClient(clientEntity);
 
-        profileEntity.setClient(clientEntity);
 
         clientEntity.setProfile(profileEntity);
 
+        ClientEntity saved = clientRepository.save(clientEntity);
 
         return ResponseEntity.ok().body(
-                mapper.convertValue(
-                                clientRepository.save(clientEntity),
-                        ClientResponseDto.class
-                )
+                ClientResponseDto.builder()
+                        .id(saved.getId())
+                        .email(saved.getEmail())
+                        .address(saved.getAddress())
+                        .paymentMethod(saved.getPaymentMethod())
+                        .profile(profileEntityTOClientProfileDto(saved.getProfile()))
+                        .build()
         );
     }
 

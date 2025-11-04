@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+import static edu.bootcamp_sb.service_market.service.impl.BookingServiceImpl.bookingEntityToBookingResponseDto;
 import static edu.bootcamp_sb.service_market.service.impl.ClientServiceImpl.entityToClientDto;
 import static edu.bootcamp_sb.service_market.service.impl.ProviderServiceImpl.convertProviderEntityToProviderDto;
 
@@ -32,9 +33,53 @@ public class ReviewServiceImpl implements ReviewService {
 
     private final BookingRepository bookingRepository;
 
+
+
+    public static ReviewResponseDto reviewEntityToReviewDto(ReviewsEntity reviewsEntity){
+       return ReviewResponseDto.builder()
+               .id(reviewsEntity.getId())
+               .reviewsProvider(
+                       convertProviderEntityToProviderDto(reviewsEntity.getReviewsProvider())
+               )
+               .reviewsClient(entityToClientDto(reviewsEntity.getReviewsClient()))
+               .booking(bookingEntityToBookingResponseDto(reviewsEntity.getBooking()))
+               .comment(reviewsEntity.getComment())
+               .providerResponse(reviewsEntity.getProviderResponse())
+               .rating(reviewsEntity.getRating())
+               .build();
+
+    }
+
+
     @Override
     public ResponseEntity<ReviewResponseDto> giveAReview(ReviewsDto review) {
-        return null;
+
+        ReviewsEntity reviewsEntity = new ReviewsEntity();
+        reviewsEntity.setRating(review.getRating());
+        reviewsEntity.setComment(review.getComment());
+        reviewsEntity.setProviderResponse(reviewsEntity.getProviderResponse());
+        reviewsEntity.setCreatedAt(LocalDateTime.now());
+
+        reviewsEntity.setReviewsClient(
+                clientRepository.findById(review.getClientId()).orElseThrow(()->
+                        new ClientHasBeenNotFoundException("Not found")
+        ));
+
+        reviewsEntity.setReviewsProvider(
+                providerRepository.findById(review.getProviderId()).orElseThrow(()->
+                       new ProviderHasBeenNotFoundException("Invalid Provider"))
+        );
+
+        reviewsEntity.setBooking(
+                bookingRepository.findById(review.getBookingId()).orElseThrow(()->
+                        new BookingHasNotFoundException("No booking was Done"))
+        );
+
+        ReviewsEntity save = reviewRepository.save(reviewsEntity);
+
+        return ResponseEntity.ok().body(
+                reviewEntityToReviewDto(save)
+        );
     }
 }
 

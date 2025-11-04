@@ -43,7 +43,7 @@ public class BookingEntity {
 
     @ManyToOne
     @JoinColumn(name = "client_id")
-    @JsonBackReference
+    @JsonBackReference(value = "client-booking")
     private ClientEntity client;
 
     @OneToMany(mappedBy = "booking")
