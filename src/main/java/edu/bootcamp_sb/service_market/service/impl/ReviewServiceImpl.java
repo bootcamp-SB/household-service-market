@@ -57,7 +57,7 @@ public class ReviewServiceImpl implements ReviewService {
         ReviewsEntity reviewsEntity = new ReviewsEntity();
         reviewsEntity.setRating(review.getRating());
         reviewsEntity.setComment(review.getComment());
-        reviewsEntity.setProviderResponse(reviewsEntity.getProviderResponse());
+        reviewsEntity.setProviderResponse(review.getProviderResponse());
         reviewsEntity.setCreatedAt(LocalDateTime.now());
 
         reviewsEntity.setReviewsClient(
