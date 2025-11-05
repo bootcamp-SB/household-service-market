@@ -16,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static edu.bootcamp_sb.service_market.service.impl.BookingServiceImpl.bookingEntityToBookingResponseDto;
 import static edu.bootcamp_sb.service_market.service.impl.ClientServiceImpl.entityToClientDto;
@@ -80,6 +82,32 @@ public class ReviewServiceImpl implements ReviewService {
         return ResponseEntity.ok().body(
                 reviewEntityToReviewDto(save)
         );
+    }
+
+    @Override
+    public ResponseEntity<List<ReviewResponseDto>> getAllResponses() {
+        Iterable<ReviewsEntity> allReviews = reviewRepository.findAll();
+
+        ArrayList<ReviewResponseDto> responseDtosList = new ArrayList<>();
+
+        allReviews.forEach(entity->{
+            ReviewResponseDto reviewResponseDto = new ReviewResponseDto();
+            reviewResponseDto.setId(entity.getId());
+            reviewResponseDto.setProviderResponse(entity.getProviderResponse());
+            reviewResponseDto.setRating(entity.getRating());
+            reviewResponseDto.setComment(entity.getComment());
+            reviewResponseDto.setCreatedAt(entity.getCreatedAt());
+            reviewResponseDto.setBooking(bookingEntityToBookingResponseDto(entity.getBooking()));
+            reviewResponseDto.setReviewsProvider(
+                    convertProviderEntityToProviderDto(entity.getReviewsProvider())
+            );
+            reviewResponseDto.setReviewsClient(entityToClientDto(entity.getReviewsClient()));
+            responseDtosList.add(reviewResponseDto);
+
+        });
+
+
+        return ResponseEntity.ok(responseDtosList);
     }
 }
 
