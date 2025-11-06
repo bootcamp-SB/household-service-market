@@ -1,5 +1,6 @@
 package edu.bootcamp_sb.service_market.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -44,12 +45,11 @@ public class ServiceGigEntity {
 
     @ManyToOne
     @JoinColumn(name = "category_id")
-    @JsonManagedReference
     private CategoryEntity category;
 
     @ManyToOne
     @JoinColumn(name= "provider_id")
-    @JsonManagedReference
+    @JsonBackReference(value = "provider_gigs")
     private ProviderEntity serviceGigProvider;
 
 

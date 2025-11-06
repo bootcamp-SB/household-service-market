@@ -47,7 +47,7 @@ public class ProviderEntity {
     @OneToMany(mappedBy = "serviceProvider",
             cascade = CascadeType.PERSIST ,
             orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference(value = "provider_booking")
     private Set<BookingEntity> booking;
 
    @ManyToMany()
@@ -56,15 +56,15 @@ public class ProviderEntity {
            joinColumns = @JoinColumn(name = "provider_id"),
            inverseJoinColumns = @JoinColumn(name = "category_id")
    )
-   @JsonManagedReference
+   @JsonManagedReference(value = "provider_category")
     private Set<CategoryEntity> categories = new HashSet<>();
 
    @OneToMany(mappedBy = "serviceGigProvider")
-   @JsonManagedReference
+   @JsonManagedReference(value = "provider_gigs")
    private List<ServiceGigEntity> gigs;
 
    @OneToMany(mappedBy = "reviewsProvider")
-   @JsonManagedReference
+   @JsonManagedReference(value = "provider_review")
    private List<ReviewsEntity> reviews;
 
 }

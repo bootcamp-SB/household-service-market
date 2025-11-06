@@ -28,7 +28,7 @@ public class CategoryEntity {
         private String name;
 
         @ManyToMany(mappedBy = "categories")
-        @JsonBackReference
+        @JsonBackReference(value ="provider_category" )
         private Set<ProviderEntity> providers = new HashSet<>();
 
         @OneToMany(mappedBy = "category")

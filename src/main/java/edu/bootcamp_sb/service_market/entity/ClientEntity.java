@@ -43,6 +43,7 @@ public class ClientEntity {
     private Set<BookingEntity> bookings;
 
     @OneToMany(mappedBy = "reviewsClient")
+    @JsonManagedReference(value = "client_review")
     private List<ReviewsEntity> reviews;
 
 }

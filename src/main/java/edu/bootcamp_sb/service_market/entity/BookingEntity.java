@@ -38,7 +38,7 @@ public class BookingEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "provider_id")
-    @JsonBackReference
+    @JsonBackReference(value = "provider_booking")
     private ProviderEntity serviceProvider;
 
     @ManyToOne
@@ -47,7 +47,7 @@ public class BookingEntity {
     private ClientEntity client;
 
     @OneToMany(mappedBy = "booking")
-    @JsonBackReference
+    @JsonBackReference(value = "review_booking")
     private List<ReviewsEntity> reviews;
 
 }

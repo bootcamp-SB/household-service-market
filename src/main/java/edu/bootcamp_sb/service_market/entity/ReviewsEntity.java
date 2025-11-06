@@ -32,15 +32,17 @@ public class ReviewsEntity {
 
     @ManyToOne
     @JoinColumn(name = "booking_id")
-    @JsonBackReference
+    @JsonBackReference(value = "review_booking")
     private BookingEntity booking;
 
     @ManyToOne
     @JoinColumn(name="client_id")
+    @JsonBackReference(value = "client_review")
     private ClientEntity reviewsClient;
 
     @ManyToOne
     @JoinColumn(name="provider_id")
+    @JsonBackReference(value = "provider_review")
     private ProviderEntity reviewsProvider;
 
 

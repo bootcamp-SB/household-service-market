@@ -112,9 +112,9 @@ public class ProviderServiceImpl implements ProviderService {
 
         ArrayList<ProviderDto> providersList = new ArrayList<>();
 
-        providers.forEach(providerEntity ->
-                providersList.add(mapper.convertValue
-                        (providerEntity,ProviderDto.class)));
+        providers.forEach(providerEntity ->{
+            providersList.add(convertProviderEntityToProviderDto(providerEntity));
+        });
 
         return ResponseEntity.ok().body(providersList);
     }
