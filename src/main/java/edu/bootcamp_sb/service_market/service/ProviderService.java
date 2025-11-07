@@ -3,6 +3,7 @@ package edu.bootcamp_sb.service_market.service;
 import edu.bootcamp_sb.service_market.dto.ProviderDto;
 
 
+import edu.bootcamp_sb.service_market.dto.reponse.ProviderCategoryResponseDto;
 import edu.bootcamp_sb.service_market.entity.ProviderEntity;
 import org.springframework.http.ResponseEntity;
 
@@ -31,6 +32,8 @@ public interface ProviderService {
     ResponseEntity<List<ProviderDto>> findAllByExpertise(String expertise);
 
     ResponseEntity<List<ProviderDto>> top5Providers();
+
+    ResponseEntity<List<ProviderCategoryResponseDto>> getAllProvidersWithCategories();
 
 
 

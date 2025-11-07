@@ -2,7 +2,9 @@ package edu.bootcamp_sb.service_market.service.impl;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.bootcamp_sb.service_market.dto.CategoryDto;
 import edu.bootcamp_sb.service_market.dto.ProviderDto;
+import edu.bootcamp_sb.service_market.dto.reponse.ProviderCategoryResponseDto;
 import edu.bootcamp_sb.service_market.entity.ProviderEntity;
 
 import edu.bootcamp_sb.service_market.exception.provider_exception.ProviderExistAlreadyException;
@@ -46,6 +48,27 @@ public class ProviderServiceImpl implements ProviderService {
                 .build();
     }
 
+    private static ProviderEntity getProviderEntityFromProviderDto(ProviderDto provider) {
+        ProviderEntity providerEntity = new ProviderEntity();
+        providerEntity.setEmail(provider.getEmail());
+        providerEntity.setFirstName(provider.getFirstName());
+        providerEntity.setLastName(provider.getLastName());
+        providerEntity.setUserName(provider.getUserName());
+        providerEntity.setContactNo(provider.getContactNo());
+        providerEntity.setIsVerified(provider.getIsVerified());
+        providerEntity.setExpertise(provider.getExpertise());
+        providerEntity.setAddress(provider.getAddress());
+        if(provider.getExperience() == null){
+            providerEntity.setExperience("0 years");
+        } else{
+            providerEntity.setExperience(provider.getExperience());
+        }
+        if(provider.getJobCount() != null ){
+            providerEntity.setJobCount(provider.getJobCount());
+        }
+        return providerEntity;
+    }
+
 
 
 
@@ -78,30 +101,13 @@ public class ProviderServiceImpl implements ProviderService {
                             +" - "+provider.getContactNo());
         }
 
-        ProviderEntity providerEntity = new ProviderEntity();
-        providerEntity.setEmail(provider.getEmail());
-        providerEntity.setFirstName(provider.getFirstName());
-        providerEntity.setLastName(provider.getLastName());
-        providerEntity.setUserName(provider.getUserName());
-        providerEntity.setContactNo(provider.getContactNo());
-        providerEntity.setIsVerified(provider.getIsVerified());
-        providerEntity.setExpertise(provider.getExpertise());
-        providerEntity.setAddress(provider.getAddress());
-        if(provider.getExperience() == null){
-            providerEntity.setExperience("0 years");
-        } else{
-            providerEntity.setExperience(provider.getExperience());
-        }
-        if(provider.getJobCount() != null ){
-           providerEntity.setJobCount(provider.getJobCount());
-        }
+        ProviderEntity providerEntity = getProviderEntityFromProviderDto(provider);
 
         ProviderEntity save = providerRepository.save(providerEntity);
 
         return ResponseEntity.ok().body(convertProviderEntityToProviderDto(save));
 
     }
-
 
 
 
@@ -112,9 +118,9 @@ public class ProviderServiceImpl implements ProviderService {
 
         ArrayList<ProviderDto> providersList = new ArrayList<>();
 
-        providers.forEach(providerEntity ->{
-            providersList.add(convertProviderEntityToProviderDto(providerEntity));
-        });
+        providers.forEach(providerEntity ->
+            providersList.add(convertProviderEntityToProviderDto(providerEntity))
+        );
 
         return ResponseEntity.ok().body(providersList);
     }
@@ -257,8 +263,32 @@ public class ProviderServiceImpl implements ProviderService {
         return ResponseEntity.ok(responseDtoArrayList);
     }
 
+    @Override
+    public ResponseEntity<List<ProviderCategoryResponseDto>> getAllProvidersWithCategories(){
+
+        List<ProviderEntity> providerEntityList = providerRepository.findAll();
+
+        ArrayList<ProviderCategoryResponseDto> providerCategoryResponseDtosList = new ArrayList<>();
+
+        HashSet<CategoryDto> categoryDtos = new HashSet<>();
 
 
+        for(ProviderEntity providerEntity : providerEntityList){
+           ProviderCategoryResponseDto providerCategoryResponseDto = new ProviderCategoryResponseDto();
+           providerCategoryResponseDto.setProviderDto(convertProviderEntityToProviderDto(providerEntity));
+           providerEntity.getCategories().forEach(categoryEntity ->
+              categoryDtos.add(
+                      CategoryDto.builder()
+                              .id(categoryEntity.getId())
+                              .name(categoryEntity.getName())
+                              .build()));
+           providerCategoryResponseDto.setCategoriesSet(categoryDtos);
+           providerCategoryResponseDtosList.add(providerCategoryResponseDto);
+
+       }
+
+        return ResponseEntity.ok(providerCategoryResponseDtosList);
+    }
 
 
 }

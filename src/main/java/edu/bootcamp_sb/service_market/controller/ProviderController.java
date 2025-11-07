@@ -3,6 +3,7 @@ package edu.bootcamp_sb.service_market.controller;
 import edu.bootcamp_sb.service_market.dto.ProviderDto;
 
 
+import edu.bootcamp_sb.service_market.dto.reponse.ProviderCategoryResponseDto;
 import edu.bootcamp_sb.service_market.entity.ProviderEntity;
 import edu.bootcamp_sb.service_market.service.ProviderService;
 import lombok.RequiredArgsConstructor;
@@ -69,6 +70,11 @@ public class ProviderController {
     @GetMapping("/top5")
     public ResponseEntity<List<ProviderDto>> getTop5(){
         return providerService.top5Providers();
+    }
+
+    @GetMapping("/with-categories")
+    public ResponseEntity<List<ProviderCategoryResponseDto>>getAllProvidersWithCategories(){
+        return providerService.getAllProvidersWithCategories();
     }
 
 
