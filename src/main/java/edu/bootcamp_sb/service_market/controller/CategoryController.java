@@ -6,11 +6,9 @@ import edu.bootcamp_sb.service_market.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -24,6 +22,11 @@ public class CategoryController {
     @PreAuthorize("hasAnyRole('admin','provider')")
     public ResponseEntity<Map<String,String>>persist(@RequestBody CategoryRequestDto job){
         return categoryService.register(job);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CategoryResponseDto>>getAll(){
+        return categoryService.getAll();
     }
 
 }

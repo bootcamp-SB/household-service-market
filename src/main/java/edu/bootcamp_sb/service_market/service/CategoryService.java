@@ -4,9 +4,12 @@ import edu.bootcamp_sb.service_market.dto.reponse.CategoryResponseDto;
 import edu.bootcamp_sb.service_market.dto.request.CategoryRequestDto;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
 import java.util.Map;
 
 public interface CategoryService {
 
     ResponseEntity<Map<String,String>>register(CategoryRequestDto jobDto);
+
+    ResponseEntity<List<CategoryResponseDto>> getAll();
 }

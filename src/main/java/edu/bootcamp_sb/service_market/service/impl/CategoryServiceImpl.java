@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -47,5 +49,18 @@ public class CategoryServiceImpl implements CategoryService {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(Map.of("Failed", "Category is exsists"));
 
+    }
+
+    @Override
+    public ResponseEntity<List<CategoryResponseDto>> getAll() {
+        Iterable<CategoryEntity> categoryEntitiesList = categoryRepository.findAll();
+
+        ArrayList<CategoryResponseDto> responsDtoArrayList = new ArrayList<>();
+
+        for(CategoryEntity categoryEntity: categoryEntitiesList){
+            responsDtoArrayList.add(convertCategoryEntityToCategoryResponseDto(categoryEntity));
+        }
+
+        return ResponseEntity.ok(responsDtoArrayList);
     }
 }
