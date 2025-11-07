@@ -5,11 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.bootcamp_sb.service_market.dto.CategoryDto;
 import edu.bootcamp_sb.service_market.dto.ProviderDto;
 import edu.bootcamp_sb.service_market.dto.reponse.ProviderCategoryResponseDto;
+import edu.bootcamp_sb.service_market.dto.request.ProviderSelectCategoriesDto;
+import edu.bootcamp_sb.service_market.entity.CategoryEntity;
 import edu.bootcamp_sb.service_market.entity.ProviderEntity;
 
 import edu.bootcamp_sb.service_market.exception.provider_exception.ProviderExistAlreadyException;
 import edu.bootcamp_sb.service_market.exception.provider_exception.ProviderHasBeenNotFoundException;
 
+import edu.bootcamp_sb.service_market.repository.CategoryRepository;
 import edu.bootcamp_sb.service_market.repository.ProviderRepository;
 import edu.bootcamp_sb.service_market.service.ProviderService;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +32,8 @@ import java.util.*;
 public class ProviderServiceImpl implements ProviderService {
 
     private final ProviderRepository providerRepository;
+
+    private final CategoryRepository categoryRepository;
 
     private final ObjectMapper mapper;
 
@@ -290,5 +295,28 @@ public class ProviderServiceImpl implements ProviderService {
         return ResponseEntity.ok(providerCategoryResponseDtosList);
     }
 
+    @Override
+    public ResponseEntity<Map<String, String>> selectACategory(ProviderSelectCategoriesDto selectCategoriesDto) {
+        ProviderEntity providerEntity = providerRepository.findById(
+                selectCategoriesDto.getProviderId()).orElseThrow(
+                        () -> new ProviderHasBeenNotFoundException("Not Found")
+        );
+
+        Iterable<CategoryEntity> allTheCategories = categoryRepository.findAllById(
+                selectCategoriesDto.getCategoriesId());
+
+        if(allTheCategories != null){
+            return ResponseEntity.badRequest().body(Map.of("Failed", "Categories not exists"));
+        }
+
+        if(providerEntity.getCategories().isEmpty()){
+            providerEntity.setCategories((Set<CategoryEntity>) allTheCategories);
+        }
+
+        return ResponseEntity.ok(Map.of("Success", "Categories Added to provider"));
+    }
+
 
 }
+
+

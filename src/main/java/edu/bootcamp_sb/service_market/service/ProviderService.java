@@ -4,7 +4,7 @@ import edu.bootcamp_sb.service_market.dto.ProviderDto;
 
 
 import edu.bootcamp_sb.service_market.dto.reponse.ProviderCategoryResponseDto;
-import edu.bootcamp_sb.service_market.entity.ProviderEntity;
+import edu.bootcamp_sb.service_market.dto.request.ProviderSelectCategoriesDto;
 import org.springframework.http.ResponseEntity;
 
 
@@ -35,8 +35,6 @@ public interface ProviderService {
 
     ResponseEntity<List<ProviderCategoryResponseDto>> getAllProvidersWithCategories();
 
-
-
-
+    ResponseEntity<Map<String, String>> selectACategory(ProviderSelectCategoriesDto selectCategoriesDto);
 
 }

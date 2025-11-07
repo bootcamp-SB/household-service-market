@@ -4,6 +4,7 @@ import edu.bootcamp_sb.service_market.dto.ProviderDto;
 
 
 import edu.bootcamp_sb.service_market.dto.reponse.ProviderCategoryResponseDto;
+import edu.bootcamp_sb.service_market.dto.request.ProviderSelectCategoriesDto;
 import edu.bootcamp_sb.service_market.entity.ProviderEntity;
 import edu.bootcamp_sb.service_market.service.ProviderService;
 import lombok.RequiredArgsConstructor;
@@ -77,6 +78,12 @@ public class ProviderController {
         return providerService.getAllProvidersWithCategories();
     }
 
+    @PutMapping("/select-categories")
+    public ResponseEntity<Map<String,String>> selectCategories(
+            @RequestBody ProviderSelectCategoriesDto selectingDto){
+        return providerService.selectACategory(selectingDto);
+
+    }
 
 
 }
