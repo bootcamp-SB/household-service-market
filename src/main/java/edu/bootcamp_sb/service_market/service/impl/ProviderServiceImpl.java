@@ -302,16 +302,29 @@ public class ProviderServiceImpl implements ProviderService {
                         () -> new ProviderHasBeenNotFoundException("Not Found")
         );
 
+
+
         Iterable<CategoryEntity> allTheCategories = categoryRepository.findAllById(
                 selectCategoriesDto.getCategoriesId());
 
-        if(allTheCategories != null){
+        HashSet<CategoryEntity> categoryEntities = new HashSet<>();
+
+        HashSet<ProviderEntity> providerEntities = new HashSet<>();
+        providerEntities.add(providerEntity);
+
+        if(allTheCategories == null){
             return ResponseEntity.badRequest().body(Map.of("Failed", "Categories not exists"));
         }
 
+        allTheCategories.forEach(entity->{
+            entity.setProviders(providerEntities);
+            categoryEntities.add(entity);
+        });
+
         if(providerEntity.getCategories().isEmpty()){
-            providerEntity.setCategories((Set<CategoryEntity>) allTheCategories);
+            providerEntity.setCategories(categoryEntities);
         }
+        providerRepository.save(providerEntity);
 
         return ResponseEntity.ok(Map.of("Success", "Categories Added to provider"));
     }
