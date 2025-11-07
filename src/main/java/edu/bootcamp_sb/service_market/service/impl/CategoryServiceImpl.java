@@ -8,12 +8,13 @@ import edu.bootcamp_sb.service_market.entity.CategoryEntity;
 import edu.bootcamp_sb.service_market.repository.CategoryRepository;
 import edu.bootcamp_sb.service_market.service.CategoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
-
-
+import java.util.Map;
+import java.util.Optional;
 
 
 @Service
@@ -33,12 +34,18 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @PreAuthorize("hasAnyRole('admin','provider')")
-    public ResponseEntity<CategoryResponseDto> register(CategoryRequestDto categoryRequestDto) {
+    public ResponseEntity<Map<String,String>> register(CategoryRequestDto categoryRequestDto) {
 
-        CategoryEntity categoryEntity = new CategoryEntity();
-        categoryEntity.setName(categoryRequestDto.getName());
-        CategoryEntity save = categoryRepository.save(categoryEntity);
+        Optional<CategoryEntity> existByName = categoryRepository.findAllByName(
+                                                    categoryRequestDto.getName().toLowerCase());
+        if(existByName.isEmpty()){
+            CategoryEntity categoryEntity = new CategoryEntity();
+            categoryEntity.setName(categoryRequestDto.getName().toLowerCase());
+            CategoryEntity save = categoryRepository.save(categoryEntity);
+            return ResponseEntity.ok(Map.of("Successful" , "Category hasBeen saved"+save.getName()));
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("Failed", "Category is exsists"));
 
-        return ResponseEntity.ok(convertCategoryEntityToCategoryResponseDto(save));
     }
 }

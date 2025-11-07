@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/services")
@@ -20,7 +22,7 @@ public class CategoryController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('admin','provider')")
-    public ResponseEntity<CategoryResponseDto>persist(@RequestBody CategoryRequestDto job){
+    public ResponseEntity<Map<String,String>>persist(@RequestBody CategoryRequestDto job){
         return categoryService.register(job);
     }
 
