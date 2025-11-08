@@ -1,5 +1,6 @@
 package edu.bootcamp_sb.service_market.service;
 
+import edu.bootcamp_sb.service_market.dto.ProviderDto;
 import edu.bootcamp_sb.service_market.dto.reponse.CategoryResponseDto;
 import edu.bootcamp_sb.service_market.dto.request.CategoryRequestDto;
 import org.springframework.http.ResponseEntity;
@@ -12,4 +13,7 @@ public interface CategoryService {
     ResponseEntity<Map<String,String>>register(CategoryRequestDto jobDto);
 
     ResponseEntity<List<CategoryResponseDto>> getAll();
+
+    ResponseEntity<List<ProviderDto>> getProvidersInSameCategory(String categoryName);
+
 }

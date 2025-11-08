@@ -1,5 +1,6 @@
 package edu.bootcamp_sb.service_market.controller;
 
+import edu.bootcamp_sb.service_market.dto.ProviderDto;
 import edu.bootcamp_sb.service_market.dto.reponse.CategoryResponseDto;
 import edu.bootcamp_sb.service_market.dto.request.CategoryRequestDto;
 import edu.bootcamp_sb.service_market.service.CategoryService;
@@ -27,6 +28,11 @@ public class CategoryController {
     @GetMapping
     public ResponseEntity<List<CategoryResponseDto>>getAll(){
         return categoryService.getAll();
+    }
+
+    @GetMapping("/providers-of-certain-category")
+    public ResponseEntity<List<ProviderDto>>getProvidersInThatcategory(@RequestParam String name){
+        return categoryService.getProvidersInSameCategory(name);
     }
 
 }
