@@ -4,6 +4,7 @@ package edu.bootcamp_sb.service_market.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.bootcamp_sb.service_market.dto.CategoryDto;
 import edu.bootcamp_sb.service_market.dto.ProviderDto;
+import edu.bootcamp_sb.service_market.dto.reponse.CategoryResponseDto;
 import edu.bootcamp_sb.service_market.dto.reponse.ProviderCategoryResponseDto;
 import edu.bootcamp_sb.service_market.dto.request.ProviderSelectCategoriesDto;
 import edu.bootcamp_sb.service_market.entity.CategoryEntity;
@@ -25,6 +26,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+
+import static edu.bootcamp_sb.service_market.service.impl.CategoryServiceImpl.convertCategoryEntityToCategoryResponseDto;
 
 @Service
 @RequiredArgsConstructor
@@ -251,18 +254,32 @@ public class ProviderServiceImpl implements ProviderService {
     }
 
     @Override
-    public ResponseEntity<List<ProviderDto>> top5Providers() {
+    public ResponseEntity<List<ProviderCategoryResponseDto>> top5Providers() {
         List<ProviderEntity> top5ByOrderByJobCountDesc =
                 providerRepository.findTop5ByOrderByJobCountDesc(
                         PageRequest.of(0, 5, Sort.by(
                                 Sort.Direction.DESC, "jobCount")));
 
-        ArrayList<ProviderDto> responseDtoArrayList = new ArrayList<>();
+        ArrayList<ProviderCategoryResponseDto> responseDtoArrayList = new ArrayList<>();
 
         top5ByOrderByJobCountDesc.forEach(top5Entity->{
+            ProviderCategoryResponseDto providerCategoryResponseDto =
+                    new ProviderCategoryResponseDto();
+
             ProviderDto providerResponseDto
                     = convertProviderEntityToProviderDto(top5Entity);
-            responseDtoArrayList.add(providerResponseDto);
+
+            providerCategoryResponseDto.setProviderDto(providerResponseDto);
+
+            HashSet<CategoryResponseDto> categoryDtoHashSet = new HashSet<>();
+
+            for(CategoryEntity categoryEntity : top5Entity.getCategories()){
+                categoryDtoHashSet.add(convertCategoryEntityToCategoryResponseDto(categoryEntity));
+
+            }
+            providerCategoryResponseDto.setCategoriesSet(categoryDtoHashSet);
+
+            responseDtoArrayList.add(providerCategoryResponseDto);
         });
 
         return ResponseEntity.ok(responseDtoArrayList);
@@ -275,18 +292,20 @@ public class ProviderServiceImpl implements ProviderService {
 
         ArrayList<ProviderCategoryResponseDto> providerCategoryResponseDtosList = new ArrayList<>();
 
-        HashSet<CategoryDto> categoryDtos = new HashSet<>();
+        HashSet<CategoryResponseDto> categoryDtos = new HashSet<>();
 
 
         for(ProviderEntity providerEntity : providerEntityList){
            ProviderCategoryResponseDto providerCategoryResponseDto = new ProviderCategoryResponseDto();
-           providerCategoryResponseDto.setProviderDto(convertProviderEntityToProviderDto(providerEntity));
+
+           providerCategoryResponseDto.setProviderDto(
+                   convertProviderEntityToProviderDto(providerEntity)
+           );
+
            providerEntity.getCategories().forEach(categoryEntity ->
-              categoryDtos.add(
-                      CategoryDto.builder()
-                              .id(categoryEntity.getId())
-                              .name(categoryEntity.getName())
-                              .build()));
+                   categoryDtos.add(convertCategoryEntityToCategoryResponseDto(categoryEntity))
+           );
+
            providerCategoryResponseDto.setCategoriesSet(categoryDtos);
            providerCategoryResponseDtosList.add(providerCategoryResponseDto);
 

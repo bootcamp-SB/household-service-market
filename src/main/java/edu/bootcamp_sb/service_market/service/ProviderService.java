@@ -31,7 +31,7 @@ public interface ProviderService {
 
     ResponseEntity<List<ProviderDto>> findAllByExpertise(String expertise);
 
-    ResponseEntity<List<ProviderDto>> top5Providers();
+    ResponseEntity<List<ProviderCategoryResponseDto>> top5Providers();
 
     ResponseEntity<List<ProviderCategoryResponseDto>> getAllProvidersWithCategories();
 

@@ -69,7 +69,7 @@ public class ProviderController {
     }
 
     @GetMapping("/top5")
-    public ResponseEntity<List<ProviderDto>> getTop5(){
+    public ResponseEntity<List<ProviderCategoryResponseDto>> getTop5(){
         return providerService.top5Providers();
     }
 

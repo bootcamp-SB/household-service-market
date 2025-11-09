@@ -21,5 +21,5 @@ public class ProviderCategoryResponseDto {
 
     private ProviderDto providerDto;
 
-    private Set<CategoryDto> categoriesSet;
+    private Set<CategoryResponseDto> categoriesSet;
 }
