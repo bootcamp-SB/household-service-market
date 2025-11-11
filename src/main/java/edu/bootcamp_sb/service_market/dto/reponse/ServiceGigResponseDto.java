@@ -1,14 +1,18 @@
 package edu.bootcamp_sb.service_market.dto.reponse;
 
 import edu.bootcamp_sb.service_market.dto.ProviderDto;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class ServiceGigResponseDto {
 

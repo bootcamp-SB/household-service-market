@@ -25,7 +25,7 @@ public class CategoryController {
         return categoryService.register(job);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<CategoryResponseDto>>getAll(){
         return categoryService.getAll();
     }

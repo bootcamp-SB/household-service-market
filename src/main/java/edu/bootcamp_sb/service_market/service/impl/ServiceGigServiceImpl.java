@@ -18,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static edu.bootcamp_sb.service_market.service.impl.CategoryServiceImpl.*;
 import static edu.bootcamp_sb.service_market.service.impl.ProviderServiceImpl.convertProviderEntityToProviderDto;
@@ -82,5 +84,33 @@ public class ServiceGigServiceImpl implements ServiceGigService {
                         .category(categoryDto)
                         .build()
         );
+    }
+
+    @Override
+    public ResponseEntity<List<ServiceGigResponseDto>> getAllGigs() {
+
+        Iterable<ServiceGigEntity> serviceGigEntitiesList = gigRepository.findAll();
+
+        ArrayList<ServiceGigResponseDto> serviceGigResponseDtoList = new ArrayList<>();
+
+        serviceGigEntitiesList.forEach(serviceGigEntity -> {
+            ServiceGigResponseDto serviceGigResponseDto = new ServiceGigResponseDto();
+            serviceGigResponseDto.setId(serviceGigEntity.getId());
+            serviceGigResponseDto.setCategory(
+                    convertCategoryEntityToCategoryResponseDto(serviceGigEntity.getCategory())
+            );
+            serviceGigResponseDto.setShortDescription(serviceGigEntity.getShortDescription());
+            serviceGigResponseDto.setTitle(serviceGigEntity.getTitle());
+            serviceGigResponseDto.setCurrency(serviceGigEntity.getCurrency());
+            serviceGigResponseDto.setDurationByHours(serviceGigEntity.getDurationByHours());
+            serviceGigResponseDto.setBasePrice(serviceGigEntity.getBasePrice());
+            serviceGigResponseDto.setProvider(
+                    convertProviderEntityToProviderDto(serviceGigEntity.getServiceGigProvider())
+            );
+            serviceGigResponseDto.setPriceType(serviceGigEntity.getPriceType());
+            serviceGigResponseDtoList.add(serviceGigResponseDto);
+        });
+
+        return ResponseEntity.ok(serviceGigResponseDtoList);
     }
 }
