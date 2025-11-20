@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static edu.bootcamp_sb.service_market.service.impl.CategoryServiceImpl.*;
 import static edu.bootcamp_sb.service_market.service.impl.ProviderServiceImpl.convertProviderEntityToProviderDto;
@@ -112,5 +113,13 @@ public class ServiceGigServiceImpl implements ServiceGigService {
         });
 
         return ResponseEntity.ok(serviceGigResponseDtoList);
+    }
+
+    @Override
+    public ResponseEntity<Map<String, String>> countOfAllActiveJobs() {
+        long activeJobsCount = gigRepository.countByIsActive(true);
+        return ResponseEntity.ok(
+                Map.of("Count of active gigs",String.valueOf(activeJobsCount))
+        );
     }
 }

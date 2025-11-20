@@ -5,12 +5,15 @@ import edu.bootcamp_sb.service_market.dto.reponse.ServiceGigResponseDto;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ServiceGigService {
 
     ResponseEntity<ServiceGigResponseDto> makeANewPoster(ServiceGigDto gig);
 
     ResponseEntity<List<ServiceGigResponseDto>>getAllGigs();
+
+    ResponseEntity<Map<String,String>> countOfAllActiveJobs();
 
 
 }

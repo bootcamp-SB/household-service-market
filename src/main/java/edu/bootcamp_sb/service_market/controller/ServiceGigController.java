@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,6 +24,10 @@ public class ServiceGigController {
     @GetMapping("/all")
     public ResponseEntity<List<ServiceGigResponseDto>> getAllGigs(){
         return serviceGigService.getAllGigs();
+    }
+    @GetMapping("/count-active-ones")
+    public ResponseEntity<Map<String,String>> activeGigCount(){
+        return serviceGigService.countOfAllActiveJobs();
     }
 
 }
