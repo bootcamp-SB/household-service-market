@@ -347,6 +347,14 @@ public class ProviderServiceImpl implements ProviderService {
         return ResponseEntity.ok(Map.of("Success", "Categories Added to provider"));
     }
 
+    @Override
+    public ResponseEntity<Map<String, String>> getProviderCount() {
+        long count = providerRepository.count();
+        return ResponseEntity.ok(
+                Map.of("Provider count", String.valueOf(count))
+        );
+    }
+
 
 }
 

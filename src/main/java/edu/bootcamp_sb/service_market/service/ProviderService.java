@@ -37,4 +37,5 @@ public interface ProviderService {
 
     ResponseEntity<Map<String, String>> selectACategory(ProviderSelectCategoriesDto selectCategoriesDto);
 
+    ResponseEntity<Map<String,String>> getProviderCount();
 }

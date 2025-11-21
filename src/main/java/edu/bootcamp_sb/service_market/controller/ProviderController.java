@@ -9,6 +9,7 @@ import edu.bootcamp_sb.service_market.entity.ProviderEntity;
 import edu.bootcamp_sb.service_market.service.ProviderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -83,6 +84,11 @@ public class ProviderController {
             @RequestBody ProviderSelectCategoriesDto selectingDto){
         return providerService.selectACategory(selectingDto);
 
+    }
+    @GetMapping("/count-all")
+    @PreAuthorize("hasRole('admin')")
+    public ResponseEntity<Map<String,String>>getCount(){
+        return providerService.getProviderCount();
     }
 
 
