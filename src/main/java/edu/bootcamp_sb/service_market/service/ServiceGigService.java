@@ -13,6 +13,8 @@ public interface ServiceGigService {
 
     ResponseEntity<List<ServiceGigResponseDto>>getAllGigs();
 
+    ResponseEntity<List<ServiceGigResponseDto>>getAllActiveGigs();
+
     ResponseEntity<Map<String,String>> countOfAllActiveJobs();
 
 

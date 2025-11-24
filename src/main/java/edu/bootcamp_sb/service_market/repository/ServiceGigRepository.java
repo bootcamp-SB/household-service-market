@@ -11,4 +11,6 @@ public interface ServiceGigRepository extends JpaRepository<ServiceGigEntity, UU
 
     long countByIsActive(Boolean isActive);
 
+    Iterable<ServiceGigEntity> findAllByIsActive(Boolean isActive);
+
 }

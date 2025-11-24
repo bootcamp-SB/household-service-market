@@ -25,9 +25,15 @@ public class ServiceGigController {
     public ResponseEntity<List<ServiceGigResponseDto>> getAllGigs(){
         return serviceGigService.getAllGigs();
     }
+
     @GetMapping("/count-active-ones")
     public ResponseEntity<Map<String,String>> activeGigCount(){
         return serviceGigService.countOfAllActiveJobs();
+    }
+
+    @GetMapping("/active-posters")
+    public ResponseEntity<List<ServiceGigResponseDto>>getAllActiveGigs(){
+        return serviceGigService.getAllActiveGigs();
     }
 
 }

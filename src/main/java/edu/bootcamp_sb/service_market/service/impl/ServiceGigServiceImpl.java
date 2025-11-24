@@ -35,6 +35,30 @@ public class ServiceGigServiceImpl implements ServiceGigService {
 
     private final CategoryRepository categoryRepository;
 
+    public static ServiceGigResponseDto convertGigEntityToGigResponseEntity(
+            ServiceGigEntity preConvertedEntity
+    ){
+        ServiceGigResponseDto serviceGigResponseDto = new ServiceGigResponseDto();
+        serviceGigResponseDto.setId(preConvertedEntity.getId());
+        serviceGigResponseDto.setBasePrice(preConvertedEntity.getBasePrice());
+        serviceGigResponseDto.setTitle(preConvertedEntity.getTitle());
+        serviceGigResponseDto.setCreatedAt(preConvertedEntity.getCreatedAt());
+        serviceGigResponseDto.setUpdatedAt(preConvertedEntity.getUpdatedAt());
+        serviceGigResponseDto.setIsActive(preConvertedEntity.getIsActive());
+        serviceGigResponseDto.setDurationByHours(preConvertedEntity.getDurationByHours());
+        serviceGigResponseDto.setCurrency(preConvertedEntity.getCurrency());
+        serviceGigResponseDto.setShortDescription(preConvertedEntity.getShortDescription());
+        serviceGigResponseDto.setPriceType(preConvertedEntity.getPriceType());
+        serviceGigResponseDto.setProvider(
+                convertProviderEntityToProviderDto(preConvertedEntity.getServiceGigProvider())
+        );
+        serviceGigResponseDto.setCategory(
+                convertCategoryEntityToCategoryResponseDto(preConvertedEntity.getCategory())
+        );
+
+        return  serviceGigResponseDto;
+    }
+
 
 
     @Override
@@ -64,26 +88,9 @@ public class ServiceGigServiceImpl implements ServiceGigService {
 
         ServiceGigEntity save = gigRepository.save(serviceGigEntity);
 
-        ProviderDto providerDto = convertProviderEntityToProviderDto(providerEntity);
-        CategoryResponseDto categoryDto =
-                convertCategoryEntityToCategoryResponseDto(categoryEntity);
-
 
         return ResponseEntity.ok().body(
-                ServiceGigResponseDto.builder()
-                        .id(save.getId())
-                        .basePrice(save.getBasePrice())
-                        .title(save.getTitle())
-                        .createdAt(save.getCreatedAt())
-                        .updatedAt(save.getUpdatedAt())
-                        .isActive(save.getIsActive())
-                        .durationByHours(save.getDurationByHours())
-                        .currency(save.getCurrency())
-                        .shortDescription(save.getShortDescription())
-                        .priceType(save.getPriceType())
-                        .provider(providerDto)
-                        .category(categoryDto)
-                        .build()
+                convertGigEntityToGigResponseEntity(save)
         );
     }
 
@@ -95,22 +102,21 @@ public class ServiceGigServiceImpl implements ServiceGigService {
         ArrayList<ServiceGigResponseDto> serviceGigResponseDtoList = new ArrayList<>();
 
         serviceGigEntitiesList.forEach(serviceGigEntity -> {
-            ServiceGigResponseDto serviceGigResponseDto = new ServiceGigResponseDto();
-            serviceGigResponseDto.setId(serviceGigEntity.getId());
-            serviceGigResponseDto.setCategory(
-                    convertCategoryEntityToCategoryResponseDto(serviceGigEntity.getCategory())
-            );
-            serviceGigResponseDto.setShortDescription(serviceGigEntity.getShortDescription());
-            serviceGigResponseDto.setTitle(serviceGigEntity.getTitle());
-            serviceGigResponseDto.setCurrency(serviceGigEntity.getCurrency());
-            serviceGigResponseDto.setDurationByHours(serviceGigEntity.getDurationByHours());
-            serviceGigResponseDto.setBasePrice(serviceGigEntity.getBasePrice());
-            serviceGigResponseDto.setProvider(
-                    convertProviderEntityToProviderDto(serviceGigEntity.getServiceGigProvider())
-            );
-            serviceGigResponseDto.setPriceType(serviceGigEntity.getPriceType());
-            serviceGigResponseDtoList.add(serviceGigResponseDto);
+            serviceGigResponseDtoList.add(convertGigEntityToGigResponseEntity(serviceGigEntity));
         });
+
+        return ResponseEntity.ok(serviceGigResponseDtoList);
+    }
+
+    @Override
+    public ResponseEntity<List<ServiceGigResponseDto>> getAllActiveGigs() {
+        Iterable<ServiceGigEntity> allByIsActive = gigRepository.findAllByIsActive(true);
+
+        ArrayList<ServiceGigResponseDto> serviceGigResponseDtoList = new ArrayList<>();
+
+        for(ServiceGigEntity serviceGig :allByIsActive){
+            serviceGigResponseDtoList.add(convertGigEntityToGigResponseEntity(serviceGig));
+        }
 
         return ResponseEntity.ok(serviceGigResponseDtoList);
     }

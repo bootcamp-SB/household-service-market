@@ -35,7 +35,7 @@ public class SecurityConfig {
             "/api/v1/providers",
             "/api/v1/client/persist",
             "/api/v1/category/all",
-            "/api/v1/gig/all"
+            "/api/v1/gig/active-posters"
     };
 
     @Bean
