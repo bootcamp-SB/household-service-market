@@ -11,8 +11,7 @@ public class SendMail {
 
     private final JavaMailSender mailSender;
 
-    public void sendOtpMail(OtpDto otpDto){
-
+    public void sendBookingConfirmation(){
 
     }
 

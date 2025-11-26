@@ -23,7 +23,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import static edu.bootcamp_sb.service_market.service.impl.ClientServiceImpl.entityToClientDto;
 import static edu.bootcamp_sb.service_market.service.impl.PaymentServiceImpl.paymentEntityToPaymentDto;
@@ -48,7 +47,8 @@ public class BookingServiceImpl implements BookingService {
         return BookingResponseDto.builder()
                 .id(bookingEntity.getId())
                 .status(bookingEntity.getStatus())
-                .date(bookingEntity.getDate())
+                .startingDate(bookingEntity.getStartingDate())
+                .endingDate(bookingEntity.getEndingDate())
                 .startingTime(bookingEntity.getStartingTime())
                 .endingTime(bookingEntity.getEndingTime())
                 .build();
@@ -63,7 +63,8 @@ public class BookingServiceImpl implements BookingService {
     public ResponseEntity<BookingWithPaymentNClientResponseDto> persist(BookingDto bookingDto) {
 
         BookingEntity bookingEntity = new BookingEntity();
-        bookingEntity.setDate(LocalDate.parse(bookingDto.getDate()));
+        bookingEntity.setStartingDate(bookingDto.getStartingDate());
+        bookingEntity.setEndingDate(bookingDto.getEndingDate());
         bookingEntity.setStatus(bookingDto.getStatus());
         bookingEntity.setStartingTime(LocalTime.parse(bookingDto.getStartingTime()));
         bookingEntity.setEndingTime(LocalTime.parse(bookingDto.getEndingTime()));
@@ -92,7 +93,8 @@ public class BookingServiceImpl implements BookingService {
         return ResponseEntity.ok(
                 BookingWithPaymentNClientResponseDto.builder()
                         .id(saved.getId())
-                        .date(saved.getDate())
+                        .startingDate(saved.getStartingDate())
+                        .endingDate(saved.getEndingDate())
                         .status(saved.getStatus())
                         .endingTime(saved.getEndingTime())
                         .startingTime(saved.getStartingTime())

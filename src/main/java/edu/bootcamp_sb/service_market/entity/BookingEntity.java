@@ -30,7 +30,9 @@ public class BookingEntity {
 
     private LocalTime endingTime;
 
-    private LocalDate date;
+    private LocalDate startingDate;
+
+    private LocalDate endingDate;
 
     @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "payment_Id")

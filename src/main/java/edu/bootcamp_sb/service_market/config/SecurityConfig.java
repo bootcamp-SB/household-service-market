@@ -32,7 +32,6 @@ public class SecurityConfig {
             "/api/v1/providers/all",
             "/api/v1/providers/by-expertises",
             "/admin/realms/market-realm/users/",
-            "/api/v1/providers",
             "/api/v1/client/persist",
             "/api/v1/category/all",
             "/api/v1/gig/active-posters"

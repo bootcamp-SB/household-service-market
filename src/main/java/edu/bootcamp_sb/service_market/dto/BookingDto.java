@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 
@@ -17,13 +18,15 @@ public class BookingDto {
 
     private UUID id;
 
-    private String status;
+    private String status; //pending, approved , rejected , canceled
 
-    private String startingTime;
+    private String startingTime; //clients convenient starting time
 
-    private String endingTime;
+    private String endingTime; //coming from service gig time ending the service depend on that
 
-    private String date;
+    private LocalDate startingDate; //booking date
+
+    private LocalDate endingDate; //if the service ran for days
 
     private PaymentDto payment;
 

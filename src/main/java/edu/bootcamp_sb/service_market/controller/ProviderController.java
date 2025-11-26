@@ -86,7 +86,6 @@ public class ProviderController {
 
     }
     @GetMapping("/count-all")
-    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<Map<String,String>>getCount(){
         return providerService.getProviderCount();
     }

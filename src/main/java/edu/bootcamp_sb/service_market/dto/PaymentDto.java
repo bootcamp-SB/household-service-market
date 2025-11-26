@@ -16,7 +16,7 @@ public class PaymentDto {
 
     private Double amount;
 
-    private String status;
+    private String status; // pending , done , rejected
 
 
 

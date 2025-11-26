@@ -25,7 +25,9 @@ public class BookingResponseDto {
 
     private LocalTime endingTime;
 
-    private LocalDate date;
+    private LocalDate startingDate;
+
+    private LocalDate endingDate;
 
 
 

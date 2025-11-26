@@ -25,7 +25,9 @@ public class BookingWithPaymentNClientResponseDto {
 
     private LocalTime endingTime;
 
-    private LocalDate date;
+    private LocalDate startingDate;
+
+    private LocalDate endingDate;
 
     private PaymentDto payment;
 
