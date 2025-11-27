@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public interface CategoryService {
 
@@ -15,5 +16,7 @@ public interface CategoryService {
     ResponseEntity<List<CategoryResponseDto>> getAll();
 
     ResponseEntity<List<ProviderDto>> getProvidersInSameCategory(String categoryName);
+
+    ResponseEntity<Map<String,String>>deleteCategory(UUID id);
 
 }

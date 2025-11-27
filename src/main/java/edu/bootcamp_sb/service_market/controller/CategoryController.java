@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,6 +34,11 @@ public class CategoryController {
     @GetMapping("/providers-of-certain-category")
     public ResponseEntity<List<ProviderDto>>getProvidersInThatcategory(@RequestParam String name){
         return categoryService.getProvidersInSameCategory(name);
+    }
+
+    @DeleteMapping("/by-id")
+    public ResponseEntity<Map<String,String>>deleteCategory(@RequestParam UUID id){
+        return categoryService.deleteCategory(id);
     }
 
 }

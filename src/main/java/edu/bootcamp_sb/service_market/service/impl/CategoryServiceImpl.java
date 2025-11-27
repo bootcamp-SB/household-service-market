@@ -6,6 +6,7 @@ import edu.bootcamp_sb.service_market.dto.ProviderDto;
 import edu.bootcamp_sb.service_market.dto.reponse.CategoryResponseDto;
 import edu.bootcamp_sb.service_market.dto.request.CategoryRequestDto;
 import edu.bootcamp_sb.service_market.entity.CategoryEntity;
+import edu.bootcamp_sb.service_market.entity.ProviderEntity;
 import edu.bootcamp_sb.service_market.exception.category_exception.CategaryHasBeenNotFoundException;
 import edu.bootcamp_sb.service_market.repository.CategoryRepository;
 import edu.bootcamp_sb.service_market.service.CategoryService;
@@ -15,10 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static edu.bootcamp_sb.service_market.service.impl.ProviderServiceImpl.convertProviderEntityToProviderDto;
 
@@ -83,5 +81,21 @@ public class CategoryServiceImpl implements CategoryService {
         });
 
         return ResponseEntity.ok(providerDtoArrayList);
+    }
+
+    @Override
+    public ResponseEntity<Map<String, String>> deleteCategory(UUID id) {
+
+        CategoryEntity category = categoryRepository.findById(id).orElseThrow(()->
+                new CategaryHasBeenNotFoundException("No category")
+        );
+
+        Set<ProviderEntity> providers = category.getProviders();
+
+        for(ProviderEntity providerEntity: providers) providerEntity.getCategories().remove(category);
+
+        categoryRepository.deleteById(id);
+
+        return ResponseEntity.ok(Map.of("Deletion", "successfully Deleted:" + category));
     }
 }
