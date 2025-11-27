@@ -80,7 +80,6 @@ public class ProviderServiceImpl implements ProviderService {
 
 
     @Override
-    @PreAuthorize("hasAnyRole('admin','provider')")
     public ResponseEntity<ProviderDto> persistProviders(ProviderDto provider) {
 
         Optional<ProviderEntity> contactNo =
@@ -319,7 +318,6 @@ public class ProviderServiceImpl implements ProviderService {
                 selectCategoriesDto.getProviderId()).orElseThrow(
                         () -> new ProviderHasBeenNotFoundException("Not Found")
         );
-
 
 
         Iterable<CategoryEntity> allTheCategories = categoryRepository.findAllById(

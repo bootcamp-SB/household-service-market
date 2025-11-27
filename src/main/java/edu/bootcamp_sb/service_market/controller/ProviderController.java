@@ -19,13 +19,13 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/v1/providers")
+@RequestMapping("/api/v1/providers")
 public class ProviderController {
 
     private final ProviderService providerService;
 
 
-    @PostMapping
+    @PostMapping("/persist")
     public ResponseEntity<ProviderDto>persistProviders(@RequestBody ProviderDto provider)
     {
         return providerService.persistProviders(provider);
