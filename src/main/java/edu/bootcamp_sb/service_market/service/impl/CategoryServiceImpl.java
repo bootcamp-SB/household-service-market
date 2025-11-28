@@ -98,4 +98,12 @@ public class CategoryServiceImpl implements CategoryService {
 
         return ResponseEntity.ok(Map.of("Deletion", "successfully Deleted:" + category));
     }
+
+    @Override
+    public ResponseEntity<Integer> getHowManyProvidersInTheCategory(String categoryName) {
+        CategoryEntity categoryEntity = categoryRepository.findByName(categoryName.toLowerCase()).orElseThrow(() ->
+                new CategaryHasBeenNotFoundException("there is no category in that name"));
+
+        return ResponseEntity.ok(categoryEntity.getProviders().size());
+    }
 }

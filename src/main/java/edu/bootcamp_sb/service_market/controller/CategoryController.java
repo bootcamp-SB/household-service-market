@@ -41,4 +41,8 @@ public class CategoryController {
         return categoryService.deleteCategory(id);
     }
 
+    @GetMapping("/provider-count")
+    public ResponseEntity<Integer>getProviderCountOfTheCategory(@RequestParam String name){
+        return categoryService.getHowManyProvidersInTheCategory(name);
+    }
 }

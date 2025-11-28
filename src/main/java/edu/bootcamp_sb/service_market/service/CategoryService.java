@@ -19,4 +19,6 @@ public interface CategoryService {
 
     ResponseEntity<Map<String,String>>deleteCategory(UUID id);
 
+    ResponseEntity<Integer>getHowManyProvidersInTheCategory(String categoryName);
+
 }
