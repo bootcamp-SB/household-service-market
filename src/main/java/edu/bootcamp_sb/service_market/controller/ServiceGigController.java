@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,4 +37,8 @@ public class ServiceGigController {
         return serviceGigService.getAllActiveGigs();
     }
 
+    @DeleteMapping("/by-id")
+    public ResponseEntity<Map<String,String>>deleteById(@RequestParam UUID id){
+        return serviceGigService.deleteGigById(id);
+    }
 }

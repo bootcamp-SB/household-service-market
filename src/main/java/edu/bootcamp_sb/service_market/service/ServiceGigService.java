@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public interface ServiceGigService {
 
@@ -16,6 +17,8 @@ public interface ServiceGigService {
     ResponseEntity<List<ServiceGigResponseDto>>getAllActiveGigs();
 
     ResponseEntity<Map<String,String>> countOfAllActiveJobs();
+
+    ResponseEntity<Map<String,String>> deleteGigById(UUID id);
 
 
 }

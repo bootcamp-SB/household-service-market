@@ -8,6 +8,7 @@ import edu.bootcamp_sb.service_market.entity.CategoryEntity;
 import edu.bootcamp_sb.service_market.entity.ProviderEntity;
 import edu.bootcamp_sb.service_market.entity.ServiceGigEntity;
 import edu.bootcamp_sb.service_market.exception.category_exception.CategaryHasBeenNotFoundException;
+import edu.bootcamp_sb.service_market.exception.provider_exception.ProviderGigHasNotFound;
 import edu.bootcamp_sb.service_market.exception.provider_exception.ProviderHasBeenNotFoundException;
 import edu.bootcamp_sb.service_market.repository.CategoryRepository;
 import edu.bootcamp_sb.service_market.repository.ProviderRepository;
@@ -21,6 +22,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static edu.bootcamp_sb.service_market.service.impl.CategoryServiceImpl.*;
 import static edu.bootcamp_sb.service_market.service.impl.ProviderServiceImpl.convertProviderEntityToProviderDto;
@@ -127,5 +129,12 @@ public class ServiceGigServiceImpl implements ServiceGigService {
         return ResponseEntity.ok(
                 Map.of("Count of active gigs",String.valueOf(activeJobsCount))
         );
+    }
+
+    @Override
+    public ResponseEntity<Map<String, String>> deleteGigById(UUID id) {
+        gigRepository.deleteById(id);
+
+        return ResponseEntity.ok(Map.of("Message","successfully deleted"));
     }
 }
