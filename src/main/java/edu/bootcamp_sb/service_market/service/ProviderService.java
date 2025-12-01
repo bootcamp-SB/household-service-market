@@ -4,6 +4,7 @@ import edu.bootcamp_sb.service_market.dto.ProviderDto;
 
 
 import edu.bootcamp_sb.service_market.dto.reponse.ProviderCategoryResponseDto;
+import edu.bootcamp_sb.service_market.dto.reponse.ProviderResponseDto;
 import edu.bootcamp_sb.service_market.dto.request.ProviderSelectCategoriesDto;
 import org.springframework.http.ResponseEntity;
 
@@ -25,7 +26,7 @@ public interface ProviderService {
 
     ResponseEntity<ProviderDto> updateById(ProviderDto provider);
 
-    ResponseEntity<ProviderDto> getById(UUID id);
+    ResponseEntity<ProviderResponseDto> getById(UUID id);
 
     ResponseEntity<List<ProviderDto>> getByListOfId(Iterable<UUID> id);
 

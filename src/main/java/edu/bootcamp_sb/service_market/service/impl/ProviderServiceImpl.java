@@ -3,11 +3,9 @@ package edu.bootcamp_sb.service_market.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.bootcamp_sb.service_market.dto.ProviderDto;
-import edu.bootcamp_sb.service_market.dto.reponse.CategoryResponseDto;
-import edu.bootcamp_sb.service_market.dto.reponse.ProviderCategoryResponseDto;
+import edu.bootcamp_sb.service_market.dto.reponse.*;
 import edu.bootcamp_sb.service_market.dto.request.ProviderSelectCategoriesDto;
-import edu.bootcamp_sb.service_market.entity.CategoryEntity;
-import edu.bootcamp_sb.service_market.entity.ProviderEntity;
+import edu.bootcamp_sb.service_market.entity.*;
 
 import edu.bootcamp_sb.service_market.exception.provider_exception.ProviderExistAlreadyException;
 import edu.bootcamp_sb.service_market.exception.provider_exception.ProviderHasBeenNotFoundException;
@@ -26,7 +24,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+import static edu.bootcamp_sb.service_market.service.impl.BookingServiceImpl.bookingEntityToBookingResponseDto;
 import static edu.bootcamp_sb.service_market.service.impl.CategoryServiceImpl.convertCategoryEntityToCategoryResponseDto;
+import static edu.bootcamp_sb.service_market.service.impl.ReviewServiceImpl.reviewEntityToReviewDto;
+import static edu.bootcamp_sb.service_market.service.impl.ServiceGigServiceImpl.convertGigEntityToGigResponseEntity;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +39,47 @@ public class ProviderServiceImpl implements ProviderService {
     private final CategoryRepository categoryRepository;
 
     private final ObjectMapper mapper;
+
+    public static ProviderResponseDto convertProviderEntityToProviderResponseEntity(
+            ProviderEntity providerEntity){
+
+        Set<CategoryEntity> categoriesEntityList = providerEntity.getCategories();
+        List<ServiceGigEntity> serviceGigEntityList = providerEntity.getGigs();
+        Set<BookingEntity> bookingEntityList = providerEntity.getBooking();
+        List<ReviewsEntity> reviewsEntityList = providerEntity.getReviews();
+
+        ArrayList<CategoryResponseDto> categoryResponseDtoList = new ArrayList<>();
+        ArrayList<ServiceGigResponseDto> serviceGigResponseDtoList = new ArrayList<>();
+        ArrayList<BookingResponseDto> bookingResponseDtoList = new ArrayList<>();
+        ArrayList<ReviewResponseDto> reviewResponseDtoList = new ArrayList<>();
+
+        ProviderResponseDto responseDto = new ProviderResponseDto();
+        responseDto.setProviderDetails(convertProviderEntityToProviderDto(providerEntity));
+
+        for(CategoryEntity categoryEntity : categoriesEntityList){
+            categoryResponseDtoList.add(convertCategoryEntityToCategoryResponseDto(categoryEntity));
+
+        }
+
+        for(ServiceGigEntity serviceGigEntity :serviceGigEntityList){
+            serviceGigResponseDtoList.add( convertGigEntityToGigResponseEntity(serviceGigEntity));
+        }
+
+        for(BookingEntity bookingEntity :bookingEntityList){
+            bookingResponseDtoList.add(bookingEntityToBookingResponseDto(bookingEntity));
+        }
+
+        for(ReviewsEntity reviewsEntity: reviewsEntityList){
+            reviewResponseDtoList.add(reviewEntityToReviewDto(reviewsEntity));
+        }
+
+        responseDto.setCategories(categoryResponseDtoList);
+        responseDto.setGigs(serviceGigResponseDtoList);
+        responseDto.setBooking(bookingResponseDtoList);
+        responseDto.setReviews(reviewResponseDtoList);
+
+        return responseDto;
+    }
 
     public static ProviderDto convertProviderEntityToProviderDto(ProviderEntity preConvertDto){
         return ProviderDto.builder()
@@ -205,7 +247,7 @@ public class ProviderServiceImpl implements ProviderService {
 
     @Override
     @PreAuthorize("hasAnyRole('admin','provider')")
-    public ResponseEntity<ProviderDto> getById(UUID id) {
+    public ResponseEntity<ProviderResponseDto> getById(UUID id) {
         if(!providerRepository.existsById(id)){
             throw new ProviderHasBeenNotFoundException("Incorrect provider id");
         }
@@ -214,7 +256,7 @@ public class ProviderServiceImpl implements ProviderService {
 
 
         return ResponseEntity.ok().body(
-                convertProviderEntityToProviderDto(providerEntity)
+                convertProviderEntityToProviderResponseEntity(providerEntity)
         );
 
 
