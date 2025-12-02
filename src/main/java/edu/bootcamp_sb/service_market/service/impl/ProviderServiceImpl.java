@@ -54,7 +54,7 @@ public class ProviderServiceImpl implements ProviderService {
         ArrayList<ReviewResponseDto> reviewResponseDtoList = new ArrayList<>();
 
         ProviderResponseDto responseDto = new ProviderResponseDto();
-        responseDto.setProviderDetails(convertProviderEntityToProviderDto(providerEntity));
+        responseDto.setProviderDto(convertProviderEntityToProviderDto(providerEntity));
 
         for(CategoryEntity categoryEntity : categoriesEntityList){
             categoryResponseDtoList.add(convertCategoryEntityToCategoryResponseDto(categoryEntity));

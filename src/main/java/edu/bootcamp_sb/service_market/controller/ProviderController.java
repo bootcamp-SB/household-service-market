@@ -4,6 +4,7 @@ import edu.bootcamp_sb.service_market.dto.ProviderDto;
 
 
 import edu.bootcamp_sb.service_market.dto.reponse.ProviderCategoryResponseDto;
+import edu.bootcamp_sb.service_market.dto.reponse.ProviderResponseDto;
 import edu.bootcamp_sb.service_market.dto.request.ProviderSelectCategoriesDto;
 import edu.bootcamp_sb.service_market.entity.ProviderEntity;
 import edu.bootcamp_sb.service_market.service.ProviderService;
@@ -37,7 +38,7 @@ public class ProviderController {
     }
 
     @GetMapping("/by-id")
-    public ResponseEntity<ProviderDto>getByID(@RequestParam UUID id){
+    public ResponseEntity<ProviderResponseDto>getByID(@RequestParam UUID id){
         return providerService.getById(id);
     }
 

@@ -12,14 +12,14 @@ import lombok.NoArgsConstructor;
 
 
 import java.util.List;
-import java.util.Set;
+
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProviderResponseDto {
-    private ProviderDto providerDetails;
+    private ProviderDto providerDto;
 
     private List<BookingResponseDto> booking;
 
