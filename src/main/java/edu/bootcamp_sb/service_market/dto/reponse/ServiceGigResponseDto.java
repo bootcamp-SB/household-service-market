@@ -22,6 +22,8 @@ public class ServiceGigResponseDto {
 
     private String shortDescription;
 
+    private String fullDescription;
+
     private Double basePrice;
 
     private String priceType; //Hourly, per Job or for day

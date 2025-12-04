@@ -1,0 +1,1 @@
+ALTER TABLE `gigs` ADD COLUMN `full_description` VARCHAR(512);

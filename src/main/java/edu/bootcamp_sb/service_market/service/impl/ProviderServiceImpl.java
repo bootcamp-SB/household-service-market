@@ -246,7 +246,6 @@ public class ProviderServiceImpl implements ProviderService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('admin','provider')")
     public ResponseEntity<ProviderResponseDto> getById(UUID id) {
         if(!providerRepository.existsById(id)){
             throw new ProviderHasBeenNotFoundException("Incorrect provider id");

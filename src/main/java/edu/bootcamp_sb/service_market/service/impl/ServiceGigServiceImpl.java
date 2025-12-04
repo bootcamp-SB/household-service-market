@@ -50,6 +50,7 @@ public class ServiceGigServiceImpl implements ServiceGigService {
         serviceGigResponseDto.setDurationByHours(preConvertedEntity.getDurationByHours());
         serviceGigResponseDto.setCurrency(preConvertedEntity.getCurrency());
         serviceGigResponseDto.setShortDescription(preConvertedEntity.getShortDescription());
+        serviceGigResponseDto.setFullDescription(preConvertedEntity.getFullDescription());
         serviceGigResponseDto.setPriceType(preConvertedEntity.getPriceType());
         serviceGigResponseDto.setProvider(
                 convertProviderEntityToProviderDto(preConvertedEntity.getServiceGigProvider())
@@ -73,6 +74,7 @@ public class ServiceGigServiceImpl implements ServiceGigService {
         serviceGigEntity.setCreatedAt(LocalDateTime.now());
         serviceGigEntity.setIsActive(Boolean.TRUE);
         serviceGigEntity.setShortDescription(gig.getShortDescription());
+        serviceGigEntity.setFullDescription(gig.getFullDescription());
         serviceGigEntity.setPriceType(gig.getPriceType());
         serviceGigEntity.setUpdatedAt(LocalDateTime.now());
         serviceGigEntity.setDurationByHours(gig.getDurationByHours());
