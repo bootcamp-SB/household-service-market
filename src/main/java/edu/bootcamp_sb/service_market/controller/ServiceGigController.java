@@ -41,4 +41,10 @@ public class ServiceGigController {
     public ResponseEntity<Map<String,String>>deleteById(@RequestParam UUID id){
         return serviceGigService.deleteGigById(id);
     }
+
+    @GetMapping("/by-id")
+    public ResponseEntity<ServiceGigResponseDto>getById(@RequestParam UUID id){
+        return serviceGigService.getById(id);
+    }
+
 }

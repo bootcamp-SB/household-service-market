@@ -1,13 +1,14 @@
 package edu.bootcamp_sb.service_market.service.impl;
 
-import edu.bootcamp_sb.service_market.dto.ProviderDto;
+
 import edu.bootcamp_sb.service_market.dto.ServiceGigDto;
-import edu.bootcamp_sb.service_market.dto.reponse.CategoryResponseDto;
+
 import edu.bootcamp_sb.service_market.dto.reponse.ServiceGigResponseDto;
 import edu.bootcamp_sb.service_market.entity.CategoryEntity;
 import edu.bootcamp_sb.service_market.entity.ProviderEntity;
 import edu.bootcamp_sb.service_market.entity.ServiceGigEntity;
 import edu.bootcamp_sb.service_market.exception.category_exception.CategaryHasBeenNotFoundException;
+
 import edu.bootcamp_sb.service_market.exception.provider_exception.ProviderGigHasNotFound;
 import edu.bootcamp_sb.service_market.exception.provider_exception.ProviderHasBeenNotFoundException;
 import edu.bootcamp_sb.service_market.repository.CategoryRepository;
@@ -105,9 +106,9 @@ public class ServiceGigServiceImpl implements ServiceGigService {
 
         ArrayList<ServiceGigResponseDto> serviceGigResponseDtoList = new ArrayList<>();
 
-        serviceGigEntitiesList.forEach(serviceGigEntity -> {
-            serviceGigResponseDtoList.add(convertGigEntityToGigResponseEntity(serviceGigEntity));
-        });
+        serviceGigEntitiesList.forEach(serviceGigEntity ->
+            serviceGigResponseDtoList.add(convertGigEntityToGigResponseEntity(serviceGigEntity))
+        );
 
         return ResponseEntity.ok(serviceGigResponseDtoList);
     }
@@ -138,5 +139,15 @@ public class ServiceGigServiceImpl implements ServiceGigService {
         gigRepository.deleteById(id);
 
         return ResponseEntity.ok(Map.of("Message","successfully deleted"));
+    }
+
+    @Override
+    public ResponseEntity<ServiceGigResponseDto> getById(UUID id) {
+
+        ServiceGigEntity gigEntity = gigRepository.findById(id).orElseThrow(() ->
+                new ProviderGigHasNotFound("not found"));
+
+
+        return ResponseEntity.ok(convertGigEntityToGigResponseEntity(gigEntity));
     }
 }

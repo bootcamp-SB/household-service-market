@@ -20,5 +20,7 @@ public interface ServiceGigService {
 
     ResponseEntity<Map<String,String>> deleteGigById(UUID id);
 
+    ResponseEntity<ServiceGigResponseDto>getById(UUID id);
+
 
 }
