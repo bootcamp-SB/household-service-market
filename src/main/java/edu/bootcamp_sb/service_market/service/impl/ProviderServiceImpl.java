@@ -107,6 +107,7 @@ public class ProviderServiceImpl implements ProviderService {
         providerEntity.setIsVerified(provider.getIsVerified());
         providerEntity.setExpertise(provider.getExpertise());
         providerEntity.setAddress(provider.getAddress());
+        providerEntity.setShortDescription(provider.getShortDescription());
         if(provider.getExperience() == null){
             providerEntity.setExperience("0 years");
         } else{

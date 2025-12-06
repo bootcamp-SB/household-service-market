@@ -38,6 +38,8 @@ public class ProviderEntity {
 
     private String address;
 
+    private String shortDescription; //about himself to market him
+
     private Boolean isVerified;
 
     private String experience;

@@ -31,6 +31,8 @@ public class ProviderDto {
 
     private String address;
 
+    private String shortDescription;
+
     private String experience;
 
     private Integer jobCount;
