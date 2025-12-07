@@ -6,10 +6,7 @@ import edu.bootcamp_sb.service_market.entity.ReviewsEntity;
 import edu.bootcamp_sb.service_market.exception.booking_exception.BookingHasNotFoundException;
 import edu.bootcamp_sb.service_market.exception.client_exceptions.ClientHasBeenNotFoundException;
 import edu.bootcamp_sb.service_market.exception.provider_exception.ProviderHasBeenNotFoundException;
-import edu.bootcamp_sb.service_market.repository.BookingRepository;
-import edu.bootcamp_sb.service_market.repository.ClientRepository;
-import edu.bootcamp_sb.service_market.repository.ProviderRepository;
-import edu.bootcamp_sb.service_market.repository.ReviewRepository;
+import edu.bootcamp_sb.service_market.repository.*;
 import edu.bootcamp_sb.service_market.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +16,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static edu.bootcamp_sb.service_market.service.impl.BookingServiceImpl.bookingEntityToBookingResponseDto;
+
 import static edu.bootcamp_sb.service_market.service.impl.ClientServiceImpl.entityToClientDto;
 import static edu.bootcamp_sb.service_market.service.impl.ProviderServiceImpl.convertProviderEntityToProviderDto;
+import static edu.bootcamp_sb.service_market.service.impl.ServiceGigServiceImpl.convertGigEntityToGigResponseEntity;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +31,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     private final ProviderRepository providerRepository;
 
-    private final BookingRepository bookingRepository;
+    private final ServiceGigRepository serviceGigRepository;
 
 
 
@@ -44,7 +42,7 @@ public class ReviewServiceImpl implements ReviewService {
                        convertProviderEntityToProviderDto(reviewsEntity.getReviewsProvider())
                )
                .reviewsClient(entityToClientDto(reviewsEntity.getReviewsClient()))
-               .booking(bookingEntityToBookingResponseDto(reviewsEntity.getBooking()))
+               .serviceGigResponseDto(convertGigEntityToGigResponseEntity(reviewsEntity.getServiceGigEntity()))
                .comment(reviewsEntity.getComment())
                .providerResponse(reviewsEntity.getProviderResponse())
                .rating(reviewsEntity.getRating())
@@ -72,9 +70,9 @@ public class ReviewServiceImpl implements ReviewService {
                        new ProviderHasBeenNotFoundException("Invalid Provider"))
         );
 
-        reviewsEntity.setBooking(
-                bookingRepository.findById(review.getBookingId()).orElseThrow(()->
-                        new BookingHasNotFoundException("No booking was Done"))
+        reviewsEntity.setServiceGigEntity(
+                serviceGigRepository.findById(review.getServiceGigId()).orElseThrow(()->
+                        new BookingHasNotFoundException("No gig was found"))
         );
 
         ReviewsEntity save = reviewRepository.save(reviewsEntity);
@@ -97,7 +95,9 @@ public class ReviewServiceImpl implements ReviewService {
             reviewResponseDto.setRating(entity.getRating());
             reviewResponseDto.setComment(entity.getComment());
             reviewResponseDto.setCreatedAt(entity.getCreatedAt());
-            reviewResponseDto.setBooking(bookingEntityToBookingResponseDto(entity.getBooking()));
+            reviewResponseDto.setServiceGigResponseDto(
+                    convertGigEntityToGigResponseEntity(entity.getServiceGigEntity())
+            );
             reviewResponseDto.setReviewsProvider(
                     convertProviderEntityToProviderDto(entity.getReviewsProvider())
             );

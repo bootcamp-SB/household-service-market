@@ -11,6 +11,7 @@ import org.hibernate.annotations.UuidGenerator;
 
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -54,6 +55,9 @@ public class ServiceGigEntity {
     @JsonBackReference(value = "provider_gigs")
     private ProviderEntity serviceGigProvider;
 
+    @OneToMany(mappedBy = "serviceGigEntity")
+    @JsonManagedReference(value = "gig_review")
+    private Set<ReviewsEntity> reviewsEntitySet;
 
 
 

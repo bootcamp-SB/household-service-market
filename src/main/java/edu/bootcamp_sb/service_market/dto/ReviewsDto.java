@@ -28,7 +28,7 @@ public class ReviewsDto {
 
     private LocalDateTime createdAt;
 
-    private UUID bookingId;
+    private UUID serviceGigId;
 
     private UUID clientId;
 

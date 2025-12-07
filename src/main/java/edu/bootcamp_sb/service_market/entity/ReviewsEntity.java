@@ -30,10 +30,6 @@ public class ReviewsEntity {
 
     private LocalDateTime createdAt;
 
-    @ManyToOne
-    @JoinColumn(name = "booking_id")
-    @JsonBackReference(value = "review_booking")
-    private BookingEntity booking;
 
     @ManyToOne
     @JoinColumn(name="client_id")
@@ -44,6 +40,11 @@ public class ReviewsEntity {
     @JoinColumn(name="provider_id")
     @JsonBackReference(value = "provider_review")
     private ProviderEntity reviewsProvider;
+
+    @ManyToOne
+    @JoinColumn(name = "service_gig_id")
+    @JsonBackReference(value="gig_review")
+    private ServiceGigEntity serviceGigEntity;
 
 
 

@@ -32,7 +32,7 @@ public class ReviewResponseDto {
 
     private LocalDateTime createdAt;
 
-    private BookingResponseDto booking;
+    private ServiceGigResponseDto serviceGigResponseDto;
 
     private ClientDto reviewsClient;
 

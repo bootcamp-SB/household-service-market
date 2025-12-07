@@ -20,6 +20,8 @@ CREATE TABLE `gigs`(
 
     `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
+    PRIMARY KEY (`id`),
+
     `category_id` binary(16) NOT NULL,
     `provider_id` binary(16) NOT NULL,
      CONSTRAINT `FK_category_gigs` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),

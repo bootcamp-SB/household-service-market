@@ -48,8 +48,6 @@ public class BookingEntity {
     @JsonBackReference(value = "client-booking")
     private ClientEntity client;
 
-    @OneToMany(mappedBy = "booking")
-    @JsonBackReference(value = "review_booking")
-    private List<ReviewsEntity> reviews;
+
 
 }
