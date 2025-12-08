@@ -48,7 +48,6 @@ public class ServiceGigServiceImpl implements ServiceGigService {
         serviceGigResponseDto.setCreatedAt(preConvertedEntity.getCreatedAt());
         serviceGigResponseDto.setUpdatedAt(preConvertedEntity.getUpdatedAt());
         serviceGigResponseDto.setIsActive(preConvertedEntity.getIsActive());
-        serviceGigResponseDto.setDurationByHours(preConvertedEntity.getDurationByHours());
         serviceGigResponseDto.setCurrency(preConvertedEntity.getCurrency());
         serviceGigResponseDto.setShortDescription(preConvertedEntity.getShortDescription());
         serviceGigResponseDto.setFullDescription(preConvertedEntity.getFullDescription());
@@ -78,7 +77,7 @@ public class ServiceGigServiceImpl implements ServiceGigService {
         serviceGigEntity.setFullDescription(gig.getFullDescription());
         serviceGigEntity.setPriceType(gig.getPriceType());
         serviceGigEntity.setUpdatedAt(LocalDateTime.now());
-        serviceGigEntity.setDurationByHours(gig.getDurationByHours());
+
 
         ProviderEntity providerEntity = providerRepository.findById(gig.getProviderId()).orElseThrow(
                 ()-> new ProviderHasBeenNotFoundException("Provider Has Been not Found")

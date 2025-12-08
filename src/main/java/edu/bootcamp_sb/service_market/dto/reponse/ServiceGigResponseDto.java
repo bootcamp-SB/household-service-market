@@ -28,8 +28,6 @@ public class ServiceGigResponseDto {
 
     private String priceType; //Hourly, per Job or for day
 
-    private Double durationByHours;
-
     private String currency; // LKR, USD
 
     private Boolean isActive;

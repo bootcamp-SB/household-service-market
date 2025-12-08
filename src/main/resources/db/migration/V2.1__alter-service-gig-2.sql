@@ -1,0 +1,1 @@
+ALTER TABLE `gigs` DROP COLUMN `duration_by_hours`

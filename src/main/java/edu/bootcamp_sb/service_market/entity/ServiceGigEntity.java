@@ -36,8 +36,6 @@ public class ServiceGigEntity {
 
     private String priceType; //Hourly, per Job or for day
 
-    private Double durationByHours;
-
     private String currency;
 
     private Boolean isActive;
