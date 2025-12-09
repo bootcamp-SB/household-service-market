@@ -94,6 +94,7 @@ public class ProviderServiceImpl implements ProviderService {
                 .address(preConvertDto.getAddress())
                 .experience(preConvertDto.getExperience())
                 .jobCount(preConvertDto.getJobCount())
+                .shortDescription(preConvertDto.getShortDescription())
                 .build();
     }
 
