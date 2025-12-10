@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 import static edu.bootcamp_sb.service_market.service.impl.ClientServiceImpl.entityToClientDto;
@@ -108,6 +109,22 @@ public class ReviewServiceImpl implements ReviewService {
 
 
         return ResponseEntity.ok(responseDtosList);
+    }
+
+    @Override
+    public ResponseEntity<List<ReviewResponseDto>> getAllReviewInGig(UUID id) {
+
+        Iterable<ReviewsEntity> allByServiceGigEntityId =
+                reviewRepository.findAllByServiceGigEntityId(id);
+
+        ArrayList<ReviewResponseDto> responseDtos = new ArrayList<>();
+
+
+        allByServiceGigEntityId.forEach(reviewsEntity ->
+                responseDtos.add(reviewEntityToReviewDto(reviewsEntity))
+        );
+
+        return ResponseEntity.ok(responseDtos);
     }
 }
 
