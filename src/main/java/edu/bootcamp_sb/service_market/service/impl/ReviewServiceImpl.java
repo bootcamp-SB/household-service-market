@@ -45,6 +45,7 @@ public class ReviewServiceImpl implements ReviewService {
                .reviewsClient(entityToClientDto(reviewsEntity.getReviewsClient()))
                .serviceGigResponseDto(convertGigEntityToGigResponseEntity(reviewsEntity.getServiceGigEntity()))
                .comment(reviewsEntity.getComment())
+               .createdAt(reviewsEntity.getCreatedAt())
                .providerResponse(reviewsEntity.getProviderResponse())
                .rating(reviewsEntity.getRating())
                .build();
