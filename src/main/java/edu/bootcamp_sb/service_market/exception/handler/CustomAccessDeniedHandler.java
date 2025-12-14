@@ -1,4 +1,4 @@
-package edu.bootcamp_sb.service_market.exception;
+package edu.bootcamp_sb.service_market.exception.handler;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -2,7 +2,7 @@ package edu.bootcamp_sb.service_market.service;
 
 import edu.bootcamp_sb.service_market.dto.ReviewsDto;
 import edu.bootcamp_sb.service_market.dto.reponse.ReviewResponseDto;
-import edu.bootcamp_sb.service_market.entity.ReviewsEntity;
+
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
