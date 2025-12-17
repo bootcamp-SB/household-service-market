@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -31,6 +32,12 @@ public class ReviewController {
     @GetMapping("/by-gig-id")
     public ResponseEntity<List<ReviewResponseDto>>getByGigId(@RequestParam UUID id){
         return reviewService.getAllReviewInGig(id);
+    }
+
+    @PostMapping
+    public ResponseEntity<Map<String,String>>providerReply(
+            @RequestParam UUID gigId, @RequestParam String reply){
+        return reviewService.providerResponse(gigId,reply);
     }
 
 }

@@ -6,6 +6,7 @@ import edu.bootcamp_sb.service_market.entity.ReviewsEntity;
 import edu.bootcamp_sb.service_market.exception.booking_exception.BookingHasNotFoundException;
 import edu.bootcamp_sb.service_market.exception.client_exceptions.ClientHasBeenNotFoundException;
 import edu.bootcamp_sb.service_market.exception.provider_exception.ProviderHasBeenNotFoundException;
+import edu.bootcamp_sb.service_market.exception.review_exception.ReviewHasBeenNotFoundException;
 import edu.bootcamp_sb.service_market.repository.*;
 import edu.bootcamp_sb.service_market.service.ReviewService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -126,6 +128,16 @@ public class ReviewServiceImpl implements ReviewService {
         );
 
         return ResponseEntity.ok(responseDtos);
+    }
+
+    @Override
+    public ResponseEntity<Map<String, String>> providerResponse(UUID gigId,String response) {
+        ReviewsEntity reviewsEntity = reviewRepository.findById(gigId).orElseThrow(() ->
+                new ReviewHasBeenNotFoundException("no review to response"));
+
+        reviewsEntity.setProviderResponse(response);
+
+        return ResponseEntity.ok(Map.of("successful","successfully replied"));
     }
 }
 

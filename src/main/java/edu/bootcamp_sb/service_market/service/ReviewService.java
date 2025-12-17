@@ -6,6 +6,7 @@ import edu.bootcamp_sb.service_market.dto.reponse.ReviewResponseDto;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public interface ReviewService {
@@ -15,6 +16,8 @@ public interface ReviewService {
     ResponseEntity<List<ReviewResponseDto>> getAllResponses();
 
     ResponseEntity<List<ReviewResponseDto>>getAllReviewInGig(UUID id);
+
+    ResponseEntity<Map<String,String>>providerResponse(UUID gigId, String response);
 
 
 }
