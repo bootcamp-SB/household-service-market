@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,6 +31,11 @@ public class BookingController {
     @PreAuthorize("hasRole('admin')")
     public ResponseEntity<List<BookingDto>>getAll(){
         return bookingService.show();
+    }
+
+    @GetMapping("/by-id")
+    public ResponseEntity<BookingResponseDto>getById(@RequestParam UUID id){
+        return  bookingService.getBookingById(id);
     }
 
 
