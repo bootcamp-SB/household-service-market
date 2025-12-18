@@ -9,6 +9,7 @@ import edu.bootcamp_sb.service_market.dto.reponse.BookingWithPaymentNClientRespo
 import edu.bootcamp_sb.service_market.entity.BookingEntity;
 import edu.bootcamp_sb.service_market.entity.ClientEntity;
 import edu.bootcamp_sb.service_market.entity.PaymentEntity;
+import edu.bootcamp_sb.service_market.exception.booking_exception.BookingHasNotFoundException;
 import edu.bootcamp_sb.service_market.exception.client_exceptions.ClientHasBeenNotFoundException;
 import edu.bootcamp_sb.service_market.repository.BookingRepository;
 import edu.bootcamp_sb.service_market.repository.ClientRepository;
@@ -23,6 +24,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import static edu.bootcamp_sb.service_market.service.impl.ClientServiceImpl.entityToClientDto;
 import static edu.bootcamp_sb.service_market.service.impl.PaymentServiceImpl.paymentEntityToPaymentDto;
@@ -118,5 +121,13 @@ public class BookingServiceImpl implements BookingService {
                             )));
 
         return ResponseEntity.ok(bookingDtoList);
+    }
+
+    @Override
+    public ResponseEntity<BookingResponseDto> getBookingById(UUID id) {
+       BookingEntity bookingEntity = bookingRepository.findById(id).orElseThrow(
+                ()-> new BookingHasNotFoundException("no booking with id called "+id));
+
+        return ResponseEntity.ok(bookingEntityToBookingResponseDto(bookingEntity));
     }
 }
