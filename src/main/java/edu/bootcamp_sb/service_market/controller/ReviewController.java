@@ -40,4 +40,8 @@ public class ReviewController {
         return reviewService.providerResponse(gigId,reply);
     }
 
+    @DeleteMapping("/by-id")
+    public ResponseEntity<Map<String,String>>deleteReview(@RequestParam UUID id){
+        return reviewService.deleteReview(id);
+    }
 }

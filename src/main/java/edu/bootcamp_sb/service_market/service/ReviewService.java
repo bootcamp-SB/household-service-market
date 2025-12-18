@@ -19,5 +19,7 @@ public interface ReviewService {
 
     ResponseEntity<Map<String,String>>providerResponse(UUID gigId, String response);
 
+    ResponseEntity<Map<String,String>>deleteReview(UUID id);
+
 
 }

@@ -139,5 +139,11 @@ public class ReviewServiceImpl implements ReviewService {
 
         return ResponseEntity.ok(Map.of("successful","successfully replied"));
     }
+
+    @Override
+    public ResponseEntity<Map<String, String>> deleteReview(UUID id) {
+        reviewRepository.deleteById(id);
+        return ResponseEntity.ok(Map.of("Deletion","delete successfully "+ id ));
+    }
 }
 
