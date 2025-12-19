@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -37,6 +38,9 @@ public class BookingController {
     public ResponseEntity<BookingResponseDto>getById(@RequestParam UUID id){
         return  bookingService.getBookingById(id);
     }
-
+    @PutMapping("/cancel")
+    public ResponseEntity<Map<String,String>>cancelBooking(UUID id){
+        return bookingService.cancelBooking(id);
+    }
 
 }

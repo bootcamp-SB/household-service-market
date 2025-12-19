@@ -21,4 +21,5 @@ public interface CategoryService {
 
     ResponseEntity<Integer>getHowManyProvidersInTheCategory(String categoryName);
 
+
 }

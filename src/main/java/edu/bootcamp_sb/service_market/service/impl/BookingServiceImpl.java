@@ -22,10 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static edu.bootcamp_sb.service_market.service.impl.ClientServiceImpl.entityToClientDto;
 import static edu.bootcamp_sb.service_market.service.impl.PaymentServiceImpl.paymentEntityToPaymentDto;
@@ -129,5 +126,14 @@ public class BookingServiceImpl implements BookingService {
                 ()-> new BookingHasNotFoundException("no booking with id called "+id));
 
         return ResponseEntity.ok(bookingEntityToBookingResponseDto(bookingEntity));
+    }
+
+    @Override
+    public ResponseEntity<Map<String, String>> cancelBooking(UUID id) {
+        BookingEntity bookingEntity = bookingRepository.findById(id).orElseThrow(() ->
+                new BookingHasNotFoundException("No booking found"));
+        bookingEntity.setStatus("canceled");
+        return ResponseEntity.ok(Map.of(
+                "cancellation", "successfully canceled booking called" + id));
     }
 }
