@@ -44,4 +44,9 @@ public class ReviewController {
     public ResponseEntity<Map<String,String>>deleteReview(@RequestParam UUID id){
         return reviewService.deleteReview(id);
     }
+
+    @GetMapping("/count")
+    public ResponseEntity<Long>getCount(){
+         return reviewService.getCount();
+    }
 }

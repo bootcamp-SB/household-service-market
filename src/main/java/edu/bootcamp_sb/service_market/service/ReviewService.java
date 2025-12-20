@@ -21,5 +21,7 @@ public interface ReviewService {
 
     ResponseEntity<Map<String,String>>deleteReview(UUID id);
 
+    ResponseEntity<Long>getCount();
+
 
 }

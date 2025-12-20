@@ -145,5 +145,11 @@ public class ReviewServiceImpl implements ReviewService {
         reviewRepository.deleteById(id);
         return ResponseEntity.ok(Map.of("Deletion","delete successfully "+ id ));
     }
+
+    @Override
+    public ResponseEntity<Long> getCount() {
+
+        return ResponseEntity.ok(reviewRepository.count());
+    }
 }
 
