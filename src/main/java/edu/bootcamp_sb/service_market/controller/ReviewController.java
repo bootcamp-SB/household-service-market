@@ -34,7 +34,7 @@ public class ReviewController {
         return reviewService.getAllReviewInGig(id);
     }
 
-    @PostMapping
+    @PostMapping("/reply")
     public ResponseEntity<Map<String,String>>providerReply(
             @RequestParam UUID gigId, @RequestParam String reply){
         return reviewService.providerResponse(gigId,reply);
