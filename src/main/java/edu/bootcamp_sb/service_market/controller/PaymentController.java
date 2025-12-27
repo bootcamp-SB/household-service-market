@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -35,5 +36,10 @@ public class PaymentController {
     public ResponseEntity<PaymentDto>getById(@RequestParam UUID id){
         return paymentService.byId(id);
 
+    }
+
+    @DeleteMapping("/by-id")
+    public ResponseEntity<Map<String,String>>deleteById(@RequestParam UUID id){
+        return paymentService.deleteById(id);
     }
 }

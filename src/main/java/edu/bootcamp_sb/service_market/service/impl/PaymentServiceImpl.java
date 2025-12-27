@@ -12,10 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -72,6 +69,17 @@ public class PaymentServiceImpl implements PaymentService {
                         ()->new RuntimeException("ID not found"));
 
         return ResponseEntity.ok(mapper.convertValue(byId,PaymentDto.class));
+    }
+
+    @Override
+    public ResponseEntity<Map<String, String>> deleteById(UUID id) {
+        Optional<PaymentEntity> paymentEntity = paymentRepository.findById(id);
+        if(paymentEntity.isPresent()){
+            paymentRepository.deleteById(id);
+        }else{
+            throw new RuntimeException("payment not found");
+        }
+        return ResponseEntity.ok(Map.of("deletion","sucessful-> "+id));
     }
 
 

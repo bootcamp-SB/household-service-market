@@ -4,6 +4,7 @@ import edu.bootcamp_sb.service_market.dto.PaymentDto;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public interface PaymentService {
@@ -13,4 +14,7 @@ public interface PaymentService {
     ResponseEntity<List<PaymentDto>> show();
 
     ResponseEntity<PaymentDto> byId(UUID id);
+
+    ResponseEntity<Map<String,String>>deleteById(UUID id);
+
 }
