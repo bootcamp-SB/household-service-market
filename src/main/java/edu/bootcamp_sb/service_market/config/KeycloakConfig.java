@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class KeycloakConfig {
 
-    @Value("${keycloak.base-Url}")
+    @Value("${keycloak.base-url}")
     private String serverUrl;
 
     @Value("${keycloak.admin.username}")
