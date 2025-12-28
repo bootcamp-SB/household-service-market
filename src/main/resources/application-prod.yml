@@ -9,6 +9,7 @@ spring:
     show-sql: true
   flyway:
     enable: true
+
   security:
     oauth2:
       resourceserver:
