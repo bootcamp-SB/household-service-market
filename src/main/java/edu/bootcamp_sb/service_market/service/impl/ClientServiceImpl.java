@@ -12,6 +12,7 @@ import edu.bootcamp_sb.service_market.exception.client_exceptions.ClientHasBeenN
 import edu.bootcamp_sb.service_market.repository.ClientRepository;
 import edu.bootcamp_sb.service_market.service.ClientService;
 import lombok.RequiredArgsConstructor;
+import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -80,6 +81,8 @@ public class ClientServiceImpl implements ClientService {
 
         if(byEmail.isPresent()) throw new ClientAlreadyRegisteredException
                 ("Email has been registered before");
+
+
 
 
         ClientEntity clientEntity = new ClientEntity();

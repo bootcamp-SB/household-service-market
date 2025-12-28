@@ -36,6 +36,9 @@ keycloak:
   realm: ${realm-name:market-realm}
   client-id: ${client-id:spring-boot-api}
   client-secret: ${secret-client}
+  admin:
+    username: admin
+    password: admin
 
 
 

@@ -117,7 +117,12 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
-
+<!--        this used for to make the user in this app -->
+        <dependency>
+            <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-admin-client</artifactId>
+            <version>26.0.7</version>
+        </dependency>
 
     </dependencies>
 
