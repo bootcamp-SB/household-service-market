@@ -19,7 +19,15 @@ public class ClientRequestDto {
 
     private String email;
 
+    private String username;
+
+    private String firstName;
+
+    private String lastName;
+
     private  String paymentMethod;
+
+    private String keycloakId;
 
     private ClientProfileRequestDto profile;
 }

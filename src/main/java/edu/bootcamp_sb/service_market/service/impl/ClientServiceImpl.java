@@ -82,12 +82,13 @@ public class ClientServiceImpl implements ClientService {
         if(byEmail.isPresent()) throw new ClientAlreadyRegisteredException
                 ("Email has been registered before");
 
-
-
-
         ClientEntity clientEntity = new ClientEntity();
         clientEntity.setEmail(clientDto.getEmail());
         clientEntity.setAddress(clientDto.getAddress());
+        clientEntity.setUsername(clientDto.getUsername());
+        clientEntity.setFirstName(clientDto.getFirstName());
+        clientEntity.setLastName(clientDto.getLastName());
+        clientEntity.setKeycloakId(clientDto.getKeycloakId());
         clientEntity.setPaymentMethod(clientDto.getPaymentMethod());
 
 

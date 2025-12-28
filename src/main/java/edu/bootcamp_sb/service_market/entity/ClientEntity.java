@@ -30,8 +30,15 @@ public class ClientEntity {
 
     private String email;
 
+    private String username;
+
+    private String firstName;
+
+    private String lastName;
+
     private String paymentMethod;
 
+    private String keycloakId;
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "profile_Id")

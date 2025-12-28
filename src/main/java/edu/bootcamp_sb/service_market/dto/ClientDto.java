@@ -18,6 +18,13 @@ public class ClientDto {
 
     private String email;
 
+    private String lastName;
+
+    private String firstName;
+
+    private String username;
+
+
     private  String paymentMethod;
 
 
