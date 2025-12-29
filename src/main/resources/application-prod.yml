@@ -32,8 +32,10 @@ springdoc:
       path: /api-docs
 
 keycloak:
-  base-url: ${keycloak-url:http://localhost:8090}
+  base-url: ${keycloak-url:http://localhost:8090/}
   realm: ${realm-name:market-realm}
+  admin-realm: ${admin-realm:master}
+  master-cli-id: ${cli-id:admin-cli}
   client-id: ${client-id:spring-boot-api}
   client-secret: ${secret-client}
   admin:

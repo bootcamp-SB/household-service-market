@@ -27,7 +27,6 @@ public class ClientRequestDto {
 
     private  String paymentMethod;
 
-    private String keycloakId;
 
     private ClientProfileRequestDto profile;
 }

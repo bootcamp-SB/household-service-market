@@ -10,6 +10,7 @@ import edu.bootcamp_sb.service_market.service.ClientService;
 import edu.bootcamp_sb.service_market.service.KeyCloakUserHandleService;
 import edu.bootcamp_sb.service_market.service.ProviderService;
 import lombok.RequiredArgsConstructor;
+import org.keycloak.admin.client.Keycloak;
 import org.springframework.stereotype.Service;
 
 
@@ -29,6 +30,7 @@ public class KeyCloakUserHandleServiceImpl implements KeyCloakUserHandleService 
     private final ClientService clientService;
     private final ProviderService providerService;
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    private final Keycloak keycloak;
 
     HashMap<String,OtpDataDto> codes = new HashMap<>();
 
@@ -61,18 +63,6 @@ public class KeyCloakUserHandleServiceImpl implements KeyCloakUserHandleService 
     }
 
 
-    @Override
-    public void clientUser(UserDto userDto) {
-
-        ClientRequestDto clientRequestDto = new ClientRequestDto();
-        clientRequestDto.setEmail(userDto.getEmail());
-        clientRequestDto.setPaymentMethod(userDto.getPaymentMethod());
-        clientRequestDto.setAddress(userDto.getAddress());
-
-        clientService.persist(clientRequestDto);
-
-
-    }
 
 
 }

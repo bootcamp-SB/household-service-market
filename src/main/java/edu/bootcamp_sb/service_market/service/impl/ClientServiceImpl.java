@@ -6,13 +6,19 @@ import edu.bootcamp_sb.service_market.dto.reponse.ClientResponseDto;
 import edu.bootcamp_sb.service_market.dto.request.ClientRequestDto;
 import edu.bootcamp_sb.service_market.entity.ClientEntity;
 import edu.bootcamp_sb.service_market.entity.ClientProfileEntity;
-import edu.bootcamp_sb.service_market.exception.client_exceptions.ClientAlreadyRegisteredException;
 import edu.bootcamp_sb.service_market.exception.client_exceptions.ClientHasBeenNotFoundException;
 
 import edu.bootcamp_sb.service_market.repository.ClientRepository;
 import edu.bootcamp_sb.service_market.service.ClientService;
+import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.keycloak.admin.client.Keycloak;
+
+import org.keycloak.admin.client.resource.RealmResource;
+import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.UserRepresentation;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,9 +30,16 @@ import static edu.bootcamp_sb.service_market.service.impl.ClientProfileServiceIm
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
+
+    private final Keycloak keycloak;
+
+    @Value("${keycloak.realm}")
+    private String marketRealm;
+
 
     private final ObjectMapper mapper;
 
@@ -79,38 +92,70 @@ public class ClientServiceImpl implements ClientService {
         Optional<ClientEntity> byEmail =
                 clientRepository.findByEmail(clientDto.getEmail());
 
-        if(byEmail.isPresent()) throw new ClientAlreadyRegisteredException
-                ("Email has been registered before");
+        if (byEmail.isPresent()) {
+            throw new RuntimeException("Email has been registered before");
+        }
 
-        ClientEntity clientEntity = new ClientEntity();
-        clientEntity.setEmail(clientDto.getEmail());
-        clientEntity.setAddress(clientDto.getAddress());
-        clientEntity.setUsername(clientDto.getUsername());
-        clientEntity.setFirstName(clientDto.getFirstName());
-        clientEntity.setLastName(clientDto.getLastName());
-        clientEntity.setKeycloakId(clientDto.getKeycloakId());
-        clientEntity.setPaymentMethod(clientDto.getPaymentMethod());
+        String sanitizedUsername =
+                clientDto.getUsername().replace("\\s+", "_");
+
+        UserRepresentation user = new UserRepresentation();
+        user.setUsername(sanitizedUsername);
+        user.setEmail(clientDto.getEmail());
+        user.setFirstName(clientDto.getFirstName());
+        user.setLastName(clientDto.getLastName());
+        user.setEnabled(true);
+        user.setEmailVerified(false);
+
+        // 3. Create user via API
+        Response response = keycloak.realm(marketRealm).users().create(user);
+
+        // 4. Check response status
+        if (response.getStatus() == 201) {
+            // Extract user ID from Location header
+            String locationHeader = response.getHeaderString("Location");
+            String userId =
+                    locationHeader.substring(locationHeader.lastIndexOf('/') + 1);
+
+            log.info("User created successfully with ID: {}", userId);
+
+            ClientEntity clientEntity = new ClientEntity();
+            clientEntity.setUsername(sanitizedUsername);
+            clientEntity.setEmail(clientDto.getEmail());
+            clientEntity.setFirstName(clientDto.getFirstName());
+            clientEntity.setLastName(clientDto.getLastName());
+            clientEntity.setAddress(clientDto.getAddress());
+            clientEntity.setPaymentMethod(clientDto.getPaymentMethod());
+            clientEntity.setKeycloakId(userId);
 
 
-        ClientProfileEntity profileEntity = new ClientProfileEntity();
-        profileEntity.setProfilePicUrl(clientDto.getProfile().getProfilePicUrl());
-        profileEntity.setClient(clientEntity);
+            ClientProfileEntity profileEntity = new ClientProfileEntity();
+            profileEntity.setProfilePicUrl(clientDto.getProfile().getProfilePicUrl());
+            profileEntity.setClient(clientEntity);
+
+            clientEntity.setProfile(profileEntity);
+            ClientEntity saved = clientRepository.save(clientEntity);
+
+            // Return DTO
+            ClientResponseDto responseDto = ClientResponseDto.builder()
+                    .id(saved.getId())
+                    .email(saved.getEmail())
+                    .address(saved.getAddress())
+                    .paymentMethod(saved.getPaymentMethod())
+                    .profile(profileEntityTOClientProfileDto(saved.getProfile()))
+                    .build();
+            return ResponseEntity.ok(responseDto);
+
+        } else {
+            String errorMessage = response.readEntity(String.class);
+            log.error("Failed to create user. Status: {}, Error: {}", response.getStatus(), errorMessage);
+            throw new RuntimeException("Failed to create user in Keycloak: " + errorMessage);
+        }
 
 
-        clientEntity.setProfile(profileEntity);
-
-        ClientEntity saved = clientRepository.save(clientEntity);
-
-        return ResponseEntity.ok().body(
-                ClientResponseDto.builder()
-                        .id(saved.getId())
-                        .email(saved.getEmail())
-                        .address(saved.getAddress())
-                        .paymentMethod(saved.getPaymentMethod())
-                        .profile(profileEntityTOClientProfileDto(saved.getProfile()))
-                        .build()
-        );
     }
+
+
 
     @Override
     @PreAuthorize("hasAnyRole('admin','user')")
@@ -140,4 +185,6 @@ public class ClientServiceImpl implements ClientService {
                         ),ClientDto.class)
                 );
     }
+
+
 }

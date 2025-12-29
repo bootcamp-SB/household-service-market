@@ -4,8 +4,5 @@ import edu.bootcamp_sb.service_market.dto.request.UserDto;
 
 public interface KeyCloakUserHandleService {
 
-    void clientUser(UserDto userDto);
-
-
 
 }
