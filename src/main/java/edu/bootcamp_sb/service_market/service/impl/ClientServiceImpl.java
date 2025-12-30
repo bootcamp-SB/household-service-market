@@ -6,10 +6,12 @@ import edu.bootcamp_sb.service_market.dto.reponse.ClientResponseDto;
 import edu.bootcamp_sb.service_market.dto.request.ClientRequestDto;
 import edu.bootcamp_sb.service_market.entity.ClientEntity;
 import edu.bootcamp_sb.service_market.entity.ClientProfileEntity;
+import edu.bootcamp_sb.service_market.exception.client_exceptions.ClientAlreadyRegisteredException;
 import edu.bootcamp_sb.service_market.exception.client_exceptions.ClientHasBeenNotFoundException;
 
 import edu.bootcamp_sb.service_market.repository.ClientRepository;
 import edu.bootcamp_sb.service_market.service.ClientService;
+import edu.bootcamp_sb.service_market.utill.UsernameSanitization;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +29,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 import static edu.bootcamp_sb.service_market.service.impl.ClientProfileServiceImpl.profileEntityTOClientProfileDto;
+import static edu.bootcamp_sb.service_market.utill.UsernameSanitization.sanitizeUsername;
 
 @Service
 @RequiredArgsConstructor
@@ -93,14 +96,13 @@ public class ClientServiceImpl implements ClientService {
                 clientRepository.findByEmail(clientDto.getEmail());
 
         if (byEmail.isPresent()) {
-            throw new RuntimeException("Email has been registered before");
+            throw new ClientAlreadyRegisteredException(
+                    "Email has been registered before"
+            );
         }
 
-        String sanitizedUsername =
-                clientDto.getUsername().replace("\\s+", "_");
-
         UserRepresentation user = new UserRepresentation();
-        user.setUsername(sanitizedUsername);
+        user.setUsername(sanitizeUsername(clientDto.getUsername()));
         user.setEmail(clientDto.getEmail());
         user.setFirstName(clientDto.getFirstName());
         user.setLastName(clientDto.getLastName());
@@ -120,7 +122,7 @@ public class ClientServiceImpl implements ClientService {
             log.info("User created successfully with ID: {}", userId);
 
             ClientEntity clientEntity = new ClientEntity();
-            clientEntity.setUsername(sanitizedUsername);
+            clientEntity.setUsername(sanitizeUsername(clientDto.getUsername()));
             clientEntity.setEmail(clientDto.getEmail());
             clientEntity.setFirstName(clientDto.getFirstName());
             clientEntity.setLastName(clientDto.getLastName());
