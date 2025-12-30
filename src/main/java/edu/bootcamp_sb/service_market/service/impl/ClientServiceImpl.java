@@ -11,6 +11,7 @@ import edu.bootcamp_sb.service_market.exception.client_exceptions.ClientHasBeenN
 
 import edu.bootcamp_sb.service_market.repository.ClientRepository;
 import edu.bootcamp_sb.service_market.service.ClientService;
+import edu.bootcamp_sb.service_market.service.KeyCloakUserHandleService;
 import edu.bootcamp_sb.service_market.utill.UsernameSanitization;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
@@ -38,10 +39,7 @@ public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
 
-    private final Keycloak keycloak;
-
-    @Value("${keycloak.realm}")
-    private String marketRealm;
+    private final KeyCloakUserHandleService userHandleService;
 
 
     private final ObjectMapper mapper;
@@ -101,59 +99,39 @@ public class ClientServiceImpl implements ClientService {
             );
         }
 
-        UserRepresentation user = new UserRepresentation();
-        user.setUsername(sanitizeUsername(clientDto.getUsername()));
-        user.setEmail(clientDto.getEmail());
-        user.setFirstName(clientDto.getFirstName());
-        user.setLastName(clientDto.getLastName());
-        user.setEnabled(true);
-        user.setEmailVerified(false);
+        ResponseEntity<String> userId = userHandleService.createUser(
+                clientDto.getUsername(),
+                clientDto.getLastName(),
+                clientDto.getFirstName(),
+                clientDto.getUsername()
+        );
 
-        // 3. Create user via API
-        Response response = keycloak.realm(marketRealm).users().create(user);
-
-        // 4. Check response status
-        if (response.getStatus() == 201) {
-            // Extract user ID from Location header
-            String locationHeader = response.getHeaderString("Location");
-            String userId =
-                    locationHeader.substring(locationHeader.lastIndexOf('/') + 1);
-
-            log.info("User created successfully with ID: {}", userId);
-
-            ClientEntity clientEntity = new ClientEntity();
-            clientEntity.setUsername(sanitizeUsername(clientDto.getUsername()));
-            clientEntity.setEmail(clientDto.getEmail());
-            clientEntity.setFirstName(clientDto.getFirstName());
-            clientEntity.setLastName(clientDto.getLastName());
-            clientEntity.setAddress(clientDto.getAddress());
-            clientEntity.setPaymentMethod(clientDto.getPaymentMethod());
-            clientEntity.setKeycloakId(userId);
+        ClientEntity clientEntity = new ClientEntity();
+        clientEntity.setUsername(sanitizeUsername(clientDto.getUsername()));
+        clientEntity.setEmail(clientDto.getEmail());
+        clientEntity.setFirstName(clientDto.getFirstName());
+        clientEntity.setLastName(clientDto.getLastName());
+        clientEntity.setAddress(clientDto.getAddress());
+        clientEntity.setPaymentMethod(clientDto.getPaymentMethod());
+        clientEntity.setKeycloakId(String.valueOf(userId));
 
 
-            ClientProfileEntity profileEntity = new ClientProfileEntity();
-            profileEntity.setProfilePicUrl(clientDto.getProfile().getProfilePicUrl());
-            profileEntity.setClient(clientEntity);
+        ClientProfileEntity profileEntity = new ClientProfileEntity();
+        profileEntity.setProfilePicUrl(clientDto.getProfile().getProfilePicUrl());
+        profileEntity.setClient(clientEntity);
 
-            clientEntity.setProfile(profileEntity);
-            ClientEntity saved = clientRepository.save(clientEntity);
+        clientEntity.setProfile(profileEntity);
+        ClientEntity saved = clientRepository.save(clientEntity);
 
-            // Return DTO
-            ClientResponseDto responseDto = ClientResponseDto.builder()
-                    .id(saved.getId())
-                    .email(saved.getEmail())
-                    .address(saved.getAddress())
-                    .paymentMethod(saved.getPaymentMethod())
-                    .profile(profileEntityTOClientProfileDto(saved.getProfile()))
-                    .build();
-            return ResponseEntity.ok(responseDto);
 
-        } else {
-            String errorMessage = response.readEntity(String.class);
-            log.error("Failed to create user. Status: {}, Error: {}", response.getStatus(), errorMessage);
-            throw new RuntimeException("Failed to create user in Keycloak: " + errorMessage);
-        }
-
+        ClientResponseDto responseDto = ClientResponseDto.builder()
+                .id(saved.getId())
+                .email(saved.getEmail())
+                .address(saved.getAddress())
+                .paymentMethod(saved.getPaymentMethod())
+                .profile(profileEntityTOClientProfileDto(saved.getProfile()))
+                .build();
+        return ResponseEntity.ok(responseDto);
 
     }
 

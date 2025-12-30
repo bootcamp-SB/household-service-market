@@ -6,11 +6,17 @@ import edu.bootcamp_sb.service_market.dto.request.ClientRequestDto;
 
 
 import edu.bootcamp_sb.service_market.dto.request.UserDto;
+import edu.bootcamp_sb.service_market.exception.keycloak_user.FailedToCreateUserException;
 import edu.bootcamp_sb.service_market.service.ClientService;
 import edu.bootcamp_sb.service_market.service.KeyCloakUserHandleService;
 import edu.bootcamp_sb.service_market.service.ProviderService;
+import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.Keycloak;
+import org.keycloak.representations.idm.UserRepresentation;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
@@ -22,15 +28,21 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static edu.bootcamp_sb.service_market.utill.UsernameSanitization.sanitizeUsername;
+
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class KeyCloakUserHandleServiceImpl implements KeyCloakUserHandleService {
 
     private final ClientService clientService;
     private final ProviderService providerService;
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private final Keycloak keycloak;
+
+    @Value("${keycloak.realm}")
+    private String marketRealm;
 
     HashMap<String,OtpDataDto> codes = new HashMap<>();
 
@@ -63,6 +75,36 @@ public class KeyCloakUserHandleServiceImpl implements KeyCloakUserHandleService 
     }
 
 
+    @Override
+    public ResponseEntity<String> createUser(
+            String username, String lastname, String firstname , String email) {
+
+        UserRepresentation user = new UserRepresentation();
+        user.setUsername(sanitizeUsername(username));
+        user.setEmail(email);
+        user.setFirstName(firstname);
+        user.setLastName(lastname);
+        user.setEnabled(true);
+        user.setEmailVerified(false);
 
 
+        Response response = keycloak.realm(marketRealm).users().create(user);
+
+        // 4. Check response status
+        if (response.getStatus() == 201) {
+            // Extract user ID from Location header
+            String locationHeader = response.getHeaderString("Location");
+            String userId =
+                    locationHeader.substring(locationHeader.lastIndexOf('/') + 1);
+
+            log.info("User created successfully with ID: {}", userId);
+            return ResponseEntity.ok(userId);
+
+        } else {
+            String errorMessage = response.readEntity(String.class);
+            log.error("Failed to create user. Status: {}, Error: {}", response.getStatus(), errorMessage);
+            throw new FailedToCreateUserException(
+                    "Failed to create user in Keycloak: " + errorMessage);
+        }
+    }
 }
