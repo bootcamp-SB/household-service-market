@@ -14,6 +14,7 @@ import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.Keycloak;
+import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -74,7 +75,7 @@ public class KeyCloakUserHandleServiceImpl implements KeyCloakUserHandleService 
 
 
     @Override
-    public ResponseEntity<String> createUser(
+    public String createUser(
             String username, String lastname, String firstname , String email) {
 
         UserRepresentation user = new UserRepresentation();
@@ -96,7 +97,7 @@ public class KeyCloakUserHandleServiceImpl implements KeyCloakUserHandleService 
                     locationHeader.substring(locationHeader.lastIndexOf('/') + 1);
 
             log.info("User created successfully with ID: {}", userId);
-            return ResponseEntity.ok(userId);
+            return userId;
 
         } else {
             String errorMessage = response.readEntity(String.class);
@@ -105,4 +106,6 @@ public class KeyCloakUserHandleServiceImpl implements KeyCloakUserHandleService 
                     "Failed to create user in Keycloak: " + errorMessage);
         }
     }
+
+
 }

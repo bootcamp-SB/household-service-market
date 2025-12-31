@@ -99,7 +99,7 @@ public class ClientServiceImpl implements ClientService {
             );
         }
 
-        ResponseEntity<String> userId = userHandleService.createUser(
+        String userId = userHandleService.createUser(
                 clientDto.getUsername(),
                 clientDto.getLastName(),
                 clientDto.getFirstName(),
