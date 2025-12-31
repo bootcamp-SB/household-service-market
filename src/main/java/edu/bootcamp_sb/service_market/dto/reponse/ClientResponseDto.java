@@ -1,7 +1,6 @@
 package edu.bootcamp_sb.service_market.dto.reponse;
 
 import edu.bootcamp_sb.service_market.dto.ClientProfileDto;
-import edu.bootcamp_sb.service_market.dto.request.ClientProfileRequestDto;
 import lombok.Builder;
 import lombok.Data;
 
@@ -18,6 +17,12 @@ public class ClientResponseDto {
     private String email;
 
     private  String paymentMethod;
+
+    private String firstName;
+
+    private String lastName;
+
+    private String username;
 
 
     private ClientProfileDto profile;

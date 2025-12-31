@@ -93,6 +93,7 @@ public class KeyCloakUserHandleServiceImpl implements KeyCloakUserHandleService 
         user.setEnabled(true);
         user.setEmailVerified(false);
 
+        //adding password
         user.setCredentials(List.of(createPassword(password)));
 
 

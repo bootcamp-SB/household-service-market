@@ -109,13 +109,14 @@ public class ClientServiceImpl implements ClientService {
         );
 
         ClientEntity clientEntity = new ClientEntity();
+        clientEntity.setId(UUID.fromString(userId));
         clientEntity.setUsername(sanitizeUsername(clientDto.getUsername()));
         clientEntity.setEmail(clientDto.getEmail());
         clientEntity.setFirstName(clientDto.getFirstName());
         clientEntity.setLastName(clientDto.getLastName());
         clientEntity.setAddress(clientDto.getAddress());
         clientEntity.setPaymentMethod(clientDto.getPaymentMethod());
-        clientEntity.setKeycloakId(String.valueOf(userId));
+
 
 
         ClientProfileEntity profileEntity = new ClientProfileEntity();

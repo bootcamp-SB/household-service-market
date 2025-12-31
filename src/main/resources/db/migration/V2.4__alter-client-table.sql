@@ -1,0 +1,1 @@
+ALTER Table `client` DROP COLUMN `keycloak_id`;

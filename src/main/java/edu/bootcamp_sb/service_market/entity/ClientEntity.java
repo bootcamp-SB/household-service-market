@@ -23,7 +23,6 @@ import java.util.UUID;
 @NoArgsConstructor
 public class ClientEntity {
     @Id
-    @UuidGenerator(style = UuidGenerator.Style.RANDOM)
     private UUID id;
 
     private String address;
@@ -38,7 +37,6 @@ public class ClientEntity {
 
     private String paymentMethod;
 
-    private String keycloakId;
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "profile_Id")
