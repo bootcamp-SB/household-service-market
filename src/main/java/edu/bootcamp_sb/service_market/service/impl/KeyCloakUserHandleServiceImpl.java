@@ -36,8 +36,6 @@ import static edu.bootcamp_sb.service_market.utill.UsernameSanitization.sanitize
 @Slf4j
 public class KeyCloakUserHandleServiceImpl implements KeyCloakUserHandleService {
 
-    private final ClientService clientService;
-    private final ProviderService providerService;
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private final Keycloak keycloak;
 
