@@ -39,7 +39,7 @@ public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
 
-    private final KeyCloakUserHandleService userHandleService;
+    private final KeyCloakUserHandleService keycloakUserHandleService;
 
 
     private final ObjectMapper mapper;
@@ -54,6 +54,19 @@ public class ClientServiceImpl implements ClientService {
         return clientDto;
 
     }
+
+    public static ClientResponseDto clientEntityToClientResponseDto(ClientEntity entity){
+
+        return ClientResponseDto.builder()
+                .firstName(entity.getFirstName())
+                .lastName(entity.getLastName())
+                .username(entity.getUsername())
+                .email(entity.getEmail())
+                .paymentMethod(entity.getPaymentMethod())
+                .address(entity.getAddress())
+                .profile(profileEntityTOClientProfileDto(entity.getProfile()))
+                .build();
+     }
 
 
 
@@ -99,7 +112,8 @@ public class ClientServiceImpl implements ClientService {
             );
         }
 
-        String userId = userHandleService.createUser(
+        //adding user to keycloak
+        String userId = keycloakUserHandleService.createUser(
                 clientDto.getUsername(),
                 clientDto.getLastName(),
                 clientDto.getFirstName(),
@@ -125,16 +139,7 @@ public class ClientServiceImpl implements ClientService {
 
         clientEntity.setProfile(profileEntity);
         ClientEntity saved = clientRepository.save(clientEntity);
-
-
-        ClientResponseDto responseDto = ClientResponseDto.builder()
-                .id(saved.getId())
-                .email(saved.getEmail())
-                .address(saved.getAddress())
-                .paymentMethod(saved.getPaymentMethod())
-                .profile(profileEntityTOClientProfileDto(saved.getProfile()))
-                .build();
-        return ResponseEntity.ok(responseDto);
+        return ResponseEntity.ok(clientEntityToClientResponseDto(saved));
 
     }
 
