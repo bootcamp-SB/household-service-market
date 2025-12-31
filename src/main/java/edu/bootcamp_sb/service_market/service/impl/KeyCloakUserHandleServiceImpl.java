@@ -80,7 +80,8 @@ public class KeyCloakUserHandleServiceImpl implements KeyCloakUserHandleService 
             String username,
             String lastname,
             String firstname ,
-            String email
+            String email,
+            String password
 
     ) {
 
@@ -91,6 +92,8 @@ public class KeyCloakUserHandleServiceImpl implements KeyCloakUserHandleService 
         user.setLastName(lastname);
         user.setEnabled(true);
         user.setEmailVerified(false);
+
+        user.setCredentials(List.of(createPassword(password)));
 
 
         Response response = keycloak.realm(marketRealm).users().create(user);
@@ -111,6 +114,15 @@ public class KeyCloakUserHandleServiceImpl implements KeyCloakUserHandleService 
             throw new FailedToCreateUserException(
                     "Failed to create user in Keycloak: " + errorMessage);
         }
+    }
+
+    @Override
+    public CredentialRepresentation createPassword(String password) {
+        CredentialRepresentation credentials = new CredentialRepresentation();
+        credentials.setValue(password);
+        credentials.setTemporary(false);
+        credentials.setType(CredentialRepresentation.PASSWORD);
+        return credentials;
     }
 
 
