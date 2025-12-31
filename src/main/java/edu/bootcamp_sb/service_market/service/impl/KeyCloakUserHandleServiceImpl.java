@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -76,7 +77,12 @@ public class KeyCloakUserHandleServiceImpl implements KeyCloakUserHandleService 
 
     @Override
     public String createUser(
-            String username, String lastname, String firstname , String email) {
+            String username,
+            String lastname,
+            String firstname ,
+            String email
+
+    ) {
 
         UserRepresentation user = new UserRepresentation();
         user.setUsername(sanitizeUsername(username));

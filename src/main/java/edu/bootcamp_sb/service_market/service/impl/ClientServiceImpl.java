@@ -103,7 +103,8 @@ public class ClientServiceImpl implements ClientService {
                 clientDto.getUsername(),
                 clientDto.getLastName(),
                 clientDto.getFirstName(),
-                clientDto.getUsername()
+                clientDto.getEmail()
+
         );
 
         ClientEntity clientEntity = new ClientEntity();
