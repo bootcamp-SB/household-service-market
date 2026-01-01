@@ -58,6 +58,7 @@ public class ClientServiceImpl implements ClientService {
     public static ClientResponseDto clientEntityToClientResponseDto(ClientEntity entity){
 
         return ClientResponseDto.builder()
+                .id(entity.getId())
                 .firstName(entity.getFirstName())
                 .lastName(entity.getLastName())
                 .username(entity.getUsername())
@@ -118,9 +119,11 @@ public class ClientServiceImpl implements ClientService {
                 clientDto.getLastName(),
                 clientDto.getFirstName(),
                 clientDto.getEmail(),
-                clientDto.getPassword()
+                clientDto.getPassword(),
+                "user"
 
         );
+
 
         ClientEntity clientEntity = new ClientEntity();
         clientEntity.setId(UUID.fromString(userId));

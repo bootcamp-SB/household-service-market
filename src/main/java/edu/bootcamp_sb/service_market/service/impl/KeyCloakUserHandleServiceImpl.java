@@ -14,7 +14,9 @@ import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.Keycloak;
+import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
+import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -81,7 +83,8 @@ public class KeyCloakUserHandleServiceImpl implements KeyCloakUserHandleService 
             String lastname,
             String firstname ,
             String email,
-            String password
+            String password,
+            String role
 
     ) {
 
@@ -107,6 +110,10 @@ public class KeyCloakUserHandleServiceImpl implements KeyCloakUserHandleService 
                     locationHeader.substring(locationHeader.lastIndexOf('/') + 1);
 
             log.info("User created successfully with ID: {}", userId);
+
+            //assign role
+            assignRole(role,userId);
+
             return userId;
 
         } else {
@@ -124,6 +131,21 @@ public class KeyCloakUserHandleServiceImpl implements KeyCloakUserHandleService 
         credentials.setTemporary(false);
         credentials.setType(CredentialRepresentation.PASSWORD);
         return credentials;
+    }
+
+    @Override
+    public void assignRole(String role, String id) {
+
+        RoleRepresentation roleRepresentation =
+                keycloak.realm(marketRealm).roles().get(role).toRepresentation();
+
+        keycloak.realm(marketRealm)
+                .users()
+                .get(id)
+                .roles()
+                .realmLevel()
+                .add(List.of(roleRepresentation));
+
     }
 
 
