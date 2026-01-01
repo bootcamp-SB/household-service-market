@@ -349,9 +349,9 @@ public class ProviderServiceImpl implements ProviderService {
 
         List<ProviderEntity> providerEntityList = providerRepository.findAll();
 
-        ArrayList<ProviderCategoryResponseDto> providerCategoryResponseDtosList = new ArrayList<>();
+        ArrayList<ProviderCategoryResponseDto> categoryResponseDtoArrayList = new ArrayList<>();
 
-        HashSet<CategoryResponseDto> categoryDtos = new HashSet<>();
+        HashSet<CategoryResponseDto> responseDtoHashSet = new HashSet<>();
 
 
         for(ProviderEntity providerEntity : providerEntityList){
@@ -362,15 +362,15 @@ public class ProviderServiceImpl implements ProviderService {
            );
 
            providerEntity.getCategories().forEach(categoryEntity ->
-                   categoryDtos.add(convertCategoryEntityToCategoryResponseDto(categoryEntity))
+                   responseDtoHashSet.add(convertCategoryEntityToCategoryResponseDto(categoryEntity))
            );
 
-           providerCategoryResponseDto.setCategoriesSet(categoryDtos);
-           providerCategoryResponseDtosList.add(providerCategoryResponseDto);
+           providerCategoryResponseDto.setCategoriesSet(responseDtoHashSet);
+           categoryResponseDtoArrayList.add(providerCategoryResponseDto);
 
        }
 
-        return ResponseEntity.ok(providerCategoryResponseDtosList);
+        return ResponseEntity.ok(categoryResponseDtoArrayList);
     }
 
     @Override
@@ -388,10 +388,6 @@ public class ProviderServiceImpl implements ProviderService {
 
         HashSet<ProviderEntity> providerEntities = new HashSet<>();
         providerEntities.add(providerEntity);
-
-        if(allTheCategories == null){
-            return ResponseEntity.badRequest().body(Map.of("Failed", "Categories not exists"));
-        }
 
         allTheCategories.forEach(entity->{
             entity.setProviders(providerEntities);
