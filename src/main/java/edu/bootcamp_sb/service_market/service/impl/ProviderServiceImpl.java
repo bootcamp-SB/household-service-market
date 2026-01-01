@@ -4,6 +4,7 @@ package edu.bootcamp_sb.service_market.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.bootcamp_sb.service_market.dto.ProviderDto;
 import edu.bootcamp_sb.service_market.dto.reponse.*;
+import edu.bootcamp_sb.service_market.dto.request.ProviderRequestDto;
 import edu.bootcamp_sb.service_market.dto.request.ProviderSelectCategoriesDto;
 import edu.bootcamp_sb.service_market.entity.*;
 
@@ -39,6 +40,8 @@ public class ProviderServiceImpl implements ProviderService {
     private final CategoryRepository categoryRepository;
 
     private final ObjectMapper mapper;
+
+    private final KeyCloakUserHandleServiceImpl keyCloakUserHandleService;
 
     public static ProviderResponseDto convertProviderEntityToProviderResponseEntity(
             ProviderEntity providerEntity){
@@ -98,8 +101,13 @@ public class ProviderServiceImpl implements ProviderService {
                 .build();
     }
 
-    private static ProviderEntity getProviderEntityFromProviderDto(ProviderDto provider) {
+    private static ProviderEntity getProviderEntityFromProviderDto
+            (
+                ProviderRequestDto provider ,String keycloakId
+            )
+    {
         ProviderEntity providerEntity = new ProviderEntity();
+        providerEntity.setId(UUID.fromString(keycloakId));
         providerEntity.setEmail(provider.getEmail());
         providerEntity.setFirstName(provider.getFirstName());
         providerEntity.setLastName(provider.getLastName());
@@ -124,7 +132,7 @@ public class ProviderServiceImpl implements ProviderService {
 
 
     @Override
-    public ResponseEntity<ProviderDto> persistProviders(ProviderDto provider) {
+    public ResponseEntity<ProviderDto> persistProviders(ProviderRequestDto provider) {
 
         Optional<ProviderEntity> contactNo =
                 providerRepository.findByContactNo(
@@ -151,7 +159,17 @@ public class ProviderServiceImpl implements ProviderService {
                             +" - "+provider.getContactNo());
         }
 
-        ProviderEntity providerEntity = getProviderEntityFromProviderDto(provider);
+        String providerId = keyCloakUserHandleService.createUser(
+                provider.getUserName(),
+                provider.getLastName(),
+                provider.getFirstName(),
+                provider.getEmail(),
+                provider.getPassword(),
+                "provider"
+        );
+
+        ProviderEntity providerEntity =
+                getProviderEntityFromProviderDto(provider,providerId);
 
         ProviderEntity save = providerRepository.save(providerEntity);
 

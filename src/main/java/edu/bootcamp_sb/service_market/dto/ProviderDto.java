@@ -21,6 +21,7 @@ public class ProviderDto {
 
     private String userName;
 
+
     private String email;
 
     private String contactNo;

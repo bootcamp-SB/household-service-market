@@ -5,6 +5,7 @@ import edu.bootcamp_sb.service_market.dto.ProviderDto;
 
 import edu.bootcamp_sb.service_market.dto.reponse.ProviderCategoryResponseDto;
 import edu.bootcamp_sb.service_market.dto.reponse.ProviderResponseDto;
+import edu.bootcamp_sb.service_market.dto.request.ProviderRequestDto;
 import edu.bootcamp_sb.service_market.dto.request.ProviderSelectCategoriesDto;
 import edu.bootcamp_sb.service_market.entity.ProviderEntity;
 import edu.bootcamp_sb.service_market.service.ProviderService;
@@ -27,7 +28,7 @@ public class ProviderController {
 
 
     @PostMapping("/persist")
-    public ResponseEntity<ProviderDto>persistProviders(@RequestBody ProviderDto provider)
+    public ResponseEntity<ProviderDto>persistProviders(@RequestBody ProviderRequestDto provider)
     {
         return providerService.persistProviders(provider);
     }

@@ -21,7 +21,6 @@ import java.util.UUID;
 @NoArgsConstructor
 public class ProviderEntity {
     @Id
-    @UuidGenerator(style = UuidGenerator.Style.RANDOM)
     private UUID id;
 
     private String firstName;

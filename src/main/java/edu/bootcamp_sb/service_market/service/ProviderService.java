@@ -5,6 +5,7 @@ import edu.bootcamp_sb.service_market.dto.ProviderDto;
 
 import edu.bootcamp_sb.service_market.dto.reponse.ProviderCategoryResponseDto;
 import edu.bootcamp_sb.service_market.dto.reponse.ProviderResponseDto;
+import edu.bootcamp_sb.service_market.dto.request.ProviderRequestDto;
 import edu.bootcamp_sb.service_market.dto.request.ProviderSelectCategoriesDto;
 import org.springframework.http.ResponseEntity;
 
@@ -16,7 +17,7 @@ import java.util.UUID;
 
 public interface ProviderService {
 
-    ResponseEntity<ProviderDto> persistProviders(ProviderDto provider);
+    ResponseEntity<ProviderDto> persistProviders(ProviderRequestDto provider);
 
     ResponseEntity<List<ProviderDto>> getAllProviders();
 
