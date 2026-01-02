@@ -21,6 +21,7 @@ import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.time.Instant;
@@ -78,6 +79,7 @@ public class KeyCloakUserHandleServiceImpl implements KeyCloakUserHandleService 
 
 
     @Override
+    @Transactional
     public String createUser(
             String username,
             String lastname,
@@ -114,6 +116,8 @@ public class KeyCloakUserHandleServiceImpl implements KeyCloakUserHandleService 
             //assign role
             assignRole(role,userId);
 
+            sendVarificationMail(userId);
+
             return userId;
 
         } else {
@@ -146,6 +150,15 @@ public class KeyCloakUserHandleServiceImpl implements KeyCloakUserHandleService 
                 .realmLevel()
                 .add(List.of(roleRepresentation));
 
+    }
+
+    @Override
+    public void sendVarificationMail(String userId) {
+        try{
+            keycloak.realm(marketRealm).users().get(userId).sendVerifyEmail();
+        }catch(Exception e){
+            throw new RuntimeException("email error" + e);
+        }
     }
 
 

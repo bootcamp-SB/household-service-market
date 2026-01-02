@@ -15,6 +15,8 @@ public interface KeyCloakUserHandleService {
 
    void assignRole(String role, String id);
 
+   void sendVarificationMail(String userId);
+
 
 
 }
