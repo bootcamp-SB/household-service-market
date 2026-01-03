@@ -2,7 +2,6 @@ package edu.bootcamp_sb.service_market.config;
 
 
 
-import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.representations.AccessTokenResponse;
@@ -38,10 +37,10 @@ public class KeycloakConfig {
     public Keycloak keycloak() {
 
         return KeycloakBuilder.builder()
-                .serverUrl("http://localhost:8090/")
+                .serverUrl(serverUrl)
                 .realm("master")
                 .username(adminUsername)
-                .password(adminUsername)
+                .password(adminPassword)
                 .clientId(clientId)
                 .clientSecret(clientSecret)
                 .build();

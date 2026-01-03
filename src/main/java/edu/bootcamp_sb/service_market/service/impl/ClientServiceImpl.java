@@ -12,16 +12,11 @@ import edu.bootcamp_sb.service_market.exception.client_exceptions.ClientHasBeenN
 import edu.bootcamp_sb.service_market.repository.ClientRepository;
 import edu.bootcamp_sb.service_market.service.ClientService;
 import edu.bootcamp_sb.service_market.service.KeyCloakUserHandleService;
-import edu.bootcamp_sb.service_market.utill.UsernameSanitization;
-import jakarta.ws.rs.core.Response;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.keycloak.admin.client.Keycloak;
 
-import org.keycloak.admin.client.resource.RealmResource;
-import org.keycloak.admin.client.resource.UsersResource;
-import org.keycloak.representations.idm.UserRepresentation;
-import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -142,6 +137,7 @@ public class ClientServiceImpl implements ClientService {
 
         clientEntity.setProfile(profileEntity);
         ClientEntity saved = clientRepository.save(clientEntity);
+
         return ResponseEntity.ok(clientEntityToClientResponseDto(saved));
 
     }

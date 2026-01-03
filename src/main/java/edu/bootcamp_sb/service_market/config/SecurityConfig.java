@@ -38,7 +38,8 @@ public class SecurityConfig {
             "/api/v1/gig/active-posters",
             "/api/v1/providers/by-id",
             "/api/v1/gig/by-id",
-            "/api/v1/review/by-gig-id"
+            "/api/v1/review/by-gig-id",
+          "/api/2fa"
 
     };
 

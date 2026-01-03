@@ -2,14 +2,11 @@ package edu.bootcamp_sb.service_market.service.impl;
 
 import edu.bootcamp_sb.service_market.dto.OtpDataDto;
 import edu.bootcamp_sb.service_market.dto.OtpDto;
-import edu.bootcamp_sb.service_market.dto.request.ClientRequestDto;
 
 
 import edu.bootcamp_sb.service_market.dto.request.UserDto;
 import edu.bootcamp_sb.service_market.exception.keycloak_user.FailedToCreateUserException;
-import edu.bootcamp_sb.service_market.service.ClientService;
 import edu.bootcamp_sb.service_market.service.KeyCloakUserHandleService;
-import edu.bootcamp_sb.service_market.service.ProviderService;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,13 +16,13 @@ import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -104,6 +101,8 @@ public class KeyCloakUserHandleServiceImpl implements KeyCloakUserHandleService 
 
         Response response = keycloak.realm(marketRealm).users().create(user);
 
+
+
         // 4. Check response status
         if (response.getStatus() == 201) {
             // Extract user ID from Location header
@@ -116,7 +115,6 @@ public class KeyCloakUserHandleServiceImpl implements KeyCloakUserHandleService 
             //assign role
             assignRole(role,userId);
 
-            sendVarificationMail(userId);
 
             return userId;
 
@@ -153,13 +151,15 @@ public class KeyCloakUserHandleServiceImpl implements KeyCloakUserHandleService 
     }
 
     @Override
-    public void sendVarificationMail(String userId) {
+    public void sendVerificationMail(String userId) {
         try{
             keycloak.realm(marketRealm).users().get(userId).sendVerifyEmail();
         }catch(Exception e){
             throw new RuntimeException("email error" + e);
         }
     }
+
+
 
 
 }
