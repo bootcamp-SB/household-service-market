@@ -29,7 +29,7 @@
 
             <!-- Alert Box -->
             <div class="alert-box">
-                <strong>⏰ Time Sensitive</strong>
+                <strong>Time Sensitive</strong>
                 This link will expire in <strong>${linkExpirationFormatter(linkExpiration)}</strong>. 
                 Please complete the required actions as soon as possible.
             </div>
