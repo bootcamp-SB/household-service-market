@@ -159,7 +159,11 @@ public class KeyCloakUserHandleServiceImpl implements KeyCloakUserHandleService 
         }
     }
 
-
+    @Override
+    public void updateProfile(String userId) {
+        keycloak.realm(marketRealm).users().get(userId)
+                .executeActionsEmail(List.of("UPDATE_PROFILE"));
+    }
 
 
 }

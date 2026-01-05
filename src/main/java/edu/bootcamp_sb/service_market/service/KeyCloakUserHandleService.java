@@ -17,7 +17,7 @@ public interface KeyCloakUserHandleService {
 
    void sendVerificationMail(String userId);
 
-
+    void updateProfile(String userId);
 
 
 
