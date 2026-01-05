@@ -1,17 +1,16 @@
 package edu.bootcamp_sb.service_market.service.impl;
 
-import edu.bootcamp_sb.service_market.dto.OtpDataDto;
-import edu.bootcamp_sb.service_market.dto.OtpDto;
 
 
-import edu.bootcamp_sb.service_market.dto.request.UserDto;
+
+
 import edu.bootcamp_sb.service_market.exception.keycloak_user.FailedToCreateUserException;
 import edu.bootcamp_sb.service_market.service.KeyCloakUserHandleService;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.Keycloak;
-import org.keycloak.admin.client.resource.UserResource;
+
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
@@ -20,15 +19,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+
+
+
 
 import static edu.bootcamp_sb.service_market.utill.UsernameSanitization.sanitizeUsername;
 
@@ -38,41 +33,12 @@ import static edu.bootcamp_sb.service_market.utill.UsernameSanitization.sanitize
 @Slf4j
 public class KeyCloakUserHandleServiceImpl implements KeyCloakUserHandleService {
 
-    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private final Keycloak keycloak;
 
     @Value("${keycloak.realm}")
     private String marketRealm;
 
-    HashMap<String,OtpDataDto> codes = new HashMap<>();
 
-    private OtpDto generateOtp(UserDto userDto){
-        OtpDto otpDto = new OtpDto();
-        Random random = new Random();
-        int otpValue = 100000 + random.nextInt(999999);
-        Instant expireTime = Instant.now().plus(otpDto.getValidMinutes(), ChronoUnit.MINUTES);
-        String otpVCode = String.valueOf(otpValue);
-        otpDto.setOtpCode(otpVCode);
-        otpDto.setExpireTime(expireTime);
-        otpDto.setTo(userDto.getEmail());
-
-        OtpDataDto otpDataDtoHashMap = new OtpDataDto();
-        otpDataDtoHashMap.setOtpCode(otpVCode);
-        otpDataDtoHashMap.setExpireTime(expireTime);
-        codes.put(userDto.getEmail(), otpDataDtoHashMap);
-
-        return otpDto;
-    }
-
-
-    public void startCleanupTask() {
-        scheduler.scheduleAtFixedRate(this::cleanupExpiredOtp, 5, 5, TimeUnit.MINUTES);
-    }
-
-    private void cleanupExpiredOtp() {
-        Instant now = Instant.now();
-        codes.entrySet().removeIf(entry -> now.isAfter(entry.getValue().getExpireTime()));
-    }
 
 
     @Override
