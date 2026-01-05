@@ -23,7 +23,7 @@ body{
 
 .button {
         display: inline-block;
-        background: #0057FF;
+        background-color: #0057FF;
         color: white !important;
         padding: 10px 30px;
         text-decoration: none;
