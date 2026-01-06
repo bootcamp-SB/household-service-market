@@ -21,6 +21,10 @@
                 text-align: center;
                 border-radius: 25px 25px 25px 25px;
         ">
+            <img src="https://nestify-backet.s3.us-east-1.amazonaws.com/logo.png" style="width: 10em;
+                                                            height: 8em;
+                                                            mix-blend-mode: darken;
+                                                            background-color: white;"/>
             <h1>🔐 Password Reset Request</h1>
         </div>
 

@@ -127,6 +127,11 @@
 </head>
 <body>
     <div class="email-container">
+         <img src="https://nestify-backet.s3.us-east-1.amazonaws.com/logo.png"
+             style="width: 10em;
+                    height: 8em;
+                    mix-blend-mode: darken;
+        "/>
         <!-- Header -->
         <div class="header">
             <h1>🎉 Keycloak Email Configuration Test</h1>

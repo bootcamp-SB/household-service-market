@@ -19,6 +19,13 @@
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+
+        <img src="https://nestify-backet.s3.us-east-1.amazonaws.com/logo.png"
+             style="width: 10em;
+                    height: 8em;
+                    mix-blend-mode: darken;
+        "/>
+
         <!-- Header -->
         <div style=" background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             color: #ffffff;
