@@ -41,6 +41,8 @@ public class BookingServiceImpl implements BookingService {
     private final ObjectMapper mapper;
 
 
+
+
     public static BookingResponseDto bookingEntityToBookingResponseDto(
             BookingEntity bookingEntity)
     {
@@ -89,6 +91,7 @@ public class BookingServiceImpl implements BookingService {
 
         ClientDto clientDto = entityToClientDto(saved.getClient());
         PaymentDto paymentDto = paymentEntityToPaymentDto(saved.getPayment());
+
 
         return ResponseEntity.ok(
                 BookingWithPaymentNClientResponseDto.builder()
