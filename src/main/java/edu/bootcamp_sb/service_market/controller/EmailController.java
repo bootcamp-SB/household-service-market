@@ -19,7 +19,7 @@ public class EmailController {
     public void testMail(@RequestParam String to,
                          @RequestParam String username ,
                          @RequestParam String subject) throws MessagingException {
-        emailService.sendBookingConfirmationMail(to,subject,username);
+        emailService.sendTestMail(to,subject,username);
     }
 
 }
