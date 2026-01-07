@@ -1,0 +1,119 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+        body{
+                background: linear-gradient(155deg,
+                          #8ec5f5 10%,
+                          #b7dbf8 45%,
+                          #e9f4fd 100%
+                        );
+                background-repeat: no-repeat;
+                background-size: cover;
+        }
+        .body-container{
+            display: grid;
+            justify-items: center;
+            background-color: gray;
+            border-radius: 25px 25px 25px 25px;
+        }
+        table{
+            width: 100%;
+            border-collapse: collapse;
+        }
+        tr,td{
+             border: 1px solid #ddd;
+             padding: 10px;
+             text-align: center;
+        }
+        th{
+            background-color: #f2f2f2;
+            color: #333;
+        }
+        .booking-summery-container{
+            display: grid;
+            justify-items: center;
+            padding: 0 2em;
+            gap: 1em;
+        }
+        .summery-header{
+            text-align: center;
+            border-radius: 25px 25px 25px 25px;
+            width: 65%;
+            background: #d6d3cf;
+            background: linear-gradient(135deg,
+              #cfcac4 0%,
+              #e6e1da 45%,
+              #f5f3ef 100%
+            );
+
+        }
+        .summery-header>h1{
+            color:#2a2a2a;
+        }
+
+        @media screen and (min-width: 1280px) {
+            body{
+                display: grid;
+                justify-items: center;
+                align-items:  center;
+                background: linear-gradient(135deg,
+                          black 0%,
+                          #b7dbf8 45%,
+                          #e9f4fd 100%
+                        ) no-repeat cover;
+                height: 100vh;
+
+            }
+           .body-container{
+
+                width: 40em;
+                background-color: #F5F7FA;
+           }
+        }
+
+    </style>
+</head>
+<body>
+<div class="body-container">
+<h1>Your booking is confirmed</h1>
+<h1 th:text="${username}">Hi user!</h1>
+<p> Your booking is confirmed with <span th:text="${providerUsername}">provider</span>
+    on <span th:text="${bookingDate}"></span>. please find the details below.
+</p>
+<div class="booking-summery-container">
+    <div class="summery-header">
+        <h1>Confirmation Time</h1>
+        <h1 th:text="${BookingDate}">21 oct 2026</h1>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th id="booking-id"> Id</th>
+                <th id="provider" > Provider </th>
+                <th id="address"> Address </th>
+                <th id="service" > Service</th>
+                <th id="base-price">Base Price</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            <tr>
+                <td th:text="${bookingId}">10232-awd212-a21-2112</td>
+                <td th:text="${provider}">mini auto</td>
+                <td th:text="${address}">kandy,sri lanka</td>
+                <td th:text="${service}">plumbing</td>
+                <td th:text="${basePrice}">Rs:1000</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <h1>Need to make changes to Appointment?</h1>
+    <h3>Manage your appointment through the Your Profile</h3>
+    <h4><a href="">My Profile</a></h4>
+</div>
+</div>
+</body>
+</html>

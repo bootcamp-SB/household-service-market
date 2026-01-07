@@ -34,7 +34,7 @@ public class EmailServiceImpl implements EmailService {
 
             context.setVariable("username",username);
 
-        String process = templateEngine.process("bookingMail-template", context);
+        String process = templateEngine.process("test-mail", context);
          helper.setTo(to);
          helper.setSubject(subject);
          helper.setText(process,true);
