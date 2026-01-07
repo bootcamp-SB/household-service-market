@@ -4,6 +4,7 @@ import edu.bootcamp_sb.service_market.dto.BookingDto;
 import edu.bootcamp_sb.service_market.dto.reponse.BookingResponseDto;
 import edu.bootcamp_sb.service_market.dto.request.BookingRequestDto;
 import edu.bootcamp_sb.service_market.service.BookingService;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,7 +23,7 @@ public class BookingController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('admin','user','provider')")
-    public ResponseEntity<BookingResponseDto>create(@RequestBody BookingRequestDto booking){
+    public ResponseEntity<BookingResponseDto>create(@RequestBody BookingRequestDto booking) throws MessagingException {
         return bookingService.persist(booking);
     }
 

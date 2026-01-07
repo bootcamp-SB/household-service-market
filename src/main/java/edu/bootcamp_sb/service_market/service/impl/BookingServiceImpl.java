@@ -15,6 +15,8 @@ import edu.bootcamp_sb.service_market.exception.provider_exception.ProviderGigHa
 import edu.bootcamp_sb.service_market.exception.provider_exception.ProviderHasBeenNotFoundException;
 import edu.bootcamp_sb.service_market.repository.*;
 import edu.bootcamp_sb.service_market.service.BookingService;
+import edu.bootcamp_sb.service_market.service.EmailService;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -40,6 +42,8 @@ public class BookingServiceImpl implements BookingService {
     private final ProviderRepository providerRepository;
 
     private final ServiceGigRepository gigRepository;
+
+    private final EmailService emailService;
 
     private final ObjectMapper mapper;
 
@@ -67,7 +71,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     @PreAuthorize("hasAnyRole('admin','user','provider')")
-    public ResponseEntity<BookingResponseDto> persist(BookingRequestDto bookingDto) {
+    public ResponseEntity<BookingResponseDto> persist(BookingRequestDto bookingDto) throws MessagingException {
 
         BookingEntity bookingEntity = new BookingEntity();
         bookingEntity.setStartingDate(bookingDto.getStartingDate());
@@ -76,7 +80,7 @@ public class BookingServiceImpl implements BookingService {
 
 
         ClientEntity clientEntity = clientRepository.findById(bookingDto.getClientId()).orElseThrow(
-                () -> new ClientHasBeenNotFoundException("NOT found")
+                () -> new ClientHasBeenNotFoundException("client is NOT found")
         );
 
         bookingEntity.setClient(clientEntity);
@@ -92,6 +96,19 @@ public class BookingServiceImpl implements BookingService {
         bookingEntity.setGigEntity(serviceGigEntity);
 
         BookingEntity saved = bookingRepository.save(bookingEntity);
+
+        HashMap<String, Object> emailVariables = new HashMap<>();
+        emailVariables.put("username",saved.getClient().getUsername());
+        emailVariables.put("providerUsername",saved.getServiceProvider().getUserName());
+        emailVariables.put("bookingId",saved.getId());
+        emailVariables.put("address",saved.getClient().getAddress());
+        emailVariables.put("service",saved.getGigEntity().getCategory().getName());
+        emailVariables.put("basePrice",saved.getGigEntity().getBasePrice());
+        emailVariables.put("bookingDate",saved.getStartingDate());
+        emailVariables.put("bookingTime",saved.getStartingTime());
+
+        emailService.sendBookingConfirmationMail(saved.getClient().getEmail(),emailVariables);
+
 
         return ResponseEntity.ok(bookingEntityToBookingResponseDto(saved));
     }

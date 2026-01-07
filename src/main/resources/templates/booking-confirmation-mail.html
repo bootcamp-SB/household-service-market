@@ -77,14 +77,15 @@
 <body>
 <div class="body-container">
 <h1>Your booking is confirmed</h1>
-<h1 th:text="${username}">Hi user!</h1>
+<h1> Hi! <span th:text="${username}">Hi user!</span></h1>
+
 <p> Your booking is confirmed with <span th:text="${providerUsername}">provider</span>
     on <span th:text="${bookingDate}"></span>. please find the details below.
 </p>
 <div class="booking-summery-container">
     <div class="summery-header">
         <h1>Confirmation Time</h1>
-        <h1 th:text="${BookingDate}">21 oct 2026</h1>
+        <h1 th:text="${bookingDate}">21 oct 2026 <span th:text="${bookingTime}">time</span></h1>
     </div>
     <table>
         <thead>
