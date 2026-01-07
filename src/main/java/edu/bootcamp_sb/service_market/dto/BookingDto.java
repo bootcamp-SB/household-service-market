@@ -22,16 +22,14 @@ public class BookingDto {
 
     private String startingTime; //clients convenient starting time
 
-    private String endingTime; //coming from service gig time ending the service depend on that
-
     private LocalDate startingDate; //booking date
 
-    private LocalDate endingDate; //if the service ran for days
+    private ServiceGigDto serviceGigDto;
 
-    private PaymentDto payment;
+    private ClientDto clientDto;
 
-    private UUID clientId;
+    private ProviderDto providerDto;
 
-    private UUID providerId;
+
 
 }

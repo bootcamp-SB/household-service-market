@@ -28,15 +28,12 @@ public class BookingEntity {
 
     private LocalTime startingTime;
 
-    private LocalTime endingTime;
-
     private LocalDate startingDate;
 
-    private LocalDate endingDate;
 
-    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "payment_Id")
-    private PaymentEntity payment;
+    @OneToOne
+    @JoinColumn(name="gig_id")
+    private ServiceGigEntity gigEntity;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "provider_id")

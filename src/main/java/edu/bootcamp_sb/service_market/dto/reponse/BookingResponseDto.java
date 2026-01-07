@@ -1,8 +1,7 @@
 package edu.bootcamp_sb.service_market.dto.reponse;
 
 
-import edu.bootcamp_sb.service_market.dto.ClientDto;
-import edu.bootcamp_sb.service_market.dto.PaymentDto;
+import edu.bootcamp_sb.service_market.dto.ProviderDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,11 +22,14 @@ public class BookingResponseDto {
 
     private LocalTime startingTime;
 
-    private LocalTime endingTime;
-
     private LocalDate startingDate;
 
-    private LocalDate endingDate;
+    private ClientResponseDto clientDto;
+
+    private ProviderDto providerDto;
+
+    private ServiceGigResponseDto serviceGigResponseDto;
+
 
 
 

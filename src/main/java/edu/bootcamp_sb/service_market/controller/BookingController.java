@@ -2,12 +2,11 @@ package edu.bootcamp_sb.service_market.controller;
 
 import edu.bootcamp_sb.service_market.dto.BookingDto;
 import edu.bootcamp_sb.service_market.dto.reponse.BookingResponseDto;
-import edu.bootcamp_sb.service_market.dto.reponse.BookingWithPaymentNClientResponseDto;
+import edu.bootcamp_sb.service_market.dto.request.BookingRequestDto;
 import edu.bootcamp_sb.service_market.service.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +22,7 @@ public class BookingController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('admin','user','provider')")
-    public ResponseEntity<BookingWithPaymentNClientResponseDto>create(@RequestBody BookingDto booking){
-
+    public ResponseEntity<BookingResponseDto>create(@RequestBody BookingRequestDto booking){
         return bookingService.persist(booking);
     }
 

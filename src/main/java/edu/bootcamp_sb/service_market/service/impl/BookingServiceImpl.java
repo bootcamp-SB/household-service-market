@@ -3,29 +3,30 @@ package edu.bootcamp_sb.service_market.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.bootcamp_sb.service_market.dto.BookingDto;
 import edu.bootcamp_sb.service_market.dto.ClientDto;
-import edu.bootcamp_sb.service_market.dto.PaymentDto;
 import edu.bootcamp_sb.service_market.dto.reponse.BookingResponseDto;
-import edu.bootcamp_sb.service_market.dto.reponse.BookingWithPaymentNClientResponseDto;
+import edu.bootcamp_sb.service_market.dto.request.BookingRequestDto;
 import edu.bootcamp_sb.service_market.entity.BookingEntity;
 import edu.bootcamp_sb.service_market.entity.ClientEntity;
-import edu.bootcamp_sb.service_market.entity.PaymentEntity;
+import edu.bootcamp_sb.service_market.entity.ProviderEntity;
+import edu.bootcamp_sb.service_market.entity.ServiceGigEntity;
 import edu.bootcamp_sb.service_market.exception.booking_exception.BookingHasNotFoundException;
 import edu.bootcamp_sb.service_market.exception.client_exceptions.ClientHasBeenNotFoundException;
-import edu.bootcamp_sb.service_market.repository.BookingRepository;
-import edu.bootcamp_sb.service_market.repository.ClientRepository;
-import edu.bootcamp_sb.service_market.repository.PaymentRepository;
+import edu.bootcamp_sb.service_market.exception.provider_exception.ProviderGigHasNotFound;
+import edu.bootcamp_sb.service_market.exception.provider_exception.ProviderHasBeenNotFoundException;
+import edu.bootcamp_sb.service_market.repository.*;
 import edu.bootcamp_sb.service_market.service.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
 
+import static edu.bootcamp_sb.service_market.service.impl.ClientServiceImpl.clientEntityToClientResponseDto;
 import static edu.bootcamp_sb.service_market.service.impl.ClientServiceImpl.entityToClientDto;
-import static edu.bootcamp_sb.service_market.service.impl.PaymentServiceImpl.paymentEntityToPaymentDto;
+import static edu.bootcamp_sb.service_market.service.impl.ProviderServiceImpl.convertProviderEntityToProviderDto;
+import static edu.bootcamp_sb.service_market.service.impl.ServiceGigServiceImpl.convertGigEntityToGigResponseEntity;
 
 
 @Service
@@ -34,9 +35,11 @@ public class BookingServiceImpl implements BookingService {
 
     private final BookingRepository bookingRepository;
 
-    private final PaymentRepository paymentRepository;
-
     private final ClientRepository clientRepository;
+
+    private final ProviderRepository providerRepository;
+
+    private final ServiceGigRepository gigRepository;
 
     private final ObjectMapper mapper;
 
@@ -50,33 +53,27 @@ public class BookingServiceImpl implements BookingService {
                 .id(bookingEntity.getId())
                 .status(bookingEntity.getStatus())
                 .startingDate(bookingEntity.getStartingDate())
-                .endingDate(bookingEntity.getEndingDate())
                 .startingTime(bookingEntity.getStartingTime())
-                .endingTime(bookingEntity.getEndingTime())
+                .serviceGigResponseDto(
+                        convertGigEntityToGigResponseEntity(bookingEntity.getGigEntity())
+                )
+                .providerDto(convertProviderEntityToProviderDto(bookingEntity.getServiceProvider()))
+                .clientDto(clientEntityToClientResponseDto(bookingEntity.getClient()))
                 .build();
     }
 
 
 
 
-
     @Override
     @PreAuthorize("hasAnyRole('admin','user','provider')")
-    public ResponseEntity<BookingWithPaymentNClientResponseDto> persist(BookingDto bookingDto) {
+    public ResponseEntity<BookingResponseDto> persist(BookingRequestDto bookingDto) {
 
         BookingEntity bookingEntity = new BookingEntity();
         bookingEntity.setStartingDate(bookingDto.getStartingDate());
-        bookingEntity.setEndingDate(bookingDto.getEndingDate());
         bookingEntity.setStatus(bookingDto.getStatus());
         bookingEntity.setStartingTime(LocalTime.parse(bookingDto.getStartingTime()));
-        bookingEntity.setEndingTime(LocalTime.parse(bookingDto.getEndingTime()));
 
-
-        PaymentEntity paymentEntity = new PaymentEntity();
-        paymentEntity.setTimeStamp(LocalTime.now());
-        paymentEntity.setAmount(bookingDto.getPayment().getAmount());
-        paymentEntity.setDate(LocalDate.now());
-        paymentEntity.setStatus(bookingEntity.getStatus());
 
         ClientEntity clientEntity = clientRepository.findById(bookingDto.getClientId()).orElseThrow(
                 () -> new ClientHasBeenNotFoundException("NOT found")
@@ -84,30 +81,19 @@ public class BookingServiceImpl implements BookingService {
 
         bookingEntity.setClient(clientEntity);
 
+        ProviderEntity provider = providerRepository.findById(bookingDto.getProviderId()).orElseThrow(() ->
+                new ProviderHasBeenNotFoundException("no provider"));
 
-        bookingEntity.setPayment(paymentRepository.save(paymentEntity));
+        bookingEntity.setServiceProvider(provider);
+
+        ServiceGigEntity serviceGigEntity = gigRepository.findById(bookingDto.getGigId()).orElseThrow(() -> new
+                ProviderGigHasNotFound("No gig found with" + bookingDto.getGigId()));
+
+        bookingEntity.setGigEntity(serviceGigEntity);
 
         BookingEntity saved = bookingRepository.save(bookingEntity);
 
-        ClientDto clientDto = entityToClientDto(saved.getClient());
-        PaymentDto paymentDto = paymentEntityToPaymentDto(saved.getPayment());
-
-
-
-
-
-        return ResponseEntity.ok(
-                BookingWithPaymentNClientResponseDto.builder()
-                        .id(saved.getId())
-                        .startingDate(saved.getStartingDate())
-                        .endingDate(saved.getEndingDate())
-                        .status(saved.getStatus())
-                        .endingTime(saved.getEndingTime())
-                        .startingTime(saved.getStartingTime())
-                        .payment(paymentDto)
-                        .client(clientDto)
-                        .build()
-        );
+        return ResponseEntity.ok(bookingEntityToBookingResponseDto(saved));
     }
 
     @Override

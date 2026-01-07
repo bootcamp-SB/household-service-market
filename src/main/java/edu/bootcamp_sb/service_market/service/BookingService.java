@@ -2,7 +2,7 @@ package edu.bootcamp_sb.service_market.service;
 
 import edu.bootcamp_sb.service_market.dto.BookingDto;
 import edu.bootcamp_sb.service_market.dto.reponse.BookingResponseDto;
-import edu.bootcamp_sb.service_market.dto.reponse.BookingWithPaymentNClientResponseDto;
+import edu.bootcamp_sb.service_market.dto.request.BookingRequestDto;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public interface BookingService {
 
-    ResponseEntity<BookingWithPaymentNClientResponseDto> persist(BookingDto bookingDto);
+    ResponseEntity<BookingResponseDto> persist(BookingRequestDto bookingDto);
 
     ResponseEntity<List<BookingDto>>show();
 
