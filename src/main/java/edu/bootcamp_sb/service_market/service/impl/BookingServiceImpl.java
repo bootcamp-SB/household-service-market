@@ -93,6 +93,9 @@ public class BookingServiceImpl implements BookingService {
         PaymentDto paymentDto = paymentEntityToPaymentDto(saved.getPayment());
 
 
+
+
+
         return ResponseEntity.ok(
                 BookingWithPaymentNClientResponseDto.builder()
                         .id(saved.getId())

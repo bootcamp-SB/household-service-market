@@ -12,6 +12,7 @@ import org.thymeleaf.context.Context;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -27,7 +28,8 @@ public class EmailServiceImpl implements EmailService {
     public void sendTestMail(
             String to, String subject, String username)
             throws MessagingException {
-                MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
         Context context = new Context();
@@ -41,6 +43,28 @@ public class EmailServiceImpl implements EmailService {
          helper.setFrom("Nestify");
 
          javaMailSender.send(mimeMessage);
+
+    }
+
+    @Override
+    public void sendBookingConfirmationMail(String to, Map<String, Object> variables)
+            throws MessagingException {
+
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper =
+                new MimeMessageHelper(mimeMessage, true, "UTF-8");
+
+        Context context = new Context();
+        context.setVariables(variables);
+
+        String process = templateEngine.process("booking-confirmation-mail", context);
+
+        helper.setFrom("Nestify");
+        helper.setTo(to);
+        helper.setSubject("Booking Confirmed");
+        helper.setText(process,true);
+
+        javaMailSender.send(mimeMessage);
 
     }
 }
