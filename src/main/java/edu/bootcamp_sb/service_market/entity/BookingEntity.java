@@ -26,6 +26,17 @@ public class BookingEntity {
 
     private String status;
 
+    private String name;
+
+    private String email;
+
+    private String contactNo;
+
+    private String address;
+
+    private String additionalInformation;
+
+
     private LocalTime startingTime;
 
     private LocalDate startingDate;

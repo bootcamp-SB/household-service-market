@@ -18,6 +18,17 @@ public class BookingResponseDto {
 
     private UUID id;
 
+    private String name;
+
+    private String email;
+
+    private String contactNo;
+
+    private String address;
+
+    private String additionalInformation;
+
+
     private String status;
 
     private LocalTime startingTime;

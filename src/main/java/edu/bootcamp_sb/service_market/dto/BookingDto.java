@@ -17,6 +17,18 @@ public class BookingDto {
 
     private UUID id;
 
+    private String name; // in-case of client if booking for another one
+
+    private String email;
+
+    private String contactNo;
+
+    private String address;
+
+    private String service;
+
+    private String additionalInformation;
+
     private String status; //pending, approved , rejected , canceled
 
     private String startingTime; //clients convenient starting time

@@ -55,6 +55,11 @@ public class BookingServiceImpl implements BookingService {
     {
         return BookingResponseDto.builder()
                 .id(bookingEntity.getId())
+                .name(bookingEntity.getName())
+                .address(bookingEntity.getAddress())
+                .additionalInformation(bookingEntity.getAdditionalInformation())
+                .contactNo(bookingEntity.getContactNo())
+                .email(bookingEntity.getEmail())
                 .status(bookingEntity.getStatus())
                 .startingDate(bookingEntity.getStartingDate())
                 .startingTime(bookingEntity.getStartingTime())
@@ -77,11 +82,39 @@ public class BookingServiceImpl implements BookingService {
         bookingEntity.setStartingDate(bookingDto.getStartingDate());
         bookingEntity.setStatus(bookingDto.getStatus());
         bookingEntity.setStartingTime(LocalTime.parse(bookingDto.getStartingTime()));
+        bookingEntity.setAdditionalInformation(bookingDto.getAdditionalInformation());
+        if(bookingDto.getName() != null){
+            bookingEntity.setName(bookingDto.getName());
+        }
 
+        if(bookingDto.getEmail() != null){
+            bookingEntity.setEmail(bookingDto.getEmail());
+
+        }
+
+        if(bookingDto.getContactNo() !=null){
+            bookingEntity.setContactNo(bookingDto.getContactNo());
+        }
+
+        if(bookingDto.getAddress()!=null){
+            bookingEntity.setAddress(bookingDto.getAddress());
+        }
 
         ClientEntity clientEntity = clientRepository.findById(bookingDto.getClientId()).orElseThrow(
                 () -> new ClientHasBeenNotFoundException("client is NOT found")
         );
+
+        if(bookingDto.getName().isEmpty()){
+            bookingEntity.setName(clientEntity.getFirstName() + clientEntity.getLastName());
+        }
+
+        if(bookingDto.getEmail().isEmpty()){
+            bookingEntity.setEmail(clientEntity.getEmail());
+        }
+
+        if(bookingDto.getAddress().isEmpty()){
+            bookingEntity.setAddress(clientEntity.getAddress());
+        }
 
         bookingEntity.setClient(clientEntity);
 

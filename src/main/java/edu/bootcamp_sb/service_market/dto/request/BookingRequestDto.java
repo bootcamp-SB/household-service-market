@@ -15,7 +15,16 @@ import java.util.UUID;
 @NoArgsConstructor
 public class BookingRequestDto {
 
-    private UUID id;
+
+    private String name;
+
+    private String email;
+
+    private String contactNo;
+
+    private String address; // if above field were null it will be replaced with client's info
+
+    private String additionalInformation; // can be null
 
     private String status; //pending, approved , rejected , canceled
 
