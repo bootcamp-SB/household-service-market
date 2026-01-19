@@ -4,7 +4,8 @@ package edu.bootcamp_sb.service_market.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.bootcamp_sb.service_market.dto.ProviderDto;
 import edu.bootcamp_sb.service_market.dto.reponse.*;
-import edu.bootcamp_sb.service_market.dto.request.ProviderRequestDto;
+import edu.bootcamp_sb.service_market.dto.request.ProviderRegistrationDto;
+
 import edu.bootcamp_sb.service_market.dto.request.ProviderSelectCategoriesDto;
 import edu.bootcamp_sb.service_market.entity.*;
 
@@ -101,38 +102,10 @@ public class ProviderServiceImpl implements ProviderService {
                 .build();
     }
 
-    private static ProviderEntity getProviderEntityFromProviderDto
-            (
-                ProviderRequestDto provider ,String keycloakId
-            )
-    {
-        ProviderEntity providerEntity = new ProviderEntity();
-        providerEntity.setId(UUID.fromString(keycloakId));
-        providerEntity.setEmail(provider.getEmail());
-        providerEntity.setFirstName(provider.getFirstName());
-        providerEntity.setLastName(provider.getLastName());
-        providerEntity.setUserName(provider.getUserName());
-        providerEntity.setContactNo(provider.getContactNo());
-        providerEntity.setIsVerified(provider.getIsVerified());
-        providerEntity.setExpertise(provider.getExpertise());
-        providerEntity.setAddress(provider.getAddress());
-        providerEntity.setShortDescription(provider.getShortDescription());
-        if(provider.getExperience() == null){
-            providerEntity.setExperience("0 years");
-        } else{
-            providerEntity.setExperience(provider.getExperience());
-        }
-        if(provider.getJobCount() != null ){
-            providerEntity.setJobCount(provider.getJobCount());
-        }
-        return providerEntity;
-    }
-
-
 
 
     @Override
-    public ResponseEntity<ProviderDto> persistProviders(ProviderRequestDto provider) {
+    public ResponseEntity<ProviderDto> persistProviders(ProviderRegistrationDto provider) {
 
         Optional<ProviderEntity> contactNo =
                 providerRepository.findByContactNo(
@@ -168,8 +141,13 @@ public class ProviderServiceImpl implements ProviderService {
                 "provider"
         );
 
-        ProviderEntity providerEntity =
-                getProviderEntityFromProviderDto(provider,providerId);
+        ProviderEntity providerEntity = new ProviderEntity();
+        providerEntity.setId(UUID.fromString(providerId));
+        providerEntity.setUserName(provider.getUserName());
+        providerEntity.setFirstName(provider.getFirstName());
+        providerEntity.setLastName(provider.getLastName());
+        providerEntity.setEmail(provider.getEmail());
+        providerEntity.setContactNo(provider.getContactNo());
 
         ProviderEntity save = providerRepository.save(providerEntity);
 
@@ -275,6 +253,7 @@ public class ProviderServiceImpl implements ProviderService {
 
 
         return ResponseEntity.ok().body(
+
                 convertProviderEntityToProviderResponseEntity(providerEntity)
         );
 

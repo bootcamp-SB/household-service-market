@@ -5,6 +5,7 @@ import edu.bootcamp_sb.service_market.dto.ProviderDto;
 
 import edu.bootcamp_sb.service_market.dto.reponse.ProviderCategoryResponseDto;
 import edu.bootcamp_sb.service_market.dto.reponse.ProviderResponseDto;
+import edu.bootcamp_sb.service_market.dto.request.ProviderRegistrationDto;
 import edu.bootcamp_sb.service_market.dto.request.ProviderRequestDto;
 import edu.bootcamp_sb.service_market.dto.request.ProviderSelectCategoriesDto;
 import edu.bootcamp_sb.service_market.entity.ProviderEntity;
@@ -28,14 +29,14 @@ public class ProviderController {
 
 
     @PostMapping("/persist")
-    public ResponseEntity<ProviderDto>persistProviders(@RequestBody ProviderRequestDto provider)
+    public ResponseEntity<ProviderDto>persistProviders(@RequestBody ProviderRegistrationDto provider)
     {
         return providerService.persistProviders(provider);
     }
 
     @GetMapping("/all")
     public ResponseEntity<List<ProviderDto>> getAllProviders(){
-        return providerService.getAllProviders();
+    return providerService.getAllProviders();
     }
 
     @GetMapping("/by-id")
