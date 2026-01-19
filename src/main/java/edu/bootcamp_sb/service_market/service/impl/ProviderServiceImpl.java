@@ -317,6 +317,12 @@ public class ProviderServiceImpl implements ProviderService {
             }
             providerCategoryResponseDto.setCategoriesSet(categoryDtoHashSet);
 
+            providerCategoryResponseDto.setReviews(top5Entity.getReviews().size());
+
+            if(!top5Entity.getReviews().isEmpty()){
+                providerCategoryResponseDto.setAvgRate(avgRatingOfAProvider(top5Entity));
+            }
+
             responseDtoArrayList.add(providerCategoryResponseDto);
         });
 
@@ -387,6 +393,20 @@ public class ProviderServiceImpl implements ProviderService {
         return ResponseEntity.ok(
                 Map.of("Provider count", String.valueOf(count))
         );
+    }
+
+
+    public static Double avgRatingOfAProvider(ProviderEntity provider) {
+
+        ArrayList<Double> allRating = new ArrayList<>();
+
+        provider.getReviews().forEach(reviewsEntity ->
+                allRating.add(reviewsEntity.getRating()));
+
+        double sum = allRating.stream().mapToDouble(Double::doubleValue).sum();
+
+
+        return sum/provider.getReviews().size();
     }
 
 

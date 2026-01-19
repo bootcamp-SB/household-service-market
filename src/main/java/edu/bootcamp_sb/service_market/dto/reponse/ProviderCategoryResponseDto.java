@@ -22,4 +22,9 @@ public class ProviderCategoryResponseDto {
     private ProviderDto providerDto;
 
     private Set<CategoryResponseDto> categoriesSet;
+
+    private Integer reviews;
+
+    private Double avgRate;
+
 }

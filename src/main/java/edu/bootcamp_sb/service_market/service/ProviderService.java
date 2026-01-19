@@ -8,6 +8,7 @@ import edu.bootcamp_sb.service_market.dto.reponse.ProviderResponseDto;
 import edu.bootcamp_sb.service_market.dto.request.ProviderRegistrationDto;
 import edu.bootcamp_sb.service_market.dto.request.ProviderRequestDto;
 import edu.bootcamp_sb.service_market.dto.request.ProviderSelectCategoriesDto;
+import edu.bootcamp_sb.service_market.entity.ProviderEntity;
 import org.springframework.http.ResponseEntity;
 
 
@@ -41,6 +42,8 @@ public interface ProviderService {
     ResponseEntity<Map<String, String>> selectACategory(ProviderSelectCategoriesDto selectCategoriesDto);
 
     ResponseEntity<Map<String,String>> getProviderCount();
+
+
 
 
 }
