@@ -7,4 +7,7 @@ import java.util.UUID;
 
 
 public interface BookingRepository extends CrudRepository<BookingEntity, UUID> {
+
+    Iterable<BookingEntity>findAllByClientId(UUID id);
+
 }

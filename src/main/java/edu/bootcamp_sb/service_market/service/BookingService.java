@@ -20,4 +20,8 @@ public interface BookingService {
 
     ResponseEntity<Map<String ,String>> cancelBooking(UUID id);
 
+    ResponseEntity<List<BookingResponseDto>> getAllWithUserId(String id);
+
+
+
 }

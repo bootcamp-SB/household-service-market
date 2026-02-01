@@ -178,4 +178,17 @@ public class BookingServiceImpl implements BookingService {
         return ResponseEntity.ok(Map.of(
                 "cancellation", "successfully canceled booking called" + id));
     }
+
+    @Override
+    public ResponseEntity<List<BookingResponseDto>> getAllWithUserId(String id) {
+        Iterable<BookingEntity> allByClientId =
+                bookingRepository.findAllByClientId(UUID.fromString(id));
+
+        ArrayList<BookingResponseDto> bookingResponseDtoList = new ArrayList<>();
+
+        allByClientId.forEach(bookingEntity ->
+                bookingResponseDtoList.add(bookingEntityToBookingResponseDto(bookingEntity)));
+
+        return ResponseEntity.ok(bookingResponseDtoList);
+    }
 }

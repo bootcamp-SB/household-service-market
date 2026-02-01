@@ -42,4 +42,8 @@ public class BookingController {
         return bookingService.cancelBooking(id);
     }
 
+    @GetMapping("/by-client-id")
+    public ResponseEntity<List<BookingResponseDto>>getAllByClientId(@RequestParam String id){
+        return  bookingService.getAllWithUserId(id);
+    }
 }
