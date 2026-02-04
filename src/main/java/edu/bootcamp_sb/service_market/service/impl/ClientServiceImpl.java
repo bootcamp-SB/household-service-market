@@ -175,5 +175,13 @@ public class ClientServiceImpl implements ClientService {
                 );
     }
 
+    @Override
+    public ResponseEntity<ClientResponseDto> getById(String id) {
+        ClientEntity clientEntity = clientRepository.findById(UUID.fromString(id)).orElseThrow(() ->
+                new ClientHasBeenNotFoundException("client has been not found"));
+
+        return ResponseEntity.ok(clientEntityToClientResponseDto(clientEntity));
+    }
+
 
 }

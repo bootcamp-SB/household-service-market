@@ -21,7 +21,7 @@ public interface ClientService {
 
     ResponseEntity<ClientDto> updateByID(ClientDto clientDto);
 
-
+    ResponseEntity<ClientResponseDto>getById(String id);
 
 
 

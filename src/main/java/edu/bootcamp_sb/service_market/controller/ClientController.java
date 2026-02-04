@@ -45,6 +45,9 @@ public class ClientController {
         return clientService.updateByID(clientDto);
     }
 
-
+    @GetMapping("/by-id")
+    public ResponseEntity<ClientResponseDto> getById(@RequestParam String id){
+        return clientService.getById(id);
+    }
 
 }
