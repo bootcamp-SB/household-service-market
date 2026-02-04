@@ -22,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import static edu.bootcamp_sb.service_market.service.impl.ClientProfileServiceImpl.profileEntityTOClientProfileDto;
@@ -60,6 +61,7 @@ public class ClientServiceImpl implements ClientService {
                 .email(entity.getEmail())
                 .paymentMethod(entity.getPaymentMethod())
                 .address(entity.getAddress())
+                .createdAt(entity.getCreatedAt())
                 .profile(profileEntityTOClientProfileDto(entity.getProfile()))
                 .build();
      }
@@ -128,7 +130,7 @@ public class ClientServiceImpl implements ClientService {
         clientEntity.setLastName(clientDto.getLastName());
         clientEntity.setAddress(clientDto.getAddress());
         clientEntity.setPaymentMethod(clientDto.getPaymentMethod());
-
+        clientEntity.setCreatedAt(LocalDate.now());
 
 
         ClientProfileEntity profileEntity = new ClientProfileEntity();

@@ -4,6 +4,8 @@ import edu.bootcamp_sb.service_market.dto.ClientProfileDto;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 import java.util.UUID;
 
 @Data
@@ -24,6 +26,7 @@ public class ClientResponseDto {
 
     private String username;
 
+    private LocalDate createdAt;
 
     private ClientProfileDto profile;
 }

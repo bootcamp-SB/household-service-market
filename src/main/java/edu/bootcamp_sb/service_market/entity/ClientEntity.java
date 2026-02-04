@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -36,6 +38,8 @@ public class ClientEntity {
     private String lastName;
 
     private String paymentMethod;
+
+    private LocalDate createdAt;
 
 
     @OneToOne(cascade = CascadeType.PERSIST)
