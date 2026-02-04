@@ -15,14 +15,14 @@ import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
 
 import java.util.List;
-
-
+import java.util.Map;
 
 
 import static edu.bootcamp_sb.service_market.utill.UsernameSanitization.sanitizeUsername;
@@ -129,6 +129,16 @@ public class KeyCloakUserHandleServiceImpl implements KeyCloakUserHandleService 
     public void updateProfile(String userId) {
         keycloak.realm(marketRealm).users().get(userId)
                 .executeActionsEmail(List.of("UPDATE_PROFILE"));
+    }
+
+    @Override
+    public ResponseEntity<Map<String, String>> logout(String userId) {
+        try {
+            keycloak.realm(marketRealm).users().get(userId).logout();
+            return ResponseEntity.ok(Map.of("Message", "user has been log out"));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

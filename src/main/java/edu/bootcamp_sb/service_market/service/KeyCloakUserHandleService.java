@@ -2,6 +2,9 @@ package edu.bootcamp_sb.service_market.service;
 
 
 import org.keycloak.representations.idm.CredentialRepresentation;
+import org.springframework.http.ResponseEntity;
+
+import java.util.Map;
 
 public interface KeyCloakUserHandleService {
 
@@ -18,6 +21,9 @@ public interface KeyCloakUserHandleService {
    void sendVerificationMail(String userId);
 
     void updateProfile(String userId);
+
+    ResponseEntity<Map<String, String>> logout(String userId);
+
 
 
 

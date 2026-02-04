@@ -42,7 +42,6 @@ public class KeycloakConfig {
                 .username(adminUsername)
                 .password(adminPassword)
                 .clientId(clientId)
-                .clientSecret(clientSecret)
                 .build();
 
     }

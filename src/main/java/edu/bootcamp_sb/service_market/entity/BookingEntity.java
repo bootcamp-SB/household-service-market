@@ -26,15 +26,15 @@ public class BookingEntity {
 
     private String status;
 
-    private String name;
+    private String name; //client's name in case of they booking for some one else
 
-    private String email;
+    private String email; //client's email
 
-    private String contactNo;
+    private String contactNo; //client's contact
 
-    private String address;
+    private String address; //client's address
 
-    private String additionalInformation;
+    private String additionalInformation; // additional requests they want
 
 
     private LocalTime startingTime;
