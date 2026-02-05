@@ -77,9 +77,7 @@ public class ClientServiceImpl implements ClientService {
         ArrayList<ClientResponseDto> allClientList = new ArrayList<>();
 
         allClients.forEach(entity-> allClientList.add(
-                mapper.convertValue(
-                        entity
-                        ,ClientResponseDto.class)));
+                clientEntityToClientResponseDto(entity)));
 
         return ResponseEntity.ok().body(allClientList);
 
