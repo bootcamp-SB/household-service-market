@@ -146,7 +146,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @PreAuthorize("hasAnyRole('admin','user')")
-    public ResponseEntity<ClientDto> updateByID(ClientDto clientDto) {
+    public ResponseEntity<ClientResponseDto> updateByID(ClientDto clientDto) {
 
         Optional<ClientEntity> optionalEntity = clientRepository.findById(clientDto.getId());
 
@@ -167,9 +167,9 @@ public class ClientServiceImpl implements ClientService {
         }
 
         return ResponseEntity.ok().body(
-                mapper.convertValue(
+                clientEntityToClientResponseDto(
                         clientRepository.save(exsistingClientEntity
-                        ),ClientDto.class)
+                        ))
                 );
     }
 
