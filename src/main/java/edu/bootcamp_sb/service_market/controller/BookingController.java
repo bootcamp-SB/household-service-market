@@ -38,7 +38,7 @@ public class BookingController {
         return  bookingService.getBookingById(id);
     }
     @PutMapping("/cancel")
-    public ResponseEntity<Map<String,String>>cancelBooking(UUID id){
+    public ResponseEntity<Map<String,String>>cancelBooking(UUID id) throws MessagingException{
         return bookingService.cancelBooking(id);
     }
 
