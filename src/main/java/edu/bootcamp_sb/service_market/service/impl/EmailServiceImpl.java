@@ -10,10 +10,9 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+
 import java.util.Map;
-import java.util.UUID;
+
 
 @Service
 @RequiredArgsConstructor
@@ -65,6 +64,28 @@ public class EmailServiceImpl implements EmailService {
         helper.setText(process,true);
 
         javaMailSender.send(mimeMessage);
+
+    }
+
+    @Override
+    public void sendBookingCanceledEmailToUser(String to, Map<String, Object> variables) throws MessagingException {
+
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper =
+                new MimeMessageHelper(mimeMessage, true, "UTF-8");
+
+        Context context = new Context();
+        context.setVariables(variables);
+
+        String process = templateEngine.process("booking-cancled-mail", context);
+
+        helper.setFrom("Nestify");
+        helper.setSubject("You have canceled the booking!");
+        helper.setTo(to);
+        helper.setText(process,true);
+
+        javaMailSender.send(mimeMessage);
+
 
     }
 }

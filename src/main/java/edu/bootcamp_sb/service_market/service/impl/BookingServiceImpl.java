@@ -171,9 +171,24 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public ResponseEntity<Map<String, String>> cancelBooking(UUID id) {
+    public ResponseEntity<Map<String, String>> cancelBooking(UUID id) throws MessagingException {
         BookingEntity bookingEntity = bookingRepository.findById(id).orElseThrow(() ->
                 new BookingHasNotFoundException("No booking found"));
+
+        HashMap<String, Object> cancellationEmailVariables = new HashMap<>();
+        cancellationEmailVariables.put("username",bookingEntity.getClient().getUsername());
+        cancellationEmailVariables.put("bookingId",bookingEntity.getId());
+        cancellationEmailVariables.put("providerUsername",
+                bookingEntity.getServiceProvider().getUserName());
+        cancellationEmailVariables.put("scheduledDate", bookingEntity.getStartingDate());
+        cancellationEmailVariables.put("scheduledTime",bookingEntity.getStartingTime());
+        cancellationEmailVariables.put("serviceType",
+                bookingEntity.getGigEntity().getCategory().getName());
+
+        emailService.sendBookingCanceledEmailToUser(bookingEntity.getEmail(),cancellationEmailVariables);
+
+
+
         bookingEntity.setStatus("canceled");
         return ResponseEntity.ok(Map.of(
                 "cancellation", "successfully canceled booking called" + id));

@@ -18,7 +18,7 @@ public interface BookingService {
 
     ResponseEntity<BookingResponseDto>getBookingById(UUID id);
 
-    ResponseEntity<Map<String ,String>> cancelBooking(UUID id);
+    ResponseEntity<Map<String ,String>> cancelBooking(UUID id) throws MessagingException;
 
     ResponseEntity<List<BookingResponseDto>> getAllWithUserId(String id);
 
