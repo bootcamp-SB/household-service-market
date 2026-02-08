@@ -33,7 +33,7 @@ public interface ProviderService {
 
     ResponseEntity<List<ProviderResponseDto>> getByListOfId(Iterable<UUID> id);
 
-    ResponseEntity<List<ProviderDto>> findAllByExpertise(String expertise);
+    ResponseEntity<List<ProviderResponseDto>> findAllByExpertise(String expertise);
 
     ResponseEntity<List<ProviderCategoryResponseDto>> top5Providers();
 

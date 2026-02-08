@@ -275,17 +275,19 @@ public class ProviderServiceImpl implements ProviderService {
     }
 
     @Override
-    public ResponseEntity<List<ProviderDto>> findAllByExpertise(String expertise) {
+    public ResponseEntity<List<ProviderResponseDto>> findAllByExpertise(String expertise) {
         Iterable<ProviderEntity> allByExpertise =
                 providerRepository.findAllByExpertise(expertise);
 
-        ArrayList<ProviderDto> listOfProviders = new ArrayList<>();
+        ArrayList<ProviderResponseDto> listOfProviders = new ArrayList<>();
 
-        allByExpertise.forEach(providerEntity->listOfProviders.add(mapper.convertValue
-                (providerEntity,ProviderDto.class)));
+        allByExpertise.forEach(providerEntity->listOfProviders.add(
+                convertProviderEntityToProviderResponseEntity(providerEntity)));
+
         if(listOfProviders.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(listOfProviders);
         }
+
         return ResponseEntity.ok().body(listOfProviders);
 
 

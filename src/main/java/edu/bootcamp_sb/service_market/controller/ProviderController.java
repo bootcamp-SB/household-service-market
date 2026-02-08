@@ -50,7 +50,7 @@ public class ProviderController {
     }
 
     @GetMapping("/by-expertises")
-    public ResponseEntity<List<ProviderDto>> getByExpertise(@RequestParam String expertise){
+    public ResponseEntity<List<ProviderResponseDto>> getByExpertise(@RequestParam String expertise){
         return providerService.findAllByExpertise(expertise);
     }
 
