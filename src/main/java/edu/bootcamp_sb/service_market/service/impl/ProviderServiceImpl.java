@@ -40,7 +40,6 @@ public class ProviderServiceImpl implements ProviderService {
 
     private final CategoryRepository categoryRepository;
 
-    private final ObjectMapper mapper;
 
     private final KeyCloakUserHandleServiceImpl keyCloakUserHandleService;
 
