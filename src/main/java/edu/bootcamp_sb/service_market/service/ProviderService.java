@@ -31,7 +31,7 @@ public interface ProviderService {
 
     ResponseEntity<ProviderResponseDto> getById(UUID id);
 
-    ResponseEntity<List<ProviderDto>> getByListOfId(Iterable<UUID> id);
+    ResponseEntity<List<ProviderResponseDto>> getByListOfId(Iterable<UUID> id);
 
     ResponseEntity<List<ProviderDto>> findAllByExpertise(String expertise);
 

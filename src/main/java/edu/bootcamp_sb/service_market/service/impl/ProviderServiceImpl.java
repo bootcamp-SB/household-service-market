@@ -262,14 +262,14 @@ public class ProviderServiceImpl implements ProviderService {
 
 
     @Override
-    public ResponseEntity<List<ProviderDto>> getByListOfId(Iterable<UUID> listOfId) {
+    public ResponseEntity<List<ProviderResponseDto>> getByListOfId(Iterable<UUID> listOfId) {
 
         Iterable<ProviderEntity> providersList = providerRepository.findAllById(listOfId);
 
-        ArrayList<ProviderDto> selectedListOfProviders = new ArrayList<>();
+        ArrayList<ProviderResponseDto> selectedListOfProviders = new ArrayList<>();
         providersList.forEach(providerEntity ->
-                selectedListOfProviders.add(mapper.convertValue
-                        (providerEntity,ProviderDto.class)));
+                selectedListOfProviders.add(
+                        convertProviderEntityToProviderResponseEntity(providerEntity)));
         return ResponseEntity.ok().body(selectedListOfProviders);
 
     }

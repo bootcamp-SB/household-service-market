@@ -45,7 +45,7 @@ public class ProviderController {
     }
 
     @GetMapping("/by-list-id")
-    public ResponseEntity<List<ProviderDto>> getByListOfID(@RequestBody Iterable<UUID> listOfId){
+    public ResponseEntity<List<ProviderResponseDto>> getByListOfID(@RequestBody Iterable<UUID> listOfId){
         return providerService.getByListOfId(listOfId);
     }
 
