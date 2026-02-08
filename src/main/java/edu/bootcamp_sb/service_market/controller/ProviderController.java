@@ -60,7 +60,7 @@ public class ProviderController {
     }
 
     @PatchMapping("/by-id")
-    public ResponseEntity<ProviderDto> updateById(@RequestBody ProviderDto provider){
+    public ResponseEntity<ProviderResponseDto> updateById(@RequestBody ProviderDto provider){
         return providerService.updateById(provider);
     }
 

@@ -203,7 +203,7 @@ public class ProviderServiceImpl implements ProviderService {
 
     @Override
     @PreAuthorize("hasAnyRole('admin','provider')")
-    public ResponseEntity<ProviderDto> updateById(ProviderDto provider) {
+    public ResponseEntity<ProviderResponseDto> updateById(ProviderDto provider) {
 
         Optional<ProviderEntity> existingEntity =
                 providerRepository.findById(provider.getId());
@@ -237,9 +237,9 @@ public class ProviderServiceImpl implements ProviderService {
         }
 
 
-        return ResponseEntity.ok().body(mapper.convertValue
-                (providerRepository.save(updatingEntity),
-                ProviderDto.class));
+        return ResponseEntity.ok().body(
+                convertProviderEntityToProviderResponseEntity(
+                        providerRepository.save(updatingEntity)));
 
     }
 

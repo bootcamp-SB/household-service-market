@@ -27,7 +27,7 @@ public interface ProviderService {
 
     ResponseEntity<Map<String, String>> deleteByListOfIds(Iterable<UUID>ids);
 
-    ResponseEntity<ProviderDto> updateById(ProviderDto provider);
+    ResponseEntity<ProviderResponseDto> updateById(ProviderDto provider);
 
     ResponseEntity<ProviderResponseDto> getById(UUID id);
 
