@@ -1,7 +1,7 @@
 package edu.bootcamp_sb.service_market.service.impl;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import edu.bootcamp_sb.service_market.dto.ProviderDto;
 import edu.bootcamp_sb.service_market.dto.reponse.*;
 import edu.bootcamp_sb.service_market.dto.request.ProviderRegistrationDto;
