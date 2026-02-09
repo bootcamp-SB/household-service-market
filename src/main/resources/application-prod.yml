@@ -46,5 +46,10 @@ keycloak:
     username: admin
     password: admin
 
+aws:
+  s3:
+    bucket: ${BUCKET_NAME}
+    region: ${REGION_NAME}
+
 
 
