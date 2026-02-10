@@ -10,4 +10,6 @@ public interface BookingRepository extends CrudRepository<BookingEntity, UUID> {
 
     Iterable<BookingEntity>findAllByClientId(UUID id);
 
+    Integer countByClientId(UUID userid);
+
 }
