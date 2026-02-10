@@ -22,6 +22,8 @@ public interface BookingService {
 
     ResponseEntity<List<BookingResponseDto>> getAllWithUserId(String id);
 
+    ResponseEntity<Map<String,Integer>> getCountOfUsersBookings(String userId);
+
 
 
 }

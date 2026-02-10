@@ -46,4 +46,9 @@ public class BookingController {
     public ResponseEntity<List<BookingResponseDto>>getAllByClientId(@RequestParam String id){
         return  bookingService.getAllWithUserId(id);
     }
+
+    @GetMapping("/user/booking-count")
+    public ResponseEntity<Map<String,Integer>>getBookingCountOfAUsers(@RequestParam String id){
+        return bookingService.getCountOfUsersBookings(id);
+    }
 }

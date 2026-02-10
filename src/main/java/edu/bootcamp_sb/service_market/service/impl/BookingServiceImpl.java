@@ -206,4 +206,10 @@ public class BookingServiceImpl implements BookingService {
 
         return ResponseEntity.ok(bookingResponseDtoList);
     }
+
+    @Override
+    public ResponseEntity<Map<String, Integer>> getCountOfUsersBookings(String userId) {
+        Integer countByClientId = bookingRepository.countByClientId(UUID.fromString(userId));
+        return ResponseEntity.ok(Map.of("booking count", countByClientId));
+    }
 }
