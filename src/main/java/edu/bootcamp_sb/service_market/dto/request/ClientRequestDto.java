@@ -27,6 +27,8 @@ public class ClientRequestDto {
 
     private  String paymentMethod;
 
+    private String contact;
+
     private String password;
 
 

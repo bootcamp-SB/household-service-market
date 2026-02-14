@@ -1,0 +1,2 @@
+ALTER TABLE `client` ADD COLUMN `update_at` DATE;
+ALTER TABLE `client` ADD COLUMN `contact` VARCHAR(255) DEFAULT NULL;

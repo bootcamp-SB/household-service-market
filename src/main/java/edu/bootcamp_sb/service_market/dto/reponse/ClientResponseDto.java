@@ -28,5 +28,9 @@ public class ClientResponseDto {
 
     private LocalDate createdAt;
 
+    private String contact;
+
+    private LocalDate updateAt;
+
     private ClientProfileDto profile;
 }

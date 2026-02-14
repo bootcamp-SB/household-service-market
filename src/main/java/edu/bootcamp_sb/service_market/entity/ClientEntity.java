@@ -41,6 +41,10 @@ public class ClientEntity {
 
     private LocalDate createAt;
 
+    private LocalDate updateAt;
+
+    private String contact;
+
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "profile_Id")
