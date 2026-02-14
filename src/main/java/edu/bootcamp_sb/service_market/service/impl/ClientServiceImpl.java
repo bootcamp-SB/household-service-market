@@ -187,6 +187,11 @@ public class ClientServiceImpl implements ClientService {
             exsistingClientEntity.setUsername(clientDto.getUsername());
         }
 
+        if(clientDto.getContact() != null){
+            exsistingClientEntity.setContact(clientDto.getContact());
+        }
+
+        exsistingClientEntity.setUpdateAt(LocalDate.now());
 
         return ResponseEntity.ok().body(
                 clientEntityToClientResponseDto(
