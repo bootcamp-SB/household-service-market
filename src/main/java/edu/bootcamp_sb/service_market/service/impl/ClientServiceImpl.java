@@ -146,7 +146,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @PreAuthorize("hasAnyRole('admin','user')")
-    public ResponseEntity<ClientResponseDto> updateByID(ClientDto clientDto) {
+    public ResponseEntity<ClientResponseDto> updateByID(ClientRequestDto clientDto) {
 
         Optional<ClientEntity> optionalEntity = clientRepository.findById(clientDto.getId());
 
@@ -165,6 +165,19 @@ public class ClientServiceImpl implements ClientService {
         if(clientDto.getPaymentMethod() !=null){
             exsistingClientEntity.setPaymentMethod(clientDto.getPaymentMethod());
         }
+
+        if(clientDto.getFirstName() != null){
+            exsistingClientEntity.setFirstName(clientDto.getFirstName());
+        }
+
+        if(clientDto.getLastName() != null){
+            exsistingClientEntity.setLastName(clientDto.getLastName());
+        }
+
+        if(clientDto.getUsername() != null){
+            exsistingClientEntity.setUsername(clientDto.getUsername());
+        }
+
 
         return ResponseEntity.ok().body(
                 clientEntityToClientResponseDto(

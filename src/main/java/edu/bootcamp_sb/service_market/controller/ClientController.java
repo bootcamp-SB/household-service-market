@@ -41,7 +41,7 @@ public class ClientController {
 
     @PatchMapping("/by-id")
     @PreAuthorize("hasAnyRole('admin','user')")
-    public ResponseEntity<ClientResponseDto> updateById(@RequestBody ClientDto clientDto){
+    public ResponseEntity<ClientResponseDto> updateById(@RequestBody ClientRequestDto clientDto){
         return clientService.updateByID(clientDto);
     }
 

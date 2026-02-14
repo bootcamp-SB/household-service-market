@@ -19,7 +19,7 @@ public interface ClientService {
 
     ResponseEntity<ClientResponseDto> persist(ClientRequestDto clientDto);
 
-    ResponseEntity<ClientResponseDto> updateByID(ClientDto clientDto);
+    ResponseEntity<ClientResponseDto> updateByID(ClientRequestDto clientDto);
 
     ResponseEntity<ClientResponseDto>getById(String id);
 
