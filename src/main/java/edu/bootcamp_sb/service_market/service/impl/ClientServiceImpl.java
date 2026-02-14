@@ -46,7 +46,12 @@ public class ClientServiceImpl implements ClientService {
         clientDto.setAddress(preEntity.getAddress());
         clientDto.setEmail(preEntity.getEmail());
         clientDto.setPaymentMethod(preEntity.getPaymentMethod());
-
+        clientDto.setCreateAt(preEntity.getCreateAt());
+        clientDto.setUsername(preEntity.getUsername());
+        clientDto.setFirstName(preEntity.getFirstName());
+        clientDto.setLastName(preEntity.getLastName());
+        clientDto.setUpdateAt(preEntity.getUpdateAt());
+        clientDto.setContact(preEntity.getContact());
         return clientDto;
 
     }

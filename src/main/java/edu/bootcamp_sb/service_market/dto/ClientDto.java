@@ -13,6 +13,8 @@ import java.util.UUID;
 @NoArgsConstructor
 public class ClientDto {
 
+    private UUID id;
+
     private String address;
 
     private String email;
