@@ -6,6 +6,8 @@ import edu.bootcamp_sb.service_market.dto.request.BookingRequestDto;
 import jakarta.mail.MessagingException;
 import org.springframework.http.ResponseEntity;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -23,5 +25,7 @@ public interface BookingService {
     ResponseEntity<List<BookingResponseDto>> getAllWithUserId(String id);
 
     ResponseEntity<Map<String,Integer>>getBookingCountOfAUser(String userid);
+
+    ResponseEntity<Map<String,String>>rescheduleBooking(String userId, LocalDate rescheduleDate , LocalTime rescheduleTime);
 
 }

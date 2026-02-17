@@ -22,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
 
@@ -212,5 +213,19 @@ public class BookingServiceImpl implements BookingService {
     public ResponseEntity<Map<String, Integer>> getBookingCountOfAUser(String userid) {
         Integer countByClientId = bookingRepository.countByClientId(UUID.fromString(userid));
         return ResponseEntity.ok(Map.of("booking count",countByClientId));
+    }
+
+    @Override
+    public ResponseEntity<Map<String, String>> rescheduleBooking(
+            String userId, LocalDate rescheduleDate , LocalTime rescheduleTime) {
+
+        BookingEntity bookingEntity = bookingRepository.findById(UUID.fromString(userId))
+                .orElseThrow(() -> new BookingHasNotFoundException("booking is not found"));
+
+        bookingEntity.setStatus("pending");
+        bookingEntity.setStartingDate(rescheduleDate);
+        bookingEntity.setStartingTime(rescheduleTime);
+        bookingRepository.save(bookingEntity);
+        return ResponseEntity.ok(Map.of("Success","Booking is reschduled"));
     }
 }

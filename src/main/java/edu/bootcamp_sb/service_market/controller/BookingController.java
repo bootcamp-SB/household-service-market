@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -50,5 +52,12 @@ public class BookingController {
     @GetMapping("/user/booking-count")
     public ResponseEntity<Map<String,Integer>>getBookingCountOfAUser(@RequestParam String id){
         return bookingService.getBookingCountOfAUser(id);
+    }
+
+    @PutMapping("/reschedule")
+    public ResponseEntity<Map<String,String>>rescheduleBooking(
+            @RequestParam String id, @RequestParam LocalDate rescheduleDate,
+            @RequestParam LocalTime rescheduleTime){
+        return bookingService.rescheduleBooking(id, rescheduleDate, rescheduleTime);
     }
 }
