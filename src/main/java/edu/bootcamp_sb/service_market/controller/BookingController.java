@@ -63,6 +63,9 @@ public class BookingController {
 
     @PatchMapping("/completed")
     public ResponseEntity<Map<String,String>>updateBookingToCompleted(@RequestParam String id){
-        return bookingService.UpdateStatusAsComplete(id);
+        return bookingService.updateStatusAsComplete(id);
     }
+
+
+
 }

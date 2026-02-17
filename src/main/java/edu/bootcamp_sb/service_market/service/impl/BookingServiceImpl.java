@@ -230,7 +230,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public ResponseEntity<Map<String, String>> UpdateStatusAsComplete(String userId) {
+    public ResponseEntity<Map<String, String>> updateStatusAsComplete(String userId) {
 
         BookingEntity bookingEntity = bookingRepository.findById(UUID.fromString(userId))
                 .orElseThrow(() ->

@@ -12,4 +12,5 @@ public interface BookingRepository extends CrudRepository<BookingEntity, UUID> {
 
     Integer countByClientId(UUID userid);
 
+
 }

@@ -29,6 +29,8 @@ public interface BookingService {
     ResponseEntity<Map<String,String>>rescheduleBooking(
             String userId, LocalDate rescheduleDate ,LocalTime rescheduleTime);
 
-    ResponseEntity<Map<String,String>>UpdateStatusAsComplete(String userId);
+    ResponseEntity<Map<String,String>>updateStatusAsComplete(String userId);
+
+
 
 }
