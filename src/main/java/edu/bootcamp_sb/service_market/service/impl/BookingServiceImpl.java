@@ -228,4 +228,16 @@ public class BookingServiceImpl implements BookingService {
         bookingRepository.save(bookingEntity);
         return ResponseEntity.ok(Map.of("Success","Booking is reschduled"));
     }
+
+    @Override
+    public ResponseEntity<Map<String, String>> UpdateStatusAsComplete(String userId) {
+
+        BookingEntity bookingEntity = bookingRepository.findById(UUID.fromString(userId))
+                .orElseThrow(() ->
+                        new BookingHasNotFoundException(
+                                "Booking has not found with id " + userId));
+        bookingEntity.setStatus("completed");
+        bookingRepository.save(bookingEntity);
+        return ResponseEntity.ok(Map.of("Success","Marked as completed"));
+    }
 }

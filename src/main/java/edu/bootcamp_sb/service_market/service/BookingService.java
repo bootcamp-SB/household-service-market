@@ -26,6 +26,9 @@ public interface BookingService {
 
     ResponseEntity<Map<String,Integer>>getBookingCountOfAUser(String userid);
 
-    ResponseEntity<Map<String,String>>rescheduleBooking(String userId, LocalDate rescheduleDate , LocalTime rescheduleTime);
+    ResponseEntity<Map<String,String>>rescheduleBooking(
+            String userId, LocalDate rescheduleDate ,LocalTime rescheduleTime);
+
+    ResponseEntity<Map<String,String>>UpdateStatusAsComplete(String userId);
 
 }

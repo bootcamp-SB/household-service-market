@@ -60,4 +60,9 @@ public class BookingController {
             @RequestParam LocalTime rescheduleTime){
         return bookingService.rescheduleBooking(id, rescheduleDate, rescheduleTime);
     }
+
+    @PatchMapping("/completed")
+    public ResponseEntity<Map<String,String>>updateBookingToCompleted(@RequestParam String id){
+        return bookingService.UpdateStatusAsComplete(id);
+    }
 }
