@@ -83,6 +83,7 @@ public class BookingServiceImpl implements BookingService {
         bookingEntity.setStatus(bookingDto.getStatus());
         bookingEntity.setStartingTime(LocalTime.parse(bookingDto.getStartingTime()));
         bookingEntity.setAdditionalInformation(bookingDto.getAdditionalInformation());
+
         if(bookingDto.getName() != null){
             bookingEntity.setName(bookingDto.getName());
         }
@@ -104,15 +105,15 @@ public class BookingServiceImpl implements BookingService {
                 () -> new ClientHasBeenNotFoundException("client is NOT found")
         );
 
-        if(bookingDto.getName().isEmpty()){
-            bookingEntity.setName(clientEntity.getFirstName() + clientEntity.getLastName());
+        if(bookingDto.getName() == null || bookingDto.getName().isEmpty() ){
+            bookingEntity.setName(clientEntity.getFirstName()+ " " + clientEntity.getLastName());
         }
 
-        if(bookingDto.getEmail().isEmpty()){
+        if(bookingDto.getEmail() == null || bookingDto.getEmail().isEmpty()){
             bookingEntity.setEmail(clientEntity.getEmail());
         }
 
-        if(bookingDto.getAddress().isEmpty()){
+        if(bookingDto.getAddress() == null || bookingDto.getAddress().isEmpty()){
             bookingEntity.setAddress(clientEntity.getAddress());
         }
 
