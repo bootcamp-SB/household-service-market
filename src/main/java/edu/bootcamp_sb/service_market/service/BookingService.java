@@ -31,6 +31,6 @@ public interface BookingService {
 
     ResponseEntity<Map<String,String>>updateStatusAsComplete(String userId);
 
-
+    ResponseEntity<List<BookingResponseDto>>getAllByStatusAndClientId(String userId,String status);
 
 }

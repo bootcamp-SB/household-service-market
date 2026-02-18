@@ -240,4 +240,20 @@ public class BookingServiceImpl implements BookingService {
         bookingRepository.save(bookingEntity);
         return ResponseEntity.ok(Map.of("Success","Marked as completed"));
     }
+
+    @Override
+    public ResponseEntity<List<BookingResponseDto>> getAllByStatusAndClientId(
+            String userId, String status) {
+
+        ArrayList<BookingResponseDto> bookingResponseDtos = new ArrayList<>();
+
+        Iterable<BookingEntity> bookingEntities =
+                bookingRepository.findByClientIdAndStatus(UUID.fromString(userId), status);
+
+        bookingEntities.forEach(entity->
+            bookingResponseDtos.add(bookingEntityToBookingResponseDto(entity))
+        );
+
+        return ResponseEntity.ok(bookingResponseDtos);
+    }
 }
