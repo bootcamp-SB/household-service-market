@@ -149,4 +149,12 @@ public class ServiceGigServiceImpl implements ServiceGigService {
 
         return ResponseEntity.ok(convertGigEntityToGigResponseEntity(gigEntity));
     }
+
+    @Override
+    public ResponseEntity<Map<String, Integer>> getCountByProviderId(String providerId) {
+        Integer count =
+                gigRepository.countByServiceGigProviderId(UUID.fromString(providerId));
+
+        return ResponseEntity.ok(Map.of("count",count));
+    }
 }

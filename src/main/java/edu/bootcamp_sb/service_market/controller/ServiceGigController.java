@@ -47,4 +47,9 @@ public class ServiceGigController {
         return serviceGigService.getById(id);
     }
 
+    @GetMapping("/count-by/provider")
+    public ResponseEntity<Map<String,Integer>>getCountByProviderId(@RequestParam String id){
+        return  serviceGigService.getCountByProviderId(id);
+    }
+
 }

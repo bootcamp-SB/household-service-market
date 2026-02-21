@@ -22,5 +22,7 @@ public interface ServiceGigService {
 
     ResponseEntity<ServiceGigResponseDto>getById(UUID id);
 
+    ResponseEntity<Map<String,Integer>>getCountByProviderId(String providerId);
+
 
 }
