@@ -157,4 +157,17 @@ public class ServiceGigServiceImpl implements ServiceGigService {
 
         return ResponseEntity.ok(Map.of("count",count));
     }
+
+    @Override
+    public ResponseEntity<List<ServiceGigResponseDto>> getAllGigsByProviderId(String providerId) {
+
+        ArrayList<ServiceGigResponseDto> serviceGigResponseDtoArrayList = new ArrayList<>();
+
+        Iterable<ServiceGigEntity> allByProviderId =
+                gigRepository.findAllByProviderId(UUID.fromString(providerId));
+
+        allByProviderId.forEach(entity->
+                serviceGigResponseDtoArrayList.add(convertGigEntityToGigResponseEntity(entity)));
+        return ResponseEntity.ok(serviceGigResponseDtoArrayList);
+    }
 }

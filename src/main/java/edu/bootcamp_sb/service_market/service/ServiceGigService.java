@@ -24,5 +24,7 @@ public interface ServiceGigService {
 
     ResponseEntity<Map<String,Integer>>getCountByProviderId(String providerId);
 
+    ResponseEntity<List<ServiceGigResponseDto>>getAllGigsByProviderId(String providerId);
+
 
 }

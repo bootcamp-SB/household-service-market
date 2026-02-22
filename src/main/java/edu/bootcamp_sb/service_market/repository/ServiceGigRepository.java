@@ -15,4 +15,6 @@ public interface ServiceGigRepository extends JpaRepository<ServiceGigEntity, UU
 
     Integer countByServiceGigProviderId(UUID id);
 
+    Iterable<ServiceGigEntity>findAllByProviderId(UUID id);
+
 }

@@ -52,4 +52,8 @@ public class ServiceGigController {
         return  serviceGigService.getCountByProviderId(id);
     }
 
+    @GetMapping("/all-gigs-by/provider-id")
+    public ResponseEntity<List<ServiceGigResponseDto>>getAllGigsByProviderId(@RequestParam String id){
+        return serviceGigService.getAllGigsByProviderId(id);
+    }
 }
