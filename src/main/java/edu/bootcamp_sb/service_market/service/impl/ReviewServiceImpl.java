@@ -151,5 +151,11 @@ public class ReviewServiceImpl implements ReviewService {
 
         return ResponseEntity.ok(reviewRepository.count());
     }
+
+    @Override
+    public ResponseEntity<Map<String, Integer>> getCountByServiceGigId(String id) {
+        Integer count = reviewRepository.countByServiceGigEntityId(UUID.fromString(id));
+        return ResponseEntity.ok(Map.of("count",count));
+    }
 }
 

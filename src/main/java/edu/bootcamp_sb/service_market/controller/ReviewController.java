@@ -49,4 +49,11 @@ public class ReviewController {
     public ResponseEntity<Long>getCount(){
          return reviewService.getCount();
     }
+
+    @GetMapping("/count-by/service-gig-id")
+    public ResponseEntity<Map<String,Integer>>getCountByServiceGigID(@RequestParam String id){
+        return reviewService.getCountByServiceGigId(id);
+    }
+
+
 }

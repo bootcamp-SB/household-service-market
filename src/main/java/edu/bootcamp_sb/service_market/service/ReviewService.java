@@ -23,5 +23,7 @@ public interface ReviewService {
 
     ResponseEntity<Long>getCount();
 
+    ResponseEntity<Map<String,Integer>> getCountByServiceGigId(String id);
+
 
 }

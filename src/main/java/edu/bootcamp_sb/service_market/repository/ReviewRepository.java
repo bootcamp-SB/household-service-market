@@ -10,4 +10,6 @@ public interface ReviewRepository extends CrudRepository<ReviewsEntity, UUID> {
 
     Iterable<ReviewsEntity> findAllByServiceGigEntityId(UUID id);
 
+    Integer countByServiceGigEntityId(UUID id);
+
 }
