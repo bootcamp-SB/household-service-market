@@ -164,7 +164,7 @@ public class ServiceGigServiceImpl implements ServiceGigService {
         ArrayList<ServiceGigResponseDto> serviceGigResponseDtoArrayList = new ArrayList<>();
 
         Iterable<ServiceGigEntity> allByProviderId =
-                gigRepository.findAllByProviderId(UUID.fromString(providerId));
+                gigRepository.findAllByServiceGigProviderId(UUID.fromString(providerId));
 
         allByProviderId.forEach(entity->
                 serviceGigResponseDtoArrayList.add(convertGigEntityToGigResponseEntity(entity)));
