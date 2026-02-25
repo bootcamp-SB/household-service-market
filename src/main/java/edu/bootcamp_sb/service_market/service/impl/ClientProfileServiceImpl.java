@@ -24,6 +24,9 @@ public class ClientProfileServiceImpl implements ClientProfileService {
     private final ObjectMapper mapper;
 
     public static ClientProfileDto profileEntityTOClientProfileDto(ClientProfileEntity entity){
+        if(entity == null){
+            return null;
+        }
         return ClientProfileDto.builder()
                 .id(entity.getId())
                 .profilePicUrl(entity.getProfilePicUrl())

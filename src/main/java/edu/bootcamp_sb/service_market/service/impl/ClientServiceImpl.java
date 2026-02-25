@@ -67,7 +67,6 @@ public class ClientServiceImpl implements ClientService {
                 .paymentMethod(entity.getPaymentMethod())
                 .address(entity.getAddress())
                 .createdAt(entity.getCreateAt())
-                .profile(profileEntityTOClientProfileDto(entity.getProfile()))
                 .contact(entity.getContact())
                 .updateAt(entity.getUpdateAt())
                 .build();
@@ -139,12 +138,6 @@ public class ClientServiceImpl implements ClientService {
         clientEntity.setContact(clientDto.getContact());
         clientEntity.setUpdateAt(LocalDate.now());
 
-
-        ClientProfileEntity profileEntity = new ClientProfileEntity();
-        profileEntity.setProfilePicUrl(clientDto.getProfile().getProfilePicUrl());
-        profileEntity.setClient(clientEntity);
-
-        clientEntity.setProfile(profileEntity);
         ClientEntity saved = clientRepository.save(clientEntity);
 
         return ResponseEntity.ok(clientEntityToClientResponseDto(saved));
