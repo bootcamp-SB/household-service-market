@@ -31,6 +31,12 @@ public class KeycloakUserController {
         return keyCloakUserHandleService.logout(userId);
     }
 
+    @PostMapping("/reset-password")
+    public ResponseEntity<Map<String,String>>changePassword
+            (@RequestParam String userId, @RequestParam String newPassword){
+        return keyCloakUserHandleService.changePassword(userId,newPassword);
+    }
+
 
 
     }

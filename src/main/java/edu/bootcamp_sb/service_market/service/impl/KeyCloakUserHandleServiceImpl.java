@@ -141,5 +141,18 @@ public class KeyCloakUserHandleServiceImpl implements KeyCloakUserHandleService 
         }
     }
 
+    @Override
+    public ResponseEntity<Map<String,String>> changePassword(String userId,String newPassword) {
+        CredentialRepresentation credentialRepresentation = new CredentialRepresentation();
+        credentialRepresentation.setValue(newPassword);
+        credentialRepresentation.setTemporary(false);
+        credentialRepresentation.setType(CredentialRepresentation.PASSWORD);
+
+        keycloak.realm(marketRealm)
+                .users().get(userId).resetPassword(credentialRepresentation);
+
+        return ResponseEntity.ok(Map.of("success","password reset completed"));
+    }
+
 
 }

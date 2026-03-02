@@ -24,6 +24,8 @@ public interface KeyCloakUserHandleService {
 
     ResponseEntity<Map<String, String>> logout(String userId);
 
+    ResponseEntity<Map<String,String>> changePassword(String userId,String newPassword);
+
 
 
 
