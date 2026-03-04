@@ -201,5 +201,11 @@ public class ClientServiceImpl implements ClientService {
         return ResponseEntity.ok(clientEntityToClientResponseDto(clientEntity));
     }
 
+    @Override
+    public ResponseEntity<Map<String,Long>> ClientCount() {
+        long count = clientRepository.count();
+        return ResponseEntity.ok(Map.of("count",count));
+    }
+
 
 }

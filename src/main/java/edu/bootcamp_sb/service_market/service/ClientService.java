@@ -23,6 +23,8 @@ public interface ClientService {
 
     ResponseEntity<ClientResponseDto>getById(String id);
 
+    ResponseEntity<Map<String,Long>>ClientCount();
+
 
 
 }

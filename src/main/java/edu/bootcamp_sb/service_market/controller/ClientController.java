@@ -50,4 +50,9 @@ public class ClientController {
         return clientService.getById(id);
     }
 
+    @GetMapping("/count")
+    public ResponseEntity<Map<String,Long>>count(){
+        return clientService.ClientCount();
+    }
+
 }
