@@ -3,6 +3,7 @@ package service;
 import edu.bootcamp_sb.service_market.dto.reponse.ClientResponseDto;
 import edu.bootcamp_sb.service_market.dto.request.ClientRequestDto;
 import edu.bootcamp_sb.service_market.entity.ClientEntity;
+import edu.bootcamp_sb.service_market.exception.client_exceptions.ClientHasBeenNotFoundException;
 import edu.bootcamp_sb.service_market.repository.ClientRepository;
 import edu.bootcamp_sb.service_market.service.ClientService;
 import edu.bootcamp_sb.service_market.service.impl.ClientServiceImpl;
@@ -17,6 +18,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 
@@ -46,6 +48,13 @@ class ClientServiceTest {
 
         // Assert
         assertEquals("John", clientServiceById.getBody().getUsername());
+
+    }
+
+    @Test
+    void testGetClientById_shouldNotExists(){
+        assertThrows(ClientHasBeenNotFoundException.class,
+                () -> clientService.getById("f3c9b7a2-8d41-4e6e-9a73-2c5f1b8d4a9e"));
 
     }
 
