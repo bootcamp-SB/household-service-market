@@ -59,27 +59,38 @@ public class ProviderServiceImpl implements ProviderService {
         ProviderResponseDto responseDto = new ProviderResponseDto();
         responseDto.setProviderDto(convertProviderEntityToProviderDto(providerEntity));
 
-        for(CategoryEntity categoryEntity : categoriesEntityList){
-            categoryResponseDtoList.add(convertCategoryEntityToCategoryResponseDto(categoryEntity));
+        if(categoriesEntityList != null){
+            for(CategoryEntity categoryEntity : categoriesEntityList){
+                categoryResponseDtoList.add(convertCategoryEntityToCategoryResponseDto(categoryEntity));
+
+            }
+            responseDto.setCategories(categoryResponseDtoList);
 
         }
 
-        for(ServiceGigEntity serviceGigEntity :serviceGigEntityList){
-            serviceGigResponseDtoList.add( convertGigEntityToGigResponseEntity(serviceGigEntity));
+        if(serviceGigEntityList != null){
+            for(ServiceGigEntity serviceGigEntity :serviceGigEntityList){
+                serviceGigResponseDtoList.add( convertGigEntityToGigResponseEntity(serviceGigEntity));
+            }
+            responseDto.setGigs(serviceGigResponseDtoList);
+
         }
 
-        for(BookingEntity bookingEntity :bookingEntityList){
-            bookingResponseDtoList.add(bookingEntityToBookingResponseDto(bookingEntity));
+        if(bookingEntityList != null){
+            for(BookingEntity bookingEntity :bookingEntityList){
+                bookingResponseDtoList.add(bookingEntityToBookingResponseDto(bookingEntity));
+            }
+            responseDto.setBooking(bookingResponseDtoList);
+
         }
 
-        for(ReviewsEntity reviewsEntity: reviewsEntityList){
-            reviewResponseDtoList.add(reviewEntityToReviewDto(reviewsEntity));
+        if(reviewsEntityList != null){
+            for(ReviewsEntity reviewsEntity: reviewsEntityList){
+                reviewResponseDtoList.add(reviewEntityToReviewDto(reviewsEntity));
+            }
+            responseDto.setReviews(reviewResponseDtoList);
         }
 
-        responseDto.setCategories(categoryResponseDtoList);
-        responseDto.setGigs(serviceGigResponseDtoList);
-        responseDto.setBooking(bookingResponseDtoList);
-        responseDto.setReviews(reviewResponseDtoList);
 
         return responseDto;
     }
@@ -244,9 +255,7 @@ public class ProviderServiceImpl implements ProviderService {
 
     @Override
     public ResponseEntity<ProviderResponseDto> getById(UUID id) {
-        if(!providerRepository.existsById(id)){
-            throw new ProviderHasBeenNotFoundException("Incorrect provider id");
-        }
+
         ProviderEntity providerEntity = providerRepository.findById(id).orElseThrow(
                 ()-> new ProviderHasBeenNotFoundException("provider not found"));
 
