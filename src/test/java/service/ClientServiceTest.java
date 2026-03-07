@@ -53,8 +53,12 @@ class ClientServiceTest {
 
     @Test
     void testGetClientById_shouldNotExists(){
+
+        when(clientRepository.findById(UUID.fromString("1f9f3335-b1a1-45d2-b1e1-c406130708be")))
+                .thenReturn(Optional.empty());
+
         assertThrows(ClientHasBeenNotFoundException.class,
-                () -> clientService.getById("f3c9b7a2-8d41-4e6e-9a73-2c5f1b8d4a9e"));
+                () -> clientService.getById("1f9f3335-b1a1-45d2-b1e1-c406130708be"));
 
     }
 
