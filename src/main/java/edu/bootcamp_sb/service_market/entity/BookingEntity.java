@@ -36,9 +36,10 @@ public class BookingEntity {
 
     private String additionalInformation; // additional requests they want
 
-
+    @Column(unique = true , nullable = false)
     private LocalTime startingTime;
 
+    @Column(unique = true , nullable = false)
     private LocalDate startingDate;
 
 
