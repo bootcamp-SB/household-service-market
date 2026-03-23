@@ -191,7 +191,10 @@ public class BookingServiceImpl implements BookingService {
 
 
 
-        bookingEntity.setStatus("canceled");
+        bookingEntity.setStatus("cancelled");
+
+        bookingRepository.save(bookingEntity);
+
         return ResponseEntity.ok(Map.of(
                 "cancellation", "successfully canceled booking called" + id));
     }
