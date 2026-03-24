@@ -191,7 +191,8 @@ public class BookingServiceImpl implements BookingService {
 
 
 
-        bookingEntity.setStatus("cancelled");
+        if(!bookingEntity.getStatus().equals("completed")) bookingEntity.setStatus("cancelled");
+
 
         bookingRepository.save(bookingEntity);
 
