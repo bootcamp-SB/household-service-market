@@ -8,6 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,8 +49,11 @@ public class ClientController {
     }
 
     @GetMapping("/by-id")
-    public ResponseEntity<ClientResponseDto> getById(@RequestParam String id){
-        return clientService.getById(id);
+    public ResponseEntity<ClientResponseDto> getById(@AuthenticationPrincipal Jwt token){
+
+        String userId = token.getSubject();
+
+        return clientService.getById(userId);
     }
 
     @GetMapping("/count")
