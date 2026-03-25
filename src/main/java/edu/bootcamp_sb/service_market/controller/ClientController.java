@@ -38,8 +38,11 @@ public class ClientController {
 
     @DeleteMapping("/by-id")
     @PreAuthorize("hasAnyRole('admin','user')")
-    public ResponseEntity<Map<String,String>>deleteById(@RequestParam UUID id){
-        return clientService.deleteById(id);
+    public ResponseEntity<Map<String,String>>deleteById(@AuthenticationPrincipal Jwt token){
+
+        String userId = token.getSubject();
+
+        return clientService.deleteById(UUID.fromString(userId));
     }
 
     @PatchMapping("/by-id")
