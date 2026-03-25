@@ -33,4 +33,6 @@ public interface BookingService {
 
     ResponseEntity<List<BookingResponseDto>>getAllByStatusAndClientId(String userId,String status);
 
+
+
 }
