@@ -40,8 +40,8 @@ public class BookingController {
         return  bookingService.getBookingById(id);
     }
     @PutMapping("/cancel")
-    public ResponseEntity<Map<String,String>>cancelBooking(UUID id) throws MessagingException{
-        return bookingService.cancelBooking(id);
+    public ResponseEntity<Map<String,String>>cancelBooking(@RequestParam UUID taskId) throws MessagingException{
+        return bookingService.cancelBooking(taskId);
     }
 
     @GetMapping("/by-client-id")
