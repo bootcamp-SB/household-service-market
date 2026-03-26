@@ -8,6 +8,8 @@ import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -45,8 +47,9 @@ public class BookingController {
     }
 
     @GetMapping("/by-client-id")
-    public ResponseEntity<List<BookingResponseDto>>getAllByClientId(@RequestParam String id){
-        return  bookingService.getAllWithUserId(id);
+    public ResponseEntity<List<BookingResponseDto>>getAllByClientId(@AuthenticationPrincipal Jwt jwt){
+       String userId = jwt.getSubject();
+        return  bookingService.getAllWithUserId(userId);
     }
 
     @GetMapping("/user/booking-count")
