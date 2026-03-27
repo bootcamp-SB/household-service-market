@@ -72,8 +72,11 @@ public class BookingController {
 
     @GetMapping("/user/by-status")
     public ResponseEntity<List<BookingResponseDto>>getAllByClientIdAndStatus(
-            @RequestParam String id, @RequestParam String status){
-        return bookingService.getAllByStatusAndClientId(id,status);
+            @AuthenticationPrincipal Jwt token, @RequestParam String status){
+
+        String userId = token.getSubject();
+
+        return bookingService.getAllByStatusAndClientId(userId,status);
     }
 
 
