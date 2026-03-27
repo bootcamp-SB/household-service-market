@@ -53,8 +53,9 @@ public class BookingController {
     }
 
     @GetMapping("/user/booking-count")
-    public ResponseEntity<Map<String,Integer>>getBookingCountOfAUser(@RequestParam String id){
-        return bookingService.getBookingCountOfAUser(id);
+    public ResponseEntity<Map<String,Integer>>getBookingCountOfAUser(@AuthenticationPrincipal Jwt token){
+        String userId = token.getSubject();
+        return bookingService.getBookingCountOfAUser(userId);
     }
 
     @PutMapping("/reschedule")
