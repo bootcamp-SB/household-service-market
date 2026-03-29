@@ -25,7 +25,6 @@ public class ClientRequestDto {
 
     private String lastName;
 
-    private  String paymentMethod;
 
     private String contact;
 

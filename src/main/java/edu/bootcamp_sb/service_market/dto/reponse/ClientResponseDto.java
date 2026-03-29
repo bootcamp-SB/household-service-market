@@ -18,8 +18,6 @@ public class ClientResponseDto {
 
     private String email;
 
-    private  String paymentMethod;
-
     private String firstName;
 
     private String lastName;

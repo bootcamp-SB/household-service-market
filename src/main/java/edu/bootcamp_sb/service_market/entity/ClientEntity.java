@@ -37,7 +37,6 @@ public class ClientEntity {
 
     private String lastName;
 
-    private String paymentMethod;
 
     private LocalDate createAt;
 

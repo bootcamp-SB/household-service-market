@@ -45,7 +45,6 @@ public class ClientServiceImpl implements ClientService {
         clientDto.setId(preEntity.getId());
         clientDto.setAddress(preEntity.getAddress());
         clientDto.setEmail(preEntity.getEmail());
-        clientDto.setPaymentMethod(preEntity.getPaymentMethod());
         clientDto.setCreateAt(preEntity.getCreateAt());
         clientDto.setUsername(preEntity.getUsername());
         clientDto.setFirstName(preEntity.getFirstName());
@@ -64,7 +63,6 @@ public class ClientServiceImpl implements ClientService {
                 .lastName(entity.getLastName())
                 .username(entity.getUsername())
                 .email(entity.getEmail())
-                .paymentMethod(entity.getPaymentMethod())
                 .address(entity.getAddress())
                 .createdAt(entity.getCreateAt())
                 .contact(entity.getContact())
@@ -133,7 +131,6 @@ public class ClientServiceImpl implements ClientService {
         clientEntity.setFirstName(clientDto.getFirstName());
         clientEntity.setLastName(clientDto.getLastName());
         clientEntity.setAddress(clientDto.getAddress());
-        clientEntity.setPaymentMethod(clientDto.getPaymentMethod());
         clientEntity.setCreateAt(LocalDate.now());
         clientEntity.setContact(clientDto.getContact());
         clientEntity.setUpdateAt(LocalDate.now());
@@ -163,9 +160,6 @@ public class ClientServiceImpl implements ClientService {
         }
         if(clientDto.getAddress() != null){
             exsistingClientEntity.setAddress(clientDto.getAddress());
-        }
-        if(clientDto.getPaymentMethod() !=null){
-            exsistingClientEntity.setPaymentMethod(clientDto.getPaymentMethod());
         }
 
         if(clientDto.getFirstName() != null){

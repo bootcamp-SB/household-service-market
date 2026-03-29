@@ -25,7 +25,6 @@ public class ClientDto {
 
     private String lastName;
 
-    private String paymentMethod;
 
     private LocalDate createAt;
 
