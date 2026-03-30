@@ -47,8 +47,12 @@ public class ClientController {
 
     @PatchMapping("/by-id")
     @PreAuthorize("hasAnyRole('admin','user')")
-    public ResponseEntity<ClientResponseDto> updateById(@RequestBody ClientRequestDto clientDto){
-        return clientService.updateByID(clientDto);
+    public ResponseEntity<ClientResponseDto> updateById(
+           @AuthenticationPrincipal Jwt token, @RequestBody ClientRequestDto clientDto){
+
+        String userId = token.getSubject();
+
+        return clientService.updateByID(userId,clientDto);
     }
 
     @GetMapping("/by-id")

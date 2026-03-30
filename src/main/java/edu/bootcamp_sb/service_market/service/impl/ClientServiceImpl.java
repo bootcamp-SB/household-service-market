@@ -145,12 +145,14 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @PreAuthorize("hasAnyRole('admin','user')")
-    public ResponseEntity<ClientResponseDto> updateByID(ClientRequestDto clientDto) {
+    public ResponseEntity<ClientResponseDto> updateByID(String userId,ClientRequestDto clientDto) {
 
-        Optional<ClientEntity> optionalEntity = clientRepository.findById(clientDto.getId());
+        Optional<ClientEntity> optionalEntity = clientRepository.findById(
+                UUID.fromString(userId)
+        );
 
         if (optionalEntity.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            throw new ClientHasBeenNotFoundException("user has been not found");
         }
 
         ClientEntity exsistingClientEntity = optionalEntity.get();
@@ -179,6 +181,7 @@ public class ClientServiceImpl implements ClientService {
         }
 
         exsistingClientEntity.setUpdateAt(LocalDate.now());
+
 
         return ResponseEntity.ok().body(
                 clientEntityToClientResponseDto(
