@@ -173,6 +173,7 @@ public class ClientServiceImpl implements ClientService {
         }
 
         if(clientDto.getUsername() != null){
+            keycloakUserHandleService.updateUsername(userId,clientDto.getUsername());
             exsistingClientEntity.setUsername(clientDto.getUsername());
         }
 

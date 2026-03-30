@@ -26,6 +26,8 @@ public interface KeyCloakUserHandleService {
 
     ResponseEntity<Map<String,String>> changePassword(String userId,String newPassword);
 
+    void updateUsername(String userId,String username);
+
 
 
 

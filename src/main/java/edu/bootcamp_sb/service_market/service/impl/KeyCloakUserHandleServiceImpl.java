@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.Keycloak;
 
+import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
@@ -152,6 +153,19 @@ public class KeyCloakUserHandleServiceImpl implements KeyCloakUserHandleService 
                 .users().get(userId).resetPassword(credentialRepresentation);
 
         return ResponseEntity.ok(Map.of("success","password reset completed"));
+    }
+
+    @Override
+    public void updateUsername(String userId, String username) {
+
+        UserResource userResource = keycloak.realm(marketRealm).users().get(userId);
+
+        UserRepresentation user = userResource.toRepresentation();
+
+        user.setUsername(username);
+
+        userResource.update(user);
+
     }
 
 
