@@ -14,7 +14,8 @@ import java.util.UUID;
 
 public interface BookingService {
 
-    ResponseEntity<BookingResponseDto> persist(BookingRequestDto bookingDto) throws MessagingException;
+    ResponseEntity<BookingResponseDto> persist(
+            String userId,BookingRequestDto bookingDto) throws MessagingException;
 
     ResponseEntity<List<BookingDto>>show();
 

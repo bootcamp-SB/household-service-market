@@ -77,7 +77,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     @PreAuthorize("hasAnyRole('admin','user','provider')")
-    public ResponseEntity<BookingResponseDto> persist(BookingRequestDto bookingDto) throws MessagingException {
+    public ResponseEntity<BookingResponseDto> persist(String userId, BookingRequestDto bookingDto) throws MessagingException {
 
         BookingEntity bookingEntity = new BookingEntity();
         bookingEntity.setStartingDate(bookingDto.getStartingDate());
@@ -102,7 +102,7 @@ public class BookingServiceImpl implements BookingService {
             bookingEntity.setAddress(bookingDto.getAddress());
         }
 
-        ClientEntity clientEntity = clientRepository.findById(bookingDto.getClientId()).orElseThrow(
+        ClientEntity clientEntity = clientRepository.findById(UUID.fromString(userId)).orElseThrow(
                 () -> new ClientHasBeenNotFoundException("client is NOT found")
         );
 

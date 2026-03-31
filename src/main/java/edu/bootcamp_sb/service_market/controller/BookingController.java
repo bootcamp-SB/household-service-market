@@ -27,8 +27,11 @@ public class BookingController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('admin','user','provider')")
-    public ResponseEntity<BookingResponseDto>create(@RequestBody BookingRequestDto booking) throws MessagingException {
-        return bookingService.persist(booking);
+    public ResponseEntity<BookingResponseDto>create(
+            @AuthenticationPrincipal Jwt token,@RequestBody BookingRequestDto booking
+    ) throws MessagingException {
+        String userId = token.getSubject();
+        return bookingService.persist(userId,booking);
     }
 
     @GetMapping
