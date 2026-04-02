@@ -47,7 +47,7 @@ public class BookingEntity {
     @JoinColumn(name="gig_id")
     private ServiceGigEntity gigEntity;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     @JoinColumn(name = "provider_id")
     @JsonBackReference(value = "provider_booking")
     private ProviderEntity serviceProvider;

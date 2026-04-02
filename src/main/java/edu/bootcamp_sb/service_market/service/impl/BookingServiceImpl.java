@@ -241,7 +241,13 @@ public class BookingServiceImpl implements BookingService {
                         new BookingHasNotFoundException(
                                 "Booking has not found with id " + userId));
         bookingEntity.setStatus("completed");
+
+        bookingEntity.getServiceProvider().setJobCount(
+                bookingEntity.getServiceProvider().getJobCount() + 1
+        );
+
         bookingRepository.save(bookingEntity);
+
         return ResponseEntity.ok(Map.of("Success","Marked as completed"));
     }
 
