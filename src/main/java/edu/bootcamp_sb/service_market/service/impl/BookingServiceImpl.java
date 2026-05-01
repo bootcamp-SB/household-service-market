@@ -79,6 +79,10 @@ public class BookingServiceImpl implements BookingService {
     @PreAuthorize("hasAnyRole('admin','user','provider')")
     public ResponseEntity<BookingResponseDto> persist(String userId, BookingRequestDto bookingDto) throws MessagingException {
 
+        if(bookingDto.getStartingDate().isBefore(LocalDate.now())){
+            throw  new IllegalArgumentException("starting date should not be in past");
+        }
+
         BookingEntity bookingEntity = new BookingEntity();
         bookingEntity.setStartingDate(bookingDto.getStartingDate());
         bookingEntity.setStatus(bookingDto.getStatus());
