@@ -65,7 +65,9 @@ public class ServiceGigServiceImpl implements ServiceGigService {
 
 
     @Override
-    public ResponseEntity<ServiceGigResponseDto> makeANewPoster(ServiceGigDto gig) {
+    public ResponseEntity<ServiceGigResponseDto> makeANewPoster(
+            ServiceGigDto gig, String providerId
+    ) {
 
         ServiceGigEntity serviceGigEntity = new ServiceGigEntity();
         serviceGigEntity.setBasePrice(gig.getBasePrice());
@@ -79,9 +81,10 @@ public class ServiceGigServiceImpl implements ServiceGigService {
         serviceGigEntity.setUpdatedAt(LocalDateTime.now());
 
 
-        ProviderEntity providerEntity = providerRepository.findById(gig.getProviderId()).orElseThrow(
-                ()-> new ProviderHasBeenNotFoundException("Provider Has Been not Found")
-        );
+        ProviderEntity providerEntity = providerRepository.findById(UUID.fromString(providerId))
+                .orElseThrow(()->
+                        new ProviderHasBeenNotFoundException("Provider Has Been not Found")
+                );
 
         serviceGigEntity.setServiceGigProvider(providerEntity);
 

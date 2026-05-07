@@ -33,6 +33,5 @@ public class ServiceGigDto {
 
     private UUID categoryId;
 
-    private UUID providerId;
 
 }

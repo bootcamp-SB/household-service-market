@@ -3,8 +3,11 @@ package edu.bootcamp_sb.service_market.controller;
 import edu.bootcamp_sb.service_market.dto.ServiceGigDto;
 import edu.bootcamp_sb.service_market.dto.reponse.ServiceGigResponseDto;
 import edu.bootcamp_sb.service_market.service.ServiceGigService;
+import io.jsonwebtoken.Jwe;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,8 +21,10 @@ public class ServiceGigController {
     private final ServiceGigService serviceGigService;
 
     @PostMapping
-    public ResponseEntity<ServiceGigResponseDto> makeAGig(@RequestBody ServiceGigDto gig){
-        return  serviceGigService.makeANewPoster(gig);
+    public ResponseEntity<ServiceGigResponseDto> makeAGig(
+            @AuthenticationPrincipal Jwt token, @RequestBody ServiceGigDto gig){
+        String userId = token.getSubject();
+        return  serviceGigService.makeANewPoster(gig, userId);
     }
 
     @GetMapping("/all")

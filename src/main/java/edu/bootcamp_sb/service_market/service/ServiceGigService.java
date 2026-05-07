@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface ServiceGigService {
 
-    ResponseEntity<ServiceGigResponseDto> makeANewPoster(ServiceGigDto gig);
+    ResponseEntity<ServiceGigResponseDto> makeANewPoster(ServiceGigDto gig, String providerId);
 
     ResponseEntity<List<ServiceGigResponseDto>>getAllGigs();
 
