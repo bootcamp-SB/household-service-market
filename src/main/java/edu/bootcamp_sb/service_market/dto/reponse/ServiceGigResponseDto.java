@@ -20,9 +20,7 @@ public class ServiceGigResponseDto {
 
     private String title;
 
-    private String shortDescription;
-
-    private String fullDescription;
+    private String description;
 
     private Double basePrice;
 
@@ -31,6 +29,8 @@ public class ServiceGigResponseDto {
     private String currency; // LKR, USD
 
     private Boolean isActive;
+
+    private Long totalBookingCount;
 
     private LocalDateTime createdAt;
 

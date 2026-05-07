@@ -28,9 +28,7 @@ public class ServiceGigEntity {
 
     private String title;
 
-    private String shortDescription;
-
-    private String fullDescription;
+    private String description;
 
     private Double basePrice;
 
@@ -39,6 +37,11 @@ public class ServiceGigEntity {
     private String currency = "LKR";
 
     private Boolean isActive;
+
+    private Long totalBookingCount = 0L;
+
+    @Column(name = "service_location")
+    private String location;
 
     private LocalDateTime createdAt;
 

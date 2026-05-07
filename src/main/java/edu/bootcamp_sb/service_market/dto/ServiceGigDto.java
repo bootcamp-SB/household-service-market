@@ -15,9 +15,7 @@ public class ServiceGigDto {
 
     private String title;
 
-    private String shortDescription;
-
-    private String fullDescription;
+    private String description;
 
     private Double basePrice;
 

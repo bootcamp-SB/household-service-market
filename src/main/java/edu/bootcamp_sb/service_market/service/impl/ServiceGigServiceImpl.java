@@ -49,8 +49,8 @@ public class ServiceGigServiceImpl implements ServiceGigService {
         serviceGigResponseDto.setUpdatedAt(preConvertedEntity.getUpdatedAt());
         serviceGigResponseDto.setIsActive(preConvertedEntity.getIsActive());
         serviceGigResponseDto.setCurrency(preConvertedEntity.getCurrency());
-        serviceGigResponseDto.setShortDescription(preConvertedEntity.getShortDescription());
-        serviceGigResponseDto.setFullDescription(preConvertedEntity.getFullDescription());
+        serviceGigResponseDto.setDescription(preConvertedEntity.getDescription());
+        serviceGigResponseDto.setTotalBookingCount(preConvertedEntity.getTotalBookingCount());
         serviceGigResponseDto.setPriceType(preConvertedEntity.getPriceType());
         serviceGigResponseDto.setProvider(
                 convertProviderEntityToProviderDto(preConvertedEntity.getServiceGigProvider())
@@ -75,8 +75,7 @@ public class ServiceGigServiceImpl implements ServiceGigService {
         serviceGigEntity.setTitle(gig.getTitle());
         serviceGigEntity.setCreatedAt(LocalDateTime.now());
         serviceGigEntity.setIsActive(Boolean.TRUE);
-        serviceGigEntity.setShortDescription(gig.getShortDescription());
-        serviceGigEntity.setFullDescription(gig.getFullDescription());
+        serviceGigEntity.setDescription(gig.getDescription());
         serviceGigEntity.setPriceType(gig.getPriceType());
         serviceGigEntity.setUpdatedAt(LocalDateTime.now());
 
