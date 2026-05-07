@@ -36,7 +36,7 @@ public class ServiceGigEntity {
 
     private String priceType; //Hourly, per Job or for day
 
-    private String currency;
+    private String currency = "LKR";
 
     private Boolean isActive;
 
