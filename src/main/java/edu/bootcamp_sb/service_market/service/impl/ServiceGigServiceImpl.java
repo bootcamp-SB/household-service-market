@@ -50,6 +50,7 @@ public class ServiceGigServiceImpl implements ServiceGigService {
         serviceGigResponseDto.setIsActive(preConvertedEntity.getIsActive());
         serviceGigResponseDto.setCurrency(preConvertedEntity.getCurrency());
         serviceGigResponseDto.setDescription(preConvertedEntity.getDescription());
+        serviceGigResponseDto.setServiceLocation(preConvertedEntity.getLocation());
         serviceGigResponseDto.setTotalBookingCount(preConvertedEntity.getTotalBookingCount());
         serviceGigResponseDto.setPriceType(preConvertedEntity.getPriceType());
         serviceGigResponseDto.setProvider(

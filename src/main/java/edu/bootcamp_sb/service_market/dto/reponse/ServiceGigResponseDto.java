@@ -32,6 +32,8 @@ public class ServiceGigResponseDto {
 
     private Long totalBookingCount;
 
+    private String serviceLocation;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
