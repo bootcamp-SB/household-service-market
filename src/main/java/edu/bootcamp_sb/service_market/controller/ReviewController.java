@@ -55,5 +55,10 @@ public class ReviewController {
         return reviewService.getCountByServiceGigId(id);
     }
 
+    @GetMapping("/average-rate/service-gig")
+    public ResponseEntity<Map<String,String>>getAverageOfSpecificGig(@RequestParam String gigId){
+        return reviewService.getAverageRatingOfAServiceGig(gigId);
+    }
+
 
 }

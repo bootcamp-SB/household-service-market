@@ -39,6 +39,7 @@ public class SecurityConfig {
             "/api/v1/providers/by-id",
             "/api/v1/gig/by-id",
             "/api/v1/review/by-gig-id",
+          "/api/v1/review/average-rate/service-gig",
           "/api/2fa",
           "/mail-service/**"
 

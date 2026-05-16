@@ -25,5 +25,7 @@ public interface ReviewService {
 
     ResponseEntity<Map<String,Integer>> getCountByServiceGigId(String id);
 
+    ResponseEntity<Map<String,String>> getAverageRatingOfAServiceGig(String id);
+
 
 }

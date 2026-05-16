@@ -14,10 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 
 import static edu.bootcamp_sb.service_market.service.impl.ClientServiceImpl.entityToClientDto;
@@ -156,6 +155,27 @@ public class ReviewServiceImpl implements ReviewService {
     public ResponseEntity<Map<String, Integer>> getCountByServiceGigId(String id) {
         Integer count = reviewRepository.countByServiceGigEntityId(UUID.fromString(id));
         return ResponseEntity.ok(Map.of("count",count));
+    }
+
+    @Override
+    public ResponseEntity<Map<String, String>> getAverageRatingOfAServiceGig(String id) {
+
+        List<ReviewsEntity> reviewsEntities =
+                (List<ReviewsEntity>) reviewRepository.findAllByServiceGigEntityId(UUID.fromString(id));
+
+        Integer totalReviews = reviewsEntities.size();
+
+        double average = reviewsEntities.stream().mapToDouble(ReviewsEntity::getRating)
+                .average()
+                .orElse(0.0);
+
+
+
+        HashMap<String, String> response = new HashMap<>();
+        response.put("average",String.valueOf(average));
+        response.put("total reviews", String.valueOf(totalReviews));
+
+        return ResponseEntity.ok(response);
     }
 }
 
