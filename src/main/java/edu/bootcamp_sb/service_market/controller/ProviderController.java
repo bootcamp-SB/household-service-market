@@ -35,8 +35,11 @@ public class ProviderController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<ProviderDto>> getAllProviders(){
-    return providerService.getAllProviders();
+    public ResponseEntity<Map<String, Object>> getAllProviders(
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "0") Integer pageNumber,
+            @RequestParam(required = false) String keyword) {
+        return providerService.getAllProviders(pageSize, pageNumber, keyword);
     }
 
     @GetMapping("/by-id")

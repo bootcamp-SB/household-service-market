@@ -16,7 +16,9 @@ import edu.bootcamp_sb.service_market.repository.CategoryRepository;
 import edu.bootcamp_sb.service_market.repository.ProviderRepository;
 import edu.bootcamp_sb.service_market.service.ProviderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -168,17 +170,33 @@ public class ProviderServiceImpl implements ProviderService {
 
 
     @Override
-    public ResponseEntity<List<ProviderDto>> getAllProviders() {
+    public ResponseEntity<Map<String, Object>> getAllProviders(Integer pageSize, Integer pageNumber, String keyword) {
+        int page = (pageNumber != null && pageNumber >= 0) ? pageNumber : 0;
+        int size = (pageSize != null && pageSize > 0) ? pageSize : 10;
+        Pageable pageable = PageRequest.of(page, size);
 
-        Iterable<ProviderEntity> providers = providerRepository.findAll();
+        Page<ProviderEntity> providerPage;
 
-        ArrayList<ProviderDto> providersList = new ArrayList<>();
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            providerPage = providerRepository.findByKeyword(keyword.trim(), pageable);
+        } else {
+            providerPage = providerRepository.findAll(pageable);
+        }
 
-        providers.forEach(providerEntity ->
-            providersList.add(convertProviderEntityToProviderDto(providerEntity))
+        List<ProviderDto> providersList = new ArrayList<>();
+        providerPage.getContent().forEach(providerEntity ->
+                providersList.add(convertProviderEntityToProviderDto(providerEntity))
         );
 
-        return ResponseEntity.ok().body(providersList);
+        Map<String, Object> response = new HashMap<>();
+        response.put("content", providersList);
+        response.put("pageNumber", providerPage.getNumber());
+        response.put("pageSize", providerPage.getSize());
+        response.put("totalElements", providerPage.getTotalElements());
+        response.put("totalPages", providerPage.getTotalPages());
+        response.put("isLastPage", providerPage.isLast());
+
+        return ResponseEntity.ok(response);
     }
 
 

@@ -21,7 +21,7 @@ public interface ProviderService {
 
     ResponseEntity<ProviderDto> persistProviders(ProviderRegistrationDto provider);
 
-    ResponseEntity<List<ProviderDto>> getAllProviders();
+    ResponseEntity<Map<String, Object>> getAllProviders(Integer pageSize, Integer pageNumber, String keyword);
 
     ResponseEntity<Map<String,String>> deleteById(UUID id);
 
