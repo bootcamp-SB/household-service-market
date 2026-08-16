@@ -34,6 +34,8 @@ public interface BookingService {
 
     ResponseEntity<List<BookingResponseDto>>getAllByStatusAndClientId(String userId,String status);
 
+    ResponseEntity<Map<String,Object>>getAllByProviderId(Integer pageSize, Integer pageNumber,String keyword,String providerId);
+
 
 
 }

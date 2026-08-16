@@ -18,6 +18,9 @@ import edu.bootcamp_sb.service_market.service.BookingService;
 import edu.bootcamp_sb.service_market.service.EmailService;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -269,5 +272,36 @@ public class BookingServiceImpl implements BookingService {
         );
 
         return ResponseEntity.ok(bookingResponseDtos);
+    }
+
+    @Override
+    @PreAuthorize("hasAnyRole('PROVIDER','ADMIN','provider','admin')")
+    public ResponseEntity<Map<String, Object>> getAllByProviderId(Integer pageSize, Integer pageNumber, String keyword, String providerId) {
+        int page = (pageNumber != null && pageNumber >= 0) ? pageNumber : 0;
+        int size = (pageSize != null && pageSize > 0) ? pageSize : 10;
+        Pageable pageable = PageRequest.of(page, size);
+
+        UUID providerUuid = UUID.fromString(providerId);
+        Page<BookingEntity> bookingPage;
+
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            bookingPage = bookingRepository.findByServiceProviderIdAndKeyword(providerUuid, keyword.trim(), pageable);
+        } else {
+            bookingPage = bookingRepository.findAllByServiceProviderId(providerUuid, pageable);
+        }
+
+        List<BookingResponseDto> content = new ArrayList<>();
+        bookingPage.getContent().forEach(bookingEntity ->
+                content.add(bookingEntityToBookingResponseDto(bookingEntity)));
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("content", content);
+        response.put("pageNumber", bookingPage.getNumber());
+        response.put("pageSize", bookingPage.getSize());
+        response.put("totalElements", bookingPage.getTotalElements());
+        response.put("totalPages", bookingPage.getTotalPages());
+        response.put("isLastPage", bookingPage.isLast());
+
+        return ResponseEntity.ok(response);
     }
 }

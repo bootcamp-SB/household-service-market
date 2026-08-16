@@ -7,6 +7,8 @@ import edu.bootcamp_sb.service_market.service.BookingService;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -27,61 +29,85 @@ public class BookingController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('admin','user','provider')")
-    public ResponseEntity<BookingResponseDto>create(
-            @AuthenticationPrincipal Jwt token,@RequestBody BookingRequestDto booking
-    ) throws MessagingException {
+    public ResponseEntity<BookingResponseDto> create(
+            @AuthenticationPrincipal Jwt token, @RequestBody BookingRequestDto booking) throws MessagingException {
         String userId = token.getSubject();
-        return bookingService.persist(userId,booking);
+        return bookingService.persist(userId, booking);
     }
 
     @GetMapping
     @PreAuthorize("hasRole('admin')")
-    public ResponseEntity<List<BookingDto>>getAll(){
+    public ResponseEntity<List<BookingDto>> getAll() {
         return bookingService.show();
     }
 
     @GetMapping("/by-id")
-    public ResponseEntity<BookingResponseDto>getById(@RequestParam UUID id){
-        return  bookingService.getBookingById(id);
+    public ResponseEntity<BookingResponseDto> getById(@RequestParam UUID id) {
+        return bookingService.getBookingById(id);
     }
+
     @PutMapping("/cancel")
-    public ResponseEntity<Map<String,String>>cancelBooking(@RequestParam UUID bookingId) throws MessagingException{
+    public ResponseEntity<Map<String, String>> cancelBooking(@RequestParam UUID bookingId) throws MessagingException {
         return bookingService.cancelBooking(bookingId);
     }
 
     @GetMapping("/by-client-id")
-    public ResponseEntity<List<BookingResponseDto>>getAllByClientId(@AuthenticationPrincipal Jwt jwt){
-       String userId = jwt.getSubject();
-        return  bookingService.getAllWithUserId(userId);
+    public ResponseEntity<List<BookingResponseDto>> getAllByClientId(@AuthenticationPrincipal Jwt jwt) {
+        String userId = jwt.getSubject();
+        return bookingService.getAllWithUserId(userId);
     }
 
     @GetMapping("/user/booking-count")
-    public ResponseEntity<Map<String,Integer>>getBookingCountOfAUser(@AuthenticationPrincipal Jwt token){
+    public ResponseEntity<Map<String, Integer>> getBookingCountOfAUser(@AuthenticationPrincipal Jwt token) {
         String userId = token.getSubject();
         return bookingService.getBookingCountOfAUser(userId);
     }
 
     @PutMapping("/reschedule")
-    public ResponseEntity<Map<String,String>>rescheduleBooking(
+    public ResponseEntity<Map<String, String>> rescheduleBooking(
             @RequestParam String id, @RequestParam LocalDate rescheduleDate,
-            @RequestParam LocalTime rescheduleTime){
+            @RequestParam LocalTime rescheduleTime) {
         return bookingService.rescheduleBooking(id, rescheduleDate, rescheduleTime);
     }
 
     @PatchMapping("/completed")
-    public ResponseEntity<Map<String,String>>updateBookingToCompleted(@RequestParam String id){
+    public ResponseEntity<Map<String, String>> updateBookingToCompleted(@RequestParam String id) {
         return bookingService.updateStatusAsComplete(id);
     }
 
     @GetMapping("/user/by-status")
-    public ResponseEntity<List<BookingResponseDto>>getAllByClientIdAndStatus(
-            @AuthenticationPrincipal Jwt token, @RequestParam String status){
+    public ResponseEntity<List<BookingResponseDto>> getAllByClientIdAndStatus(
+            @AuthenticationPrincipal Jwt token, @RequestParam String status) {
 
         String userId = token.getSubject();
 
-        return bookingService.getAllByStatusAndClientId(userId,status);
+        return bookingService.getAllByStatusAndClientId(userId, status);
     }
 
+    @GetMapping("/by-provider-id")
+    @PreAuthorize("hasAnyRole('provider','admin','PROVIDER','ADMIN')")
+    public ResponseEntity<Map<String, Object>> getAllByProviderId(
+            @AuthenticationPrincipal Jwt token,
+            Authentication authentication,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "0") Integer pageNumber,
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) String providerId) {
 
+        String targetProviderId = token.getSubject();
+
+        boolean isAdmin = authentication != null && authentication.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equalsIgnoreCase("ROLE_admin"));
+
+        if (providerId != null && !providerId.trim().isEmpty()) {
+            if (isAdmin) {
+                targetProviderId = providerId.trim();
+            } else if (!providerId.trim().equals(token.getSubject())) {
+                throw new AccessDeniedException("Only admins can access bookings for other providers");
+            }
+        }
+
+        return bookingService.getAllByProviderId(pageSize, pageNumber, keyword, targetProviderId);
+    }
 
 }
