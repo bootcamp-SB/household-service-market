@@ -14,7 +14,7 @@ public interface ServiceGigService {
 
     ResponseEntity<List<ServiceGigResponseDto>>getAllGigs();
 
-    ResponseEntity<List<ServiceGigResponseDto>>getAllActiveGigs();
+    ResponseEntity<Map<String, Object>> getAllActiveGigs(Integer pageSize, Integer pageNumber, String keyword);
 
     ResponseEntity<Map<String,String>> countOfAllActiveJobs();
 

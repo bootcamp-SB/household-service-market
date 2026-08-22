@@ -38,8 +38,11 @@ public class ServiceGigController {
     }
 
     @GetMapping("/active-posters")
-    public ResponseEntity<List<ServiceGigResponseDto>>getAllActiveGigs(){
-        return serviceGigService.getAllActiveGigs();
+    public ResponseEntity<Map<String, Object>> getAllActiveGigs(
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "0") Integer pageNumber,
+            @RequestParam(required = false) String keyword) {
+        return serviceGigService.getAllActiveGigs(pageSize, pageNumber, keyword);
     }
 
     @DeleteMapping("/by-id")

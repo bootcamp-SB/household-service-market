@@ -16,11 +16,15 @@ import edu.bootcamp_sb.service_market.repository.ProviderRepository;
 import edu.bootcamp_sb.service_market.repository.ServiceGigRepository;
 import edu.bootcamp_sb.service_market.service.ServiceGigService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -116,16 +120,33 @@ public class ServiceGigServiceImpl implements ServiceGigService {
     }
 
     @Override
-    public ResponseEntity<List<ServiceGigResponseDto>> getAllActiveGigs() {
-        Iterable<ServiceGigEntity> allByIsActive = gigRepository.findAllByIsActive(true);
+    public ResponseEntity<Map<String, Object>> getAllActiveGigs(Integer pageSize, Integer pageNumber, String keyword) {
+        int page = (pageNumber != null && pageNumber >= 0) ? pageNumber : 0;
+        int size = (pageSize != null && pageSize > 0) ? pageSize : 10;
+        Pageable pageable = PageRequest.of(page, size);
 
-        ArrayList<ServiceGigResponseDto> serviceGigResponseDtoList = new ArrayList<>();
+        Page<ServiceGigEntity> gigPage;
 
-        for(ServiceGigEntity serviceGig :allByIsActive){
-            serviceGigResponseDtoList.add(convertGigEntityToGigResponseEntity(serviceGig));
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            gigPage = gigRepository.findActiveGigsByKeyword(keyword.trim(), pageable);
+        } else {
+            gigPage = gigRepository.findAllByIsActive(true, pageable);
         }
 
-        return ResponseEntity.ok(serviceGigResponseDtoList);
+        List<ServiceGigResponseDto> gigResponseDtoList = new ArrayList<>();
+        gigPage.getContent().forEach(serviceGig ->
+                gigResponseDtoList.add(convertGigEntityToGigResponseEntity(serviceGig))
+        );
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("content", gigResponseDtoList);
+        response.put("pageNumber", gigPage.getNumber());
+        response.put("pageSize", gigPage.getSize());
+        response.put("totalElements", gigPage.getTotalElements());
+        response.put("totalPages", gigPage.getTotalPages());
+        response.put("isLastPage", gigPage.isLast());
+
+        return ResponseEntity.ok(response);
     }
 
     @Override
