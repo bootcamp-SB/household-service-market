@@ -13,6 +13,7 @@ import edu.bootcamp_sb.service_market.exception.provider_exception.ProviderExist
 import edu.bootcamp_sb.service_market.exception.provider_exception.ProviderHasBeenNotFoundException;
 
 import edu.bootcamp_sb.service_market.repository.CategoryRepository;
+import edu.bootcamp_sb.service_market.repository.ProviderCalendarRepository;
 import edu.bootcamp_sb.service_market.repository.ProviderRepository;
 import edu.bootcamp_sb.service_market.service.ProviderService;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -39,11 +41,9 @@ import static edu.bootcamp_sb.service_market.service.impl.ServiceGigServiceImpl.
 public class ProviderServiceImpl implements ProviderService {
 
     private final ProviderRepository providerRepository;
-
     private final CategoryRepository categoryRepository;
-
-
     private final KeyCloakUserHandleServiceImpl keyCloakUserHandleService;
+    private final ProviderCalendarRepository calendarRepository;
 
     public static ProviderResponseDto convertProviderEntityToProviderResponseEntity(
             ProviderEntity providerEntity){
@@ -117,6 +117,7 @@ public class ProviderServiceImpl implements ProviderService {
 
 
     @Override
+    @Transactional
     public ResponseEntity<ProviderDto> persistProviders(ProviderRegistrationDto provider) {
 
         Optional<ProviderEntity> contactNo =
@@ -162,6 +163,11 @@ public class ProviderServiceImpl implements ProviderService {
         providerEntity.setContactNo(provider.getContactNo());
 
         ProviderEntity save = providerRepository.save(providerEntity);
+
+        ProviderCalendarEntity providerCalendarEntity = new ProviderCalendarEntity();
+        providerCalendarEntity.setProvider(save);
+
+        calendarRepository.save(providerCalendarEntity);
 
         return ResponseEntity.ok().body(convertProviderEntityToProviderDto(save));
 
