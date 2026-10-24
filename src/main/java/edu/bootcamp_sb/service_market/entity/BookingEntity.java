@@ -2,9 +2,7 @@ package edu.bootcamp_sb.service_market.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
 
@@ -15,7 +13,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "booking")
-@Data
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class BookingEntity {
